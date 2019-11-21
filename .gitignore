@@ -28,16 +28,16 @@ logback.out.xml
 
 backend/src/main/resources/public/
 backend/target
-frontend/dist/
-frontend/node/
-frontend/node_modules/
-frontend/npm-debug.log
-frontend/target
-frontend/test-output
-frontend/tests/e2e/reports
-frontend/tests/unit/coverage
-frontend/yarn-error.log
-frontend/yarn.lock
+frontend/service/dist/
+frontend/service/node/
+frontend/service/node_modules/
+frontend/service/npm-debug.log
+frontend/service/target
+frontend/service/test-output
+frontend/service/tests/e2e/reports
+frontend/service/tests/unit/coverage
+frontend/service/yarn-error.log
+frontend/service/yarn.lock
 security/target/
 selenium-debug.log
 
