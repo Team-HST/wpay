@@ -22,7 +22,8 @@ import java.util.stream.Collectors;
 public class User implements UserDetails {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long seq;
+	@Column(name = "seq")
+	private Long sequence;
 
 	@Column
 	private String id;

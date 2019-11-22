@@ -24,14 +24,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	private static final String[] PUBLIC_API = {"/**"};
 	private static final String ADMIN_API_PATTERN = "/admin/**";
 
-	private final JwtService jwtService;
-	private final UserService userService;
+	@Autowired
+	private JwtService jwtService;
 
 	@Autowired
-	public SecurityConfiguration(JwtService jwtService, UserService userService) {
-		this.jwtService = jwtService;
-		this.userService = userService;
-	}
+	private UserService userService;
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {

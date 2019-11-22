@@ -8,7 +8,7 @@ public class SigninFailException extends RuntimeException {
 	 * 로그인 실패 Exception
 	 * @param reason 실패사유
 	 */
-	SigninFailException(String reason) {
+	public SigninFailException(String reason) {
 		super(reason);
 	}
 }
