@@ -4,7 +4,7 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://133.186.219.16:3306/wpay_db?serverTimezone=Asia/Seoul
+    url: jdbc:mysql://133.186.219.16:3306/wpay_db?characterEncoding=utf8&useUnicode=true&serverTimezone=Asia/Seoul
     username: hst
     password: hst123!@#
   jpa:
@@ -15,3 +15,6 @@ spring:
       ddl-auto: none
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    properties:
+      hibernate:
+        format_sql: true
