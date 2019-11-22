@@ -38,6 +38,8 @@ frontend/service/tests/e2e/reports
 frontend/service/tests/unit/coverage
 frontend/service/yarn-error.log
 frontend/service/yarn.lock
+frontend/admin/node_modules/
+
 security/target/
 selenium-debug.log
 
