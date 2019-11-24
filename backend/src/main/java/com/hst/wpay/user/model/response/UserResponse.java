@@ -12,12 +12,8 @@ import java.util.Set;
 public class UserResponse {
 
 	private long sequence;
-
 	private String id;
-
 	private String name;
-
-//	private Set<String> grantedAuthority;
 
 	/***
 	 * 사용자 응답정보 생성
@@ -29,7 +25,6 @@ public class UserResponse {
 		response.sequence = user.getSequence();
 		response.id = user.getId();
 		response.name = user.getName();
-//		response.grantedAuthority = user.getRoles();
 		return response;
 	}
 }

@@ -104,6 +104,8 @@ public class UserService implements UserDetailsService {
 
 		userRepository.save(user);
 
-		return new SignupResponse();
+		return SignupResponse.builder()
+				.userResponse(UserResponse.of(user))
+				.build();
 	}
 }
