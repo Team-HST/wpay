@@ -38,11 +38,9 @@ public class JwtService {
 	public boolean isValidToken(String token) {
 		try {
 			if (StringUtils.isEmpty(token)) {
-				logger.error("인증토큰을 확인할 수 없습니다.");
 				return false;
 			}
 			Jws<Claims> claims = parse(token);
-			logger.info("{}", claims);
 			return !claims.getBody().getExpiration().before(new Date());
 		} catch (Exception e) {
 			logger.error(String.format("인증토큰 형식이 잘못됐습니다. token: %s", token), e);

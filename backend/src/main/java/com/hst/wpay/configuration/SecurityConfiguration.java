@@ -21,7 +21,10 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-	private static final String[] PUBLIC_API = {"/**"};
+	private static final String[] PUBLIC_API = {
+			"/users/signin",
+			"/users/signup"
+	};
 	private static final String ADMIN_API_PATTERN = "/admin/**";
 
 	@Autowired

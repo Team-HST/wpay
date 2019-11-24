@@ -1,9 +1,6 @@
 package com.hst.wpay.user.model.entity;
 
-import com.hst.wpay.user.model.type.Role;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -45,11 +42,11 @@ public class User implements UserDetails {
 
 	@ElementCollection(fetch = FetchType.EAGER)
 	@CollectionTable(name = "USER_ROLE", joinColumns = @JoinColumn(name = "role"))
-	private Set<Role> roles;
+	private Set<String> roles;
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return this.roles;
+		return roles.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
 	}
 
 	@Override

@@ -3,6 +3,8 @@ package com.hst.wpay.user.model.response;
 import com.hst.wpay.user.model.entity.User;
 import lombok.Getter;
 
+import java.util.Set;
+
 /**
  * @author dlgusrb0808@gmail.com
  */
@@ -15,6 +17,8 @@ public class UserResponse {
 
 	private String name;
 
+//	private Set<String> grantedAuthority;
+
 	/***
 	 * 사용자 응답정보 생성
 	 * @param user 사용자 엔티티
@@ -25,6 +29,7 @@ public class UserResponse {
 		response.sequence = user.getSequence();
 		response.id = user.getId();
 		response.name = user.getName();
+//		response.grantedAuthority = user.getRoles();
 		return response;
 	}
 }
