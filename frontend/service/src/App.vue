@@ -1,15 +1,16 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <hello-world />
-  </div>
+  <v-app>
+    <router-view></router-view>
+  </v-app>
 </template>
 
 <script>
-export default {
-  name: 'app'
-}
-</script>
 
-<style>
-</style>
+export default {
+  components: {
+  },
+  data: () => ({
+    //
+  }),
+};
+</script>
