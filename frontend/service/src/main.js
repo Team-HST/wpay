@@ -4,7 +4,7 @@ import store from './store/index'
 import router from '@/router'
 import axios from 'axios'
 import lodash from 'lodash'
-import material from "./material";
+// import material from "./material";
 
 // Components
 import './components'
@@ -15,7 +15,7 @@ import vuetify from './plugins/vuetify';
 Vue.prototype.$http = axios;
 Vue.prototype._ = lodash;
 
-Vue.use(material);
+// Vue.use(material);
 
 new Vue({
   store,
