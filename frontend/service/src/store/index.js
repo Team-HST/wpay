@@ -4,16 +4,26 @@ import Vuex from 'vuex';
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-    state: {
+  state: {
 
-    },
-    getters: {
+  },
+  getters: {
 
-    },
-    mutations: {
-        
-    },
-    actions: {
-        
+  },
+  mutations: {
+      
+  },
+  actions: {
+    userSignin: () => {
+      this.$http.post('/api/users/signin')
+      .then(response => {
+        // eslint-disable-next-line no-console
+        console.log(response);
+      })
+      .catch(e => {
+        // eslint-disable-next-line no-console
+        console.error("error : ", e);
+      });
     }
+  }
 });

@@ -14,7 +14,7 @@
           sm="8"
           md="8"
         >
-          <login-signUpForm></login-signUpForm>
+          <register-signUpForm></register-signUpForm>
         </v-col>
       </v-row>
     </v-container> 
