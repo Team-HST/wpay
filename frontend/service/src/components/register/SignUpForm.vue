@@ -1,47 +1,43 @@
 <template>
-    <material-card
-      color="pink lighten-2"
-      title="W-Pay 회원가입"
-      text="사용 할 개인정보를 입력하세요."
-    >
-      <v-text-field
-        type="text"
-        label="아이디"
-        v-model="user.id"
-      />
-      <v-text-field
-        type="text"
-        label="성명"
-        v-model="user.name"
-      />
-      <v-text-field
-        type="password"
-        label="패스워드"
-        v-model="user.password"
-      />
-      <v-text-field
-        type="password"
-        label="패스워드 확인"
-        v-model="user.passwordConfirm"
-      />
-      <div class="text-right">
-         <v-btn
-          class="font-weight-bold white--text"
-          color="blue-grey"
-        >
-          계좌인증
-        </v-btn>
-      </div>
-      <div class="text-center">
+  <div>
+    <v-text-field
+      type="text"
+      label="아이디"
+      v-model="user.id"
+    />
+    <v-text-field
+      type="text"
+      label="성명"
+      v-model="user.name"
+    />
+    <v-text-field
+      type="password"
+      label="패스워드"
+      v-model="user.password"
+    />
+    <v-text-field
+      type="password"
+      label="패스워드 확인"
+      v-model="user.passwordConfirm"
+    />
+    <div class="text-right">
         <v-btn
-          class="font-weight-bold white--text"
-          color="pink lighten-2"
-          @click="createUser"
-        >
-          회원가입
-        </v-btn>
-      </div>
-    </material-card>
+        class="font-weight-bold white--text"
+        color="blue-grey"
+      >
+        계좌인증
+      </v-btn>
+    </div>
+    <div class="text-center">
+      <v-btn
+        class="font-weight-bold white--text"
+        color="pink lighten-2"
+        @click="createUser"
+      >
+        회원가입
+      </v-btn>
+    </div>
+  </div>
 </template>
 
 <script>

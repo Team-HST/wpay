@@ -1,0 +1,66 @@
+<template>
+  <v-layout wrap>
+    <v-flex
+      sm6
+      xs12
+      md6
+      lg6
+    >
+      <material-statsCard
+        color="green"
+        icon="mdi-store"
+        title="test"
+        value="test"
+      >
+      </material-statsCard>
+    </v-flex>
+    <v-flex
+      sm6
+      xs12
+      md6
+      lg6
+    >
+      <material-statsCard
+        color="green"
+        icon="mdi-store"
+        title="test"
+        value="test"
+      >
+      </material-statsCard>
+    </v-flex>
+    <v-flex
+      sm6
+      xs12
+      md6
+      lg6
+    >
+      <material-statsCard
+        color="green"
+        icon="mdi-store"
+        title="test"
+        value="test"
+      >
+      </material-statsCard>
+    </v-flex>
+        <v-flex
+      sm6
+      xs12
+      md6
+      lg6
+    >
+      <material-statsCard
+        color="green"
+        icon="mdi-store"
+        title="test"
+        value="test"
+      >
+      </material-statsCard>
+    </v-flex>
+  </v-layout>
+</template>
+
+<script>
+export default {
+  
+}
+</script>
