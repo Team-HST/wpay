@@ -19,6 +19,7 @@
         <v-btn
           class="font-weight-bold white--text"
           color="pink lighten-2"
+          @click="loginUser"
         >
           로그인
         </v-btn>
@@ -39,19 +40,22 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+
 export default {
   data() {
     return {
       user: {
         id: null,
         password: null,
-      },
-      service: {}
+      }
     }
   },
-  created() {
-    this.service = {
-      
+  methods: {
+    ...mapActions(['userSignIn']),
+
+    loginUser: function() {
+      this.userSignIn(this.user);
     }
   }
 }

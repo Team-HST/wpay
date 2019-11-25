@@ -60,14 +60,17 @@ export default {
     created() {
       this.service = {
         userSingUp: () => {
-          this.$http.post('/api/users/signup', this.user)
+          this.$api.basic.post('/api/users/signup', this.user)
           .then(response => {
             // eslint-disable-next-line no-console
             console.log(response);
           }).
-          catch(e => {
-            // eslint-disable-next-line no-console
-            console.error(e);
+          catch(error => {
+            if (error.response.data.code === 201) {
+              alert('이미 존재하는 아이디입니다.\n다른 아이디를 사용하여주세요.');
+            } else {
+              alert("일시적인 오류입니다.\n다시 시도하여 주세요.");
+            }
           });
         }
       }

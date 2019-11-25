@@ -2,10 +2,9 @@ import Vue from 'vue'
 import App from './App.vue'
 import store from './store/index'
 import router from '@/router'
-import axios from 'axios'
 import lodash from 'lodash'
-import {common} from '@/utils/common';
-
+import { common } from '@/utils/common'
+import { api } from '@/utils/api'
 
 // Components
 import './components'
@@ -13,9 +12,9 @@ import './components'
 import vuetify from './plugins/vuetify';
 
 // axios 설정
-Vue.prototype.$http = axios;
 Vue.prototype._ = lodash;
 Vue.prototype.common = common;
+Vue.prototype.$api = api;
 
 new Vue({
   store,
