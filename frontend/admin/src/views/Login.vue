@@ -14,7 +14,13 @@
           sm="8"
           md="8"
         >
-          <login-signInForm></login-signInForm>
+            <material-card
+            color="pink lighten-2"
+            title="W-Pay에 오신것을 환영합니다."
+            text="계정정보를 입력하여 주세요."
+            >
+                <login-signInForm></login-signInForm>
+            </material-card>
         </v-col>
       </v-row>
     </v-container> 

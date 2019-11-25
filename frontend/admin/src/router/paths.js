@@ -16,5 +16,12 @@ export default [
         view: 'Main',
         viewName: '메인 페이지',
         props: true
+    },
+    {
+        path: '/weddingMatch',
+        name: 'WeddingMatch',
+        view: 'WeddingMatch',
+        viewName: '매칭 페이지',
+        props: true
     }
 ]

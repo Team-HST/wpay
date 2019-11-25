@@ -35,13 +35,14 @@ export default new Vuex.Store({
      * @description 유저 로그인 API
      */
     userSignIn: (context, user) => {
-      api.basic.post('/api/users/signin', user)
+      return api.basic.post('/api/users/signin', user)
       .then(response => {
         let user = {};
         user.id = response.data.user.id;
         user.name = response.data.user.name;
         user.token = response.data.token;
         context.commit('setUserData', user);
+        return user.token;
       })
       .catch(error => {
         if (error.response.data.code === 101) {
