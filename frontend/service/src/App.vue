@@ -6,15 +6,7 @@
 
 <script>
 export default {
-  components: {
-  },
-  data: () => ({
-    //
-  }),
 };
-<<<<<<< HEAD
-</script>
-=======
 </script>
 
 <style lang="scss">
@@ -29,4 +21,3 @@ export default {
   font-family: "KoPub Dotum" !important;
 }
 </style>
->>>>>>> feature/login-fe-service
