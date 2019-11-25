@@ -1,15 +1,12 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+    <v-app>
+      <router-view></router-view>
+    </v-app>
 </template>
 
 <script>
 
-export default {
-  name: 'app'
-}
+export default {}
 </script>
 
 <style>
