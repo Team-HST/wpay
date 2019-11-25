@@ -9,3 +9,7 @@
 #### DBMS : MySQL 
 #### Backend Build : Maven
 #### Frontend Build : Webpack
+
+### ERD
+http://aquerytool.com:80/aquerymain/index/?rurl=859342c9-4f69-4bcb-8169-251c582b7e12&   
+mf6xod
