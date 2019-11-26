@@ -1,11 +1,14 @@
 package com.hst.wpay.user.model.entity;
 
+import com.hst.wpay.openbanking.model.response.OpenBankingOAuthTokenResponse;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Collection;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -40,6 +43,9 @@ public class User implements UserDetails {
 	@Column(name = "user_seq_num")
 	private String bankUserSequenceNumber;
 
+	@Column(name = "expires_at")
+	private LocalDateTime expiresAt;
+
 	@ElementCollection(fetch = FetchType.EAGER)
 	@CollectionTable(name = "USER_ROLE", joinColumns = @JoinColumn(name = "role"))
 	private Set<String> roles;
@@ -72,5 +78,16 @@ public class User implements UserDetails {
 	@Override
 	public boolean isEnabled() {
 		return true;
+	}
+
+	/***
+	 * OpenBanking 인증토큰 설정
+	 * @param openBankingOAuthTokenResponse 인증토큰
+	 */
+	public void setOpenBankingTokenInfo(OpenBankingOAuthTokenResponse openBankingOAuthTokenResponse) {
+		this.bankAccessToken = openBankingOAuthTokenResponse.getAccessToken();
+		this.bankRefreshToken = openBankingOAuthTokenResponse.getRefreshToken();
+		this.bankUserSequenceNumber = openBankingOAuthTokenResponse.getUserSeqNo();
+		this.expiresAt = LocalDateTime.now().plus(openBankingOAuthTokenResponse.getExpiresIn(), ChronoUnit.SECONDS);
 	}
 }
