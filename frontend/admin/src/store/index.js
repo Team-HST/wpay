@@ -10,6 +10,9 @@ export default new Vuex.Store({
       id: '',
       name: '',
       token: ''
+    },
+    wedding: {
+
     }
   },
   getters: {
@@ -28,6 +31,9 @@ export default new Vuex.Store({
       state.user = data;
       // api token 전달
       api.setUserToken(data.token);
+    },
+    setWeddingData: (state, data) => {
+      state.wedding = data;
     }
   },
   actions: {
@@ -53,6 +59,17 @@ export default new Vuex.Store({
           alert('계정정보가 올바르지 않습니다.');
         }
       });
+    },
+    matchWedding: () => {
+      /*
+      return api.auth.post('/api/users/', param)
+      .then(response => {
+        return ;
+      })
+      .catch(error => {
+
+      });
+      */
     }
   }
 });

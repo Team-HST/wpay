@@ -15,56 +15,51 @@
                 md="8"
                 >
                     <v-row align="center" justify="center">
-                        <v-flex xs1></v-flex>
-                        <v-flex xs2>
+                        <v-flex xs3 style="text-align:center;">
                             신랑
                         </v-flex>
-                        <v-flex xs4>
+                        <v-flex xs6 style="text-align:center;">
                             <v-text-field
                             type="text"
                             label="아이디"
-                            v-model="param.maleId"
+                            v-model="weddingInfo.maleId"
                             />
                         </v-flex>
-                        <v-flex xs1></v-flex>
-                        <v-flex xs3>
+                        <v-flex xs3 style="text-align:center;">
                             <v-btn
                             class="font-weight-bold white--text"
                             color="pink lighten-2"
-                            @click="searchUser(param.maleId)"
+                            @click="searchUser(weddingInfo.maleId)"
                             >
                             검색
                             </v-btn>
                         </v-flex>
-                        <v-flex xs1></v-flex>
                     </v-row>
                     <v-row align="center" justify="center">
-                        <v-flex xs1></v-flex>
-                        <v-flex xs2>
+                        <v-flex xs3 style="text-align:center;">
                             신부
                         </v-flex>
-                        <v-flex xs4>
+                        <v-flex xs6 style="text-align:center;">
                             <v-text-field
                             type="text"
                             label="아이디"
-                            v-model="param.femaleId"
+                            v-model="weddingInfo.femaleId"
                             />
                         </v-flex>
-                        <v-flex xs1></v-flex>
-                        <v-flex xs3>
+                        
+                        <v-flex xs3 style="text-align:center;">
                             <v-btn
                             class="font-weight-bold white--text"
                             color="pink lighten-2"
-                            @click="searchUser(param.femaleId)"
+                            @click="searchUser(weddingInfo.femaleId)"
                             >
                             검색
                             </v-btn>
                         </v-flex>
-                        <v-flex xs1></v-flex>
                     </v-row>
                     <v-row align="center" justify="center">
                         <v-flex xs4></v-flex>
-                        <v-flex xs4 align="center">
+                        <v-flex xs4 style="text-align:center; margin-top:10px;">
                             <v-btn
                             class="font-weight-bold white--text"
                             color="pink lighten-2"
@@ -82,16 +77,16 @@
 </template>
 
 <script>
-// import { mapActions } from 'vuex';
+import { mapActions } from 'vuex';
 //import { api } from '@/utils/api'
 
 export default {
     data() {
         return {
-        param: {
-            maleId: '',     // 신랑
-            femaleId: '',   // 신부
-        }
+            weddingInfo: {
+                maleId: '',     // 신랑
+                femaleId: '',   // 신부
+            }
         }
     },
     created() {
@@ -99,23 +94,25 @@ export default {
             searchUser: () => {
 //                console.log('searchUser();');
 //                api.auth.post('/api/', id)
-//                .then(response => {})
-                // .catch(e => {});
-            },
-            generateQR: () => {
-//                console.log('generateQR();');
-//                api.auth.post('/api/', param)
-//                .then(response => {})
+//                .then(response => {
+                //console.log('id: ' + id);
+//                 })
                 // .catch(e => {});
             }
         }
     },
     methods: {
+        ...mapActions(['matchWedding']),
+        /* 사용자 조회 */
         searchUser(id) {
             this.service.searchUser(id);
         },
+        /* QR코드 생성 */
         generateQR() {
-            this.service.generateQR();
+            this.matchWedding(this.weddingInfo);
+            //.then(response => {
+                // this.$router.push({name:"QrGenerate"});
+            //});
         }
         
     }

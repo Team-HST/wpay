@@ -4,8 +4,8 @@ import store from './store/index'
 import router from '@/router'
 import axios from 'axios'
 import lodash from 'lodash'
-import {common} from '@/utils/common';
-
+import {common} from '@/utils/common'
+import QrcodeVue from 'vue-qrcode-component';
 
 // Components
 import './components'
@@ -21,5 +21,6 @@ new Vue({
   store,
   router,
   vuetify,
+  QrcodeVue,
   render: h => h(App)
 }).$mount('#app')

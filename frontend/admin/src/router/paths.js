@@ -23,5 +23,12 @@ export default [
         view: 'WeddingMatch',
         viewName: '매칭 페이지',
         props: true
+    },
+    {
+        path: '/QrGenerate',
+        name: 'QrGenerate',
+        view: 'QrGenerate',
+        viewName: 'QR코드 발급 페이지',
+        props: true
     }
 ]
