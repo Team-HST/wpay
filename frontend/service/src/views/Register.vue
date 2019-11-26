@@ -1,5 +1,5 @@
 <template>
-  <v-content>
+   <v-content>
     <v-container
       class="fill-height"
       fluid
@@ -16,20 +16,19 @@
         >
           <material-card
             color="pink lighten-2"
-            title="W-Pay에 오신것을 환영합니다."
-            text="계정정보를 입력하여 주세요."
+            title="W-Pay 회원가입"
+            text="사용 할 개인정보를 입력하세요."
           >
-            <login-signInForm></login-signInForm>
+            <register-signUpForm></register-signUpForm>
           </material-card>
-          <login-findUser></login-findUser>
         </v-col>
       </v-row>
     </v-container> 
   </v-content>
 </template>
+
 <script>
 export default {
+  
 }
 </script>
-<style>
-</style>

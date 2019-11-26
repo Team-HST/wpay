@@ -1,21 +1,23 @@
 import Vue from 'vue'
 import App from './App.vue'
-import store from './store/index'
+import store from '@/store/index'
 import router from '@/router'
-import axios from 'axios'
 import lodash from 'lodash'
-import material from "./material";
+import { common } from '@/utils/common'
+import { api } from '@/utils/api'
 
 // Components
 import './components'
 
 import vuetify from './plugins/vuetify';
 
+Vue.config.productionTip = false
 // axios 설정
-Vue.prototype.$http = axios;
+Vue.prototype.$api = api;
+// lodash 설정
 Vue.prototype._ = lodash;
-
-Vue.use(material);
+// 공통 util 설정
+Vue.prototype.common = common;
 
 new Vue({
   store,
