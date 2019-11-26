@@ -6,10 +6,18 @@
 
 <script>
 export default {
-  components: {
-  },
-  data: () => ({
-    //
-  }),
 };
 </script>
+
+<style lang="scss">
+@import "@/assets/scss/vuetify/index.scss";
+
+/* Remove in 1.2 */
+.v-datatable thead th.column.sortable i {
+  vertical-align: unset;
+}
+
+.v-application {
+  font-family: "KoPub Dotum" !important;
+}
+</style>

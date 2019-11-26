@@ -1,5 +1,5 @@
 <template>
-  <v-content>
+   <v-content>
     <v-container
       class="fill-height"
       fluid
@@ -14,15 +14,15 @@
           sm="8"
           md="8"
         >
-          <login-signInForm></login-signInForm>
+          <register-signUpForm></register-signUpForm>
         </v-col>
       </v-row>
     </v-container> 
   </v-content>
 </template>
+
 <script>
 export default {
+    
 }
 </script>
-<style>
-</style>
