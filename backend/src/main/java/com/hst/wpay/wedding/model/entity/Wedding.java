@@ -1,5 +1,6 @@
 package com.hst.wpay.wedding.model.entity;
 
+import com.hst.wpay.user.model.entity.User;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -18,11 +19,13 @@ public class Wedding {
 	@Column(name = "seq")
 	private Long sequence;
 
-	@Column(name = "male_host_seq")
-	private Long maleHostSeq;
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "male_host_seq")
+	private User maleHost;
 	
-	@Column(name = "female_host_seq")
-	private Long femaleHostSeq;
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "female_host_seq")
+	private User femaleHost;
 	
 	@Column(name = "wedding_dt")
 	private LocalDateTime weddingDt;
