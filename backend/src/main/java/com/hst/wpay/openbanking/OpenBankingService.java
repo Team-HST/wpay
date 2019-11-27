@@ -5,9 +5,9 @@ import com.hst.wpay.configuration.OpenBankingAPIProperties;
 import com.hst.wpay.openbanking.model.response.OpenBankingAccountResponse;
 import com.hst.wpay.openbanking.model.OpenBankingConstants;
 import com.hst.wpay.openbanking.model.response.OpenBankingOAuthTokenResponse;
+import com.hst.wpay.openbanking.model.response.OpenBankingTransferWithdrawResponse;
 import com.hst.wpay.user.model.entity.User;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,13 +20,10 @@ import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Random;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author dlgusrb0808@gmail.com
@@ -121,7 +118,7 @@ public class OpenBankingService {
 		logger.info("AAA : {}", accounts);
 	}
 
-	public void transfer(User user, BankAccount bankAccount, int amount) {
+	public OpenBankingTransferWithdrawResponse transfer(User user, BankAccount bankAccount, long amount) {
 		Map<String, String> params = new HashMap<>();
 		params.put("bank_tran_id", generateBankTransferId());
 		params.put("cntr_account_type", "C");
@@ -140,9 +137,10 @@ public class OpenBankingService {
 		headers.setBearerAuth(user.getBankAccessToken());
 		HttpEntity entity = new HttpEntity(params, headers);
 
-		String accounts = openBankingAPI.exchange(properties.getUri() + "/v2.0/transfer/withdraw/fin_num", HttpMethod.POST, entity, String.class).getBody();
+		OpenBankingTransferWithdrawResponse accounts = openBankingAPI.exchange(properties.getUri() + "/v2.0/transfer/withdraw/fin_num", HttpMethod.POST, entity,
+				OpenBankingTransferWithdrawResponse.class).getBody();
 
-		logger.info("AAA : {}", accounts);
+		return accounts;
 	}
 
 	private String generateBankTransferId() {

@@ -5,6 +5,7 @@ import com.hst.wpay.user.model.request.SigninRequest;
 import com.hst.wpay.user.model.request.SignupRequest;
 import com.hst.wpay.user.model.response.SigninResponse;
 import com.hst.wpay.user.model.response.SignupResponse;
+import com.hst.wpay.user.model.response.UserResponse;
 import com.hst.wpay.user.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -15,6 +16,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @author dlgusrb0808@gmail.com
@@ -66,6 +69,25 @@ public class UserController {
 	public ResponseEntity<String> accountAuthenticationCallback(OpenBankingAuthorizedInformation request) {
 		userService.processAssignUserOpenBankingAccount(request);
 		return null;
+	}
+
+	@ApiOperation(value = "사용자 목록 조회", notes = "전체 사용자 목록을 제공합니다.")
+	@ApiResponses({
+			@ApiResponse(code = 200, message = "성공")
+	})
+	@GetMapping
+	public ResponseEntity<List<UserResponse>> getUsers() {
+		List<UserResponse> userResponses = userService.getUsers();
+		return ResponseEntity.ok(userResponses);
+	}
+
+	@ApiOperation(value = "사용자 조회", notes = "사용자를 제공합니다.")
+	@ApiResponses({
+			@ApiResponse(code = 200, message = "성공")
+	})
+	@GetMapping("{userId}")
+	public ResponseEntity<UserResponse> getUser(@PathVariable String userId) {
+		return ResponseEntity.ok(UserResponse.of(userService.getUser(userId)));
 	}
 
 }

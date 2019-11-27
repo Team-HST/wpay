@@ -26,4 +26,5 @@ public class OpenBankingConstants {
 	public static final String SORT_ORDER_DESC = "D";
 	public static final String YES = "Y";
 	public static final String NO = "N";
+	public static final String RSP_CODE_SUCCESS = "A0000";
 }

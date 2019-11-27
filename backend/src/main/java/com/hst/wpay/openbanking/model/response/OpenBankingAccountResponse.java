@@ -11,19 +11,13 @@ import java.util.List;
  */
 @Data
 @ToString
-public class OpenBankingAccountResponse {
+public class OpenBankingAccountResponse extends OpenBankingResponse {
 	// 공통
 	@JsonProperty("api_tran_id")
 	private String apiTranId;
 	// 공통
 	@JsonProperty("api_tran_dtm")
 	private String apiTranDtm;
-	// 공통
-	@JsonProperty("rsp_code")
-	private String rspCode;
-	// 공통
-	@JsonProperty("res_message")
-	private String rspMessage;
 
 	@JsonProperty("user_name")
 	private String userName;
