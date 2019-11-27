@@ -12,7 +12,11 @@ export default new Vuex.Store({
       token: ''
     },
     wedding: {
-
+      maleSeq: 0,
+      femaleSeq: 0,
+      tickPrice: 0,   // 식권가
+      weddingDt: null,// 결혼일시
+      regDt: null     // 등록일시
     }
   },
   getters: {
@@ -60,16 +64,16 @@ export default new Vuex.Store({
         }
       });
     },
-    matchWedding: () => {
-      /*
-      return api.auth.post('/api/users/', param)
+    matchWedding: (params) => {
+      
+      return api.auth.post('/api/wedding/', params)
       .then(response => {
-        return ;
+        return response;
       })
       .catch(error => {
-
+        alert('error: ', error);
       });
-      */
+      
     }
   }
 });

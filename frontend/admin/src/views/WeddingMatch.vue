@@ -149,16 +149,16 @@
 </template>
 
 <script>
-//import { mapActions } from 'vuex';
+import { mapActions } from 'vuex';
 //import { api } from '@/utils/api'
 
 export default {
     data() {
         return {
+            maleId: '',
+            femaleId: '',
             weddingInfo: {
-                maleId: '',     // 신랑
                 maleSeq: 0,
-                femaleId: '',   // 신부
                 femaleSeq: 0,
                 tickPrice: 0,   // 식권가
                 weddingDt: null,// 결혼일시
@@ -203,11 +203,10 @@ export default {
         generateQR() {
             this.weddingInfo.weddingDt = this.$moment(this.datePicker.nowDate + "T" + this.timePicker.time, this.$moment.ISO_8601);
             this.weddingInfo.regDt = this.$moment(new Date(), this.$moment.ISO_8601);
-            //this.matchWedding(this.weddingInfo);
-            //.then(response => {
-                // this.$router.push({name:"QrGenerate"});
-            //});
-            this.$router.push({name:"QrGenerate", params: this.weddingInfo});
+            this.matchWedding(this.weddingInfo)
+            .then(response => {
+                this.$router.push({name:"QrGenerate", params: this.weddingInfo});
+            });
         },
         dateFunctionEvents (date) {
             const [,, day] = date.split('-')
