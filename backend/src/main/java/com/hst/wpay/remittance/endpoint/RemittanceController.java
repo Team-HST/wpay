@@ -34,7 +34,10 @@ public class RemittanceController {
 		return ResponseEntity.ok("송금이 완료되었습니다.");
 	}
 
-	// 축의금 지출내역 조회
+	@ApiOperation(value = "축의금 지출내역 조회", notes = "사용자의 축의금 지출내역을 제공합니다.")
+	@ApiResponses({
+			@ApiResponse(code = 200, message = "성공")
+	})
 	@GetMapping("user/{userSeq}/histories")
 	public ResponseEntity<List<RemittanceResponse>> getUserRemittanceHistories(@PathVariable Long userSeq) {
 		return ResponseEntity.ok(remittanceService.getUserRemittanceHistories(userSeq));
