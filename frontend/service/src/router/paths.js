@@ -3,6 +3,11 @@
  */
  export default [
   {
+    path: '/',
+    name: '',
+    view: ''
+  },
+  {
     path: '/login',
     name: 'Login',
     view: 'Login',

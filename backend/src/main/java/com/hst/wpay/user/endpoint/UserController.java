@@ -1,19 +1,20 @@
 package com.hst.wpay.user.endpoint;
 
+import com.hst.wpay.openbanking.model.request.OpenBankingAuthorizedInformation;
 import com.hst.wpay.user.model.request.SigninRequest;
 import com.hst.wpay.user.model.request.SignupRequest;
 import com.hst.wpay.user.model.response.SigninResponse;
 import com.hst.wpay.user.model.response.SignupResponse;
 import com.hst.wpay.user.service.UserService;
-import io.swagger.annotations.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author dlgusrb0808@gmail.com
@@ -46,6 +47,25 @@ public class UserController {
 	public ResponseEntity<SignupResponse> signup(@RequestBody SignupRequest request) {
 		SignupResponse response = userService.signup(request);
 		return ResponseEntity.ok(response);
+	}
+
+	@ApiOperation(value = "계좌인증 - 사용자인증", notes = "계좌인증을 위해 OpenBanking 사용자인증 페이지 url 을 발급합니다. 사용자가 인증을 완료하면 자동으로 계좌등록 절차가 진행됩니다.")
+	@ApiResponses({
+			@ApiResponse(code = 200, message = "성공")
+	})
+	@GetMapping("{seq}/account-authentication")
+	public ResponseEntity<String> accountAuthentication(@PathVariable Long seq) {
+		return ResponseEntity.ok(userService.getOpenBankingAuthenticationProcessingUrl(seq));
+	}
+
+	@ApiOperation(value = "계좌인증 - 인증토큰 발급 및 계좌등록", notes = "사용자인증 API 수행 후 OpenBanking 측으로부터 호출되는 콜백 Handler. 이 단계에서 인증토큰과 계좌정보를 저장합니다.")
+	@ApiResponses({
+			@ApiResponse(code = 200, message = "성공")
+	})
+	@GetMapping("account-authentication-callback")
+	public ResponseEntity<String> accountAuthenticationCallback(OpenBankingAuthorizedInformation request) {
+		userService.processAssignUserOpenBankingAccount(request);
+		return null;
 	}
 
 }

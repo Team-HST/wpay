@@ -1,14 +1,11 @@
 package com.hst.wpay.common;
 
-import com.hst.wpay.common.type.ResponseDescription;
 import com.hst.wpay.user.exception.SigninFailException;
-import com.hst.wpay.user.service.SignupFailException;
+import com.hst.wpay.user.exception.SignupFailException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 /**

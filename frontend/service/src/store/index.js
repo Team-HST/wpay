@@ -1,10 +1,15 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import { api } from '@/utils/api'
+import { common } from '@/utils/common'
+import createPersistedState from 'vuex-persistedstate'
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
+  plugins: [
+    createPersistedState()
+  ],
   state: {
     user: {
       id: '',
@@ -26,8 +31,12 @@ export default new Vuex.Store({
      */
     setUserData: (state, data) => {
       state.user = data;
-      // api token 전달
-      api.setUserToken(data.token);
+      if (common.isNotBlank(data)) {
+        // api token 전달
+        api.setUserToken(data.token);
+      } else {
+        api.setUserToken(null);
+      }
     }
   },
   actions: {
@@ -35,23 +44,23 @@ export default new Vuex.Store({
      * @description 유저 로그인 API
      */
     userSignIn: (context, user) => {
-      api.basic.post('/api/users/signin', user)
-      .then(response => {
-        let user = {};
-        user.id = response.data.user.id;
-        user.name = response.data.user.name;
-        user.token = response.data.token;
-        context.commit('setUserData', user);
-      })
-      .catch(error => {
-        if (error.response.data.code === 101) {
-          alert('존재하지 않는 사용자입니다.');
-        } else if (error.response.data.code === 102) {
-          alert('비밀번호가 올바르지 않습니다.');
-        } else {
-          alert('계정정보가 올바르지 않습니다.');
-        }
-      });
+      return api.basic.post('/api/users/signin', user)
+        .then(response => {
+          let user = {};
+          user.id = response.data.user.id;
+          user.name = response.data.user.name;
+          user.token = response.data.token;
+          context.commit('setUserData', user);
+        })
+        .catch(error => {
+          if (error.response.data.code === 101) {
+            alert('존재하지 않는 사용자입니다.');
+          } else if (error.response.data.code === 102) {
+            alert('비밀번호가 올바르지 않습니다.');
+          } else {
+            alert('계정정보가 올바르지 않습니다.');
+          }
+        });
     }
   }
 });

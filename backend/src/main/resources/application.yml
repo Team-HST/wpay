@@ -1,6 +1,16 @@
 server:
   port: 8000
 
+openbanking:
+#  url: https://testapi.open-platform.or.kr
+  url: https://testapi.openbanking.or.kr
+  checksum: a2b4c6d8e0f2g4h6i8j0k2l4m6n8o0p2
+  authorize-success-callback: http://localhost:8000/users/account-authentication-callback
+  auth:
+    app-key: nO4xja7OwVA1158H7fn2XVkjwLXGJasyXl90G2Yk
+    app-secret: AZGu7Iog5vnDaebXrWDtUT1M50hltMXzYprvT1mV
+
+
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -21,4 +31,6 @@ spring:
   jwt:
     secret-key: HSTJWT.SECRET!!
 
-
+#logging:
+#  level:
+#    root: DEBUG

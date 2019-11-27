@@ -14,7 +14,13 @@
           sm="8"
           md="8"
         >
-          <register-signUpForm></register-signUpForm>
+          <material-card
+            color="pink lighten-2"
+            title="W-Pay 회원가입"
+            text="사용 할 개인정보를 입력하세요."
+          >
+            <register-signUpForm></register-signUpForm>
+          </material-card>
         </v-col>
       </v-row>
     </v-container> 
@@ -23,6 +29,6 @@
 
 <script>
 export default {
-    
+  
 }
 </script>
