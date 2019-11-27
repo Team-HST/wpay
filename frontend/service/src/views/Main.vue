@@ -3,7 +3,7 @@
     <layout-header></layout-header>
     <v-content>
       <v-container
-        class="mt-10 fill-height grid-list-xl"
+        class="mt-8 fill-height grid-list-xl"
         fluid
       >
         <v-row

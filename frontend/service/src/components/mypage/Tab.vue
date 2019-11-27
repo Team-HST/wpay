@@ -61,7 +61,7 @@
       >
         <v-card>
           <h4 class="font-weight-medium pa-3">하객리스트</h4>
-          <v-simple-table height="400px">
+          <v-simple-table height="350px">
             <template v-slot:default>
               <thead>
                 <tr>
@@ -76,6 +76,9 @@
               </tbody>
             </template>
           </v-simple-table>
+            <div class="text-right">
+              <v-btn class="font-weight-bold white--text ma-5" color="blue-grey">정산표 보기</v-btn>
+            </div>
         </v-card>
       </v-tab-item>
     </v-tabs-items>
@@ -135,7 +138,7 @@ export default {
     const date = new Date();
     const currentMonth = date.getMonth()+1
     this.monthSelected = this.month.filter(date => {
-      return date.key === currentMonth
+      return date.key === currentMonth;
     })[0];
   }
 }
