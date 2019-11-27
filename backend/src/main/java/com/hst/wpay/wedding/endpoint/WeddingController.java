@@ -21,7 +21,7 @@ import io.swagger.annotations.ApiResponses;
 /**
  * @author lyoupyo@gmail.com
  */
-@Api( tags = "2. 결혼 API", description = "결혼 등록, 관리 기능을 제공합니다.")
+@Api( tags = "3. 결혼 API", description = "결혼 등록, 관리 기능을 제공합니다.")
 @RestController
 @RequestMapping("wedding")
 public class WeddingController {
