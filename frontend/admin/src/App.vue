@@ -1,13 +1,29 @@
 <template>
-    <v-app>
-      <router-view></router-view>
-    </v-app>
+  <v-app>
+    <layout-header></layout-header>
+    <router-view></router-view>
+    <layout-footer></layout-footer>
+  </v-app>
 </template>
 
 <script>
 
-export default {}
+export default {
+  components: {
+  },
+  data: () => ({
+    
+  }),
+};
 </script>
 
-<style>
+<style lang="scss">
+@import "@/assets/scss/vuetify/index.scss";
+/* Remove in 1.2 */
+.v-datatable thead th.column.sortable i {
+  vertical-align: unset;
+}
+.v-application {
+  font-family: "KoPub Dotum" !important;
+}
 </style>

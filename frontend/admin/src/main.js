@@ -4,21 +4,25 @@ import store from './store/index'
 import router from '@/router'
 import axios from 'axios'
 import lodash from 'lodash'
-import material from "./material";
-import vuetify from './plugins/vuetify';
+import moment from 'moment'
+import VueMomentJS from 'vue-momentjs'
+import {common} from '@/utils/common'
 
 // Components
 import './components'
 
-// axios 설정
- Vue.prototype.$http = axios;
- Vue.prototype._ = lodash;
+import vuetify from './plugins/vuetify';
 
- Vue.use(material);
+// axios 설정
+Vue.prototype.$http = axios;
+Vue.prototype._ = lodash;
+Vue.prototype.common = common;
+
+Vue.use(VueMomentJS, moment);
 
 new Vue({
   store,
-  vuetify,
   router,
-  render: h => h(App),
+  vuetify,
+  render: h => h(App)
 }).$mount('#app')
