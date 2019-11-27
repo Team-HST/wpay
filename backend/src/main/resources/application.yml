@@ -31,6 +31,6 @@ spring:
   jwt:
     secret-key: HSTJWT.SECRET!!
 
-logging:
-  level:
-    root: DEBUG
+#logging:
+#  level:
+#    root: DEBUG
