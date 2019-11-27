@@ -25,10 +25,24 @@ export default [
         props: true
     },
     {
-        path: '/QrGenerate',
+        path: '/qrGenerate',
         name: 'QrGenerate',
         view: 'QrGenerate',
         viewName: 'QR코드 발급 페이지',
+        props: true
+    },
+    {
+        path: '/weddingList',
+        name: 'WeddingList',
+        view: 'WeddingList',
+        viewName: '결혼식 목록 페이지',
+        props: true
+    },
+    {
+        path: '/weddingCalculate',
+        name: 'WeddingCalculate',
+        view: 'WeddingCalculate',
+        viewName: '혼주 정산 페이지',
         props: true
     }
 ]

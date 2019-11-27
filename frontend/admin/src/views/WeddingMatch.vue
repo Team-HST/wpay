@@ -149,7 +149,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+//import { mapActions } from 'vuex';
 //import { api } from '@/utils/api'
 
 export default {
@@ -196,25 +196,26 @@ export default {
     methods: {
         //...mapActions(['matchWedding']),
         /* 사용자 조회 */
-        searchUser(id) {
+        searchUser: function(id) {
             this.service.searchUser(id);
         },
         /* WEDDING MATCH AND QR코드 생성 */
-        generateQR() {
+        generateQR: function() {
             this.weddingInfo.weddingDt = this.$moment(this.datePicker.nowDate + "T" + this.timePicker.time, this.$moment.ISO_8601);
             this.weddingInfo.regDt = this.$moment(new Date(), this.$moment.ISO_8601);
             this.matchWedding(this.weddingInfo)
             .then(response => {
                 this.$router.push({name:"QrGenerate", params: this.weddingInfo});
+                return response;
             });
         },
-        dateFunctionEvents (date) {
+        dateFunctionEvents: function(date) {
             const [,, day] = date.split('-')
             if ([12, 17, 28].includes(parseInt(day, 10))) return true
             if ([1, 19, 22].includes(parseInt(day, 10))) return ['red', '#00f']
             return false
         },
-        monthFunctionEvents (date) {
+        monthFunctionEvents: function(date) {
             const month = parseInt(date.split('-')[1], 10)
             if ([1, 3, 7].includes(month)) return true
             if ([2, 5, 12].includes(month)) return ['error', 'purple', 'rgba(0, 128, 0, 0.5)']

@@ -38,12 +38,12 @@ export default {
     loginUser: function() {
       this.userSignIn(this.user).then(response => {
         if (response !== undefined) {
-            this.fnGoMain();
+            this.moveMain();
         }  
       });
       // this.fnGoMain();
     },
-    fnGoMain() {
+    moveMain: function() {
         this.$router.push({name:"Main"});
     }
   }
