@@ -7,7 +7,7 @@ import lombok.Getter;
 import java.time.LocalDateTime;
 
 /**
- * @author hyungyu.lee@nhn.com
+ * @author dlgusrb0808@gmail.com
  */
 @Getter
 public class WeddingResponse {

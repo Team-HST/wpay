@@ -1,6 +1,7 @@
 package com.hst.wpay.remittance.model.entity;
 
 import com.hst.wpay.remittance.model.request.TransferMoneyRequest;
+import com.hst.wpay.user.model.entity.User;
 import lombok.Data;
 import lombok.Getter;
 
@@ -19,11 +20,13 @@ public class Remittance {
 	@Column(name = "seq")
 	private Long sequence;
 
-	@Column(name = "guest_seq")
-	private Long guestSequence;
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "guest_seq")
+	private User guest;
 
-	@Column(name = "host_seq")
-	private Long hostSequence;
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "host_seq")
+	private User host;
 
 	@Column(name = "wedding_seq")
 	private Long weddingSequence;
@@ -37,10 +40,13 @@ public class Remittance {
 	@Column(name = "remittance_dt")
 	private LocalDateTime remittanceAt;
 
+	public void setTransferInfo(User guest, User host) {
+		this.guest = guest;
+		this.host = host;
+	}
+
 	public static Remittance of(TransferMoneyRequest request) {
 		Remittance remittance = new Remittance();
-		remittance.guestSequence = request.getGuestSequence();
-		remittance.hostSequence = request.getHostSequence();
 		remittance.amount = request.getAmount();
 		remittance.comment = request.getComment();
 		remittance.remittanceAt = LocalDateTime.now();

@@ -1,6 +1,7 @@
 package com.hst.wpay.remittance.endpoint;
 
 import com.hst.wpay.remittance.model.request.TransferMoneyRequest;
+import com.hst.wpay.remittance.model.response.RemittanceResponse;
 import com.hst.wpay.remittance.service.RemittanceService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -8,10 +9,9 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @author dlgusrb0808@gmail.com
@@ -33,5 +33,12 @@ public class RemittanceController {
 		remittanceService.transferMoney(request);
 		return ResponseEntity.ok("송금이 완료되었습니다.");
 	}
+
+	// 축의금 지출내역 조회
+	@GetMapping("user/{userSeq}/histories")
+	public ResponseEntity<List<RemittanceResponse>> getUserRemittanceHistories(@PathVariable Long userSeq) {
+		return ResponseEntity.ok(remittanceService.getUserRemittanceHistories(userSeq));
+	}
+
 
 }
