@@ -34,7 +34,9 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * @author dlgusrb0808@gmail.com
@@ -199,4 +201,13 @@ public class UserService implements UserDetailsService {
 		}
 		return user.get();
 	}
+
+	/***
+	 * 사용자 목록 조회
+	 * @return 사용자 목록
+	 */
+	public List<UserResponse> getUsers() {
+		return userRepository.findAll().stream().map(UserResponse::of).collect(Collectors.toList());
+	}
+
 }
