@@ -15,19 +15,41 @@ export default new Vuex.Store({
       id: '',
       name: '',
       token: ''
+    },
+    host: {
+      name: '',
+      accountNum: '',
+      bankCode: ''
+    },
+    views: {
+      remittance: {
+        isDialog: false
+      }
     }
   },
   getters: {
     /**
-     * @description 유저정보 삽입
+     * @description 유저 정보 조회
      */
     getUserData: (state) => {
       return state.user;
+    },
+    /**
+     * @description 혼주 정보 조회
+     */
+    getHostData: (state) => {
+      return state.host;
+    },
+    /**
+     * @description 혼주 송금 계좌 다이얼로그 표출 여부 조회
+     */
+    getAccountDialog: (state) => {
+      return state.views.remittance.isDialog;
     }
   },
   mutations: {
     /**
-     * @description 유저정보 조회
+     * @description 유저 정보 삽입
      */
     setUserData: (state, data) => {
       state.user = data;
@@ -37,6 +59,18 @@ export default new Vuex.Store({
       } else {
         api.setUserToken(null);
       }
+    },
+    /**
+     * @description 혼주 정보 삽입
+     */
+    setHostData: (state, data) => {
+      state.host = data;
+    },
+    /**
+     * @description 혼주 송금 계좌 다이얼로그 표출 여부 변경
+     */
+    changeAccountDialog: (state) => {
+      state.views.remittance.isDialog = !state.views.remittance.isDialog;
     }
   },
   actions: {

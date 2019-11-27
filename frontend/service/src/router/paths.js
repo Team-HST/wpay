@@ -27,5 +27,12 @@
     view: 'Main',
     viewName: '메인 페이지',
     props: true
+  },
+  {
+    path: '/remittance',
+    name: 'Remittance',
+    view: 'Remittance',
+    viewName: '송금 QR페이지',
+    props: true
   }
 ]
