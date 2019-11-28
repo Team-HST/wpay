@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.List;
 
@@ -68,7 +69,7 @@ public class UserController {
 	@GetMapping("account-authentication-callback")
 	public ResponseEntity<String> accountAuthenticationCallback(OpenBankingAuthorizedInformation request) {
 		userService.processAssignUserOpenBankingAccount(request);
-		return null;
+		return ResponseEntity.ok("<script type=\"text/javascript\">location.href = 'http://localhost:8080/login'</script>");
 	}
 
 	@ApiOperation(value = "사용자 목록 조회", notes = "전체 사용자 목록을 제공합니다.")

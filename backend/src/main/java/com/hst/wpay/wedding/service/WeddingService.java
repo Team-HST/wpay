@@ -18,6 +18,7 @@ import com.hst.wpay.wedding.repository.WeddingSettlementRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -93,7 +94,7 @@ public class WeddingService {
 	 * @return 결혼정보 목록
 	 */
 	public List<WeddingResponse> getWeddings() {
-		return weddingRepository.findAll().stream().map(WeddingResponse::of).collect(Collectors.toList());
+		return weddingRepository.findAll(Sort.by(Sort.Direction.DESC, "regDt")).stream().map(WeddingResponse::of).collect(Collectors.toList());
 	}
 
 	/***
@@ -102,9 +103,36 @@ public class WeddingService {
 	 * @return 정산정보
 	 */
 	public WeddingSettlementResponse getCurrentSettleWedding(long weddingSequence) {
-		return calculateWeddingMoney(getWeddingEntity(weddingSequence));
+		Wedding wedding = getWeddingEntity(weddingSequence);
+		if (wedding.isSettled()) {
+			return getWeddingSettlement(wedding);
+		} else {
+			return calculateWeddingMoney(wedding);
+		}
 	}
 
+	private WeddingSettlementResponse calculateWeddingMoney(Wedding wedding) {
+		long totalAmount = remittanceService.getTotalAmountByWedding(wedding.getSequence());
+		int totalMealTicketCount = mealTicketService.getTotalIssuedMealTicketCount(wedding.getSequence());
+		long totalMealPrice = totalMealTicketCount * wedding.getMealTicketPrice();
+		long maleHostTotalAmount = remittanceService.getTotalAmountByHost(wedding.getMaleHost().getSequence());
+		long femaleHostTotalAmount = remittanceService.getTotalAmountByHost(wedding.getFemaleHost().getSequence());
+
+		logger.info("{}", createReceiptString(wedding, totalAmount, totalMealTicketCount, totalMealPrice,
+				maleHostTotalAmount, femaleHostTotalAmount));
+
+		return WeddingSettlementResponse.builder()
+				.totalCelebrationAmount(totalAmount)
+				.maleHostTotalCelebrationAmount(maleHostTotalAmount)
+				.maleHostName(wedding.getMaleHost().getName())
+				.femaleHostTotalCelebrationAmount(femaleHostTotalAmount)
+				.femaleHostName(wedding.getFemaleHost().getName())
+				.totalMealTicketCount(totalMealTicketCount)
+				.totalMealPrice(totalMealPrice)
+				.mealTicketPrice(wedding.getMealTicketPrice())
+				.remainingAmount(totalAmount - totalMealPrice)
+				.build();
+	}
 	/***
 	 * 결혼식 정산
 	 * @param weddingSequence
@@ -112,11 +140,7 @@ public class WeddingService {
 	 */
 	public WeddingSettlementResponse settleWedding(long weddingSequence) {
 		Wedding wedding = getWeddingEntity(weddingSequence);
-		if (wedding.isSettled()) {
-			return getWeddingSettlement(wedding);
-		} else {
-			return processWeddingSettle(wedding);
-		}
+		return processWeddingSettle(wedding);
 	}
 
 	// 결혼 정산결과 조회
@@ -133,7 +157,6 @@ public class WeddingService {
 		logger.info("정산 시작");
 		WeddingSettlementResponse calculatedWeddingSettlement = this.calculateWeddingMoney(wedding);
 
-		// TODO 입금이체
 		logger.info("남자혼주 입금이체 완료");
 		logger.info("여자혼주 입금이체 완료");
 
@@ -157,32 +180,11 @@ public class WeddingService {
 		weddingSettlementRepository.save(weddingSettlement);
 	}
 
-	// 정산금액 계산
-	private WeddingSettlementResponse calculateWeddingMoney(Wedding wedding) {
-		long totalAmount = remittanceService.getTotalAmountByWedding(wedding.getSequence());
-		int totalMealTicketCount = mealTicketService.getTotalIssuedMealTicketCount(wedding.getSequence());
-		long totalMealPrice = totalMealTicketCount * wedding.getMealTicketPrice();
-		long maleHostTotalAmount = remittanceService.getTotalAmountByHost(wedding.getMaleHost().getSequence());
-		long femaleHostTotalAmount = remittanceService.getTotalAmountByHost(wedding.getFemaleHost().getSequence());
-
-		logger.info("{}", createReceiptString(wedding, totalAmount, totalMealTicketCount, totalMealPrice,
-				maleHostTotalAmount, femaleHostTotalAmount));
-
-		return WeddingSettlementResponse.builder()
-				.totalCelebrationAmount(totalAmount)
-				.maleHostTotalCelebrationAmount(maleHostTotalAmount)
-				.femaleHostTotalCelebrationAmount(femaleHostTotalAmount)
-				.totalMealTicketCount(totalMealTicketCount)
-				.totalMealPrice(totalMealPrice)
-				.remainingAmount(totalAmount - totalMealPrice)
-				.build();
-	}
-
 	private String createReceiptString(Wedding wedding, long totalAmount, int totalMealTicketCount,
 											  long totalMealPrice, long maleHostTotalAmount,
 											  long femaleHostTotalAmount) {
 		return new StringBuilder()
-					.append("===================================").append("\r\n")
+					.append("\r\n===================================").append("\r\n")
 					.append("# 축의금").append("\r\n")
 					.append(String.format("| 남자혼주(%s) 축의금 : %d", wedding.getMaleHost().getName(), maleHostTotalAmount)).append("\r\n")
 					.append(String.format("| 여자혼주(%s) 축의금 : %d", wedding.getFemaleHost().getName(), femaleHostTotalAmount)).append("\r\n")
