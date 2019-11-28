@@ -13,7 +13,8 @@
         class="font-weight-bold white--text ml-2"
         color="pink lighten-2"
         @click="moveLoginPage"
-      >취소</v-btn>
+      > 취소
+      </v-btn>
     </div>
   </div>
 </template>
@@ -41,9 +42,7 @@
             })
             .catch(error => {
               if (error.response.data.code === 201) {
-                alert(
-                  "이미 존재하는 아이디입니다.\n다른 아이디를 사용하여주세요."
-                );
+                alert("이미 존재하는 아이디입니다.\n다른 아이디를 사용하여주세요.");
               } else {
                 alert("일시적인 오류입니다.\n다시 시도하여 주세요.");
               }
@@ -68,7 +67,6 @@
           this.service.userSingUp();
         }
       },
-
       /**
        * @description 로그인 페이지 이동
        */
