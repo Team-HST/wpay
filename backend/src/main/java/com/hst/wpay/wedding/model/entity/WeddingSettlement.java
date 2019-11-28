@@ -55,9 +55,12 @@ public class WeddingSettlement {
 		return WeddingSettlementResponse.builder()
 				.totalCelebrationAmount(weddingSettlement.getTotalCelebrationAmount())
 				.maleHostTotalCelebrationAmount(weddingSettlement.getMaleTotalCelebrationAmount())
+				.maleHostName(weddingSettlement.getWedding().getMaleHost().getName())
 				.femaleHostTotalCelebrationAmount(weddingSettlement.getFemaleTotalCelebrationAmount())
+				.femaleHostName(weddingSettlement.getWedding().getFemaleHost().getName())
 				.totalMealTicketCount(weddingSettlement.getTotalMealTicketCount())
 				.totalMealPrice(weddingSettlement.getTotalMealPrice())
+				.mealTicketPrice(weddingSettlement.getWedding().getMealTicketPrice())
 				.remainingAmount(weddingSettlement.getRemainingAmount())
 				.build();
 	}

@@ -63,10 +63,19 @@ public class WeddingController {
 	@ApiResponses({
 			@ApiResponse(code = 200, message = "성공")
 	})
-	@GetMapping("{seq}/settle")
-	public ResponseEntity<WeddingSettlementResponse> settleWedding(@PathVariable long seq) {
-		WeddingSettlementResponse response = weddingService.settleWedding(seq);
+	@PostMapping("{weddingSequence}/settle")
+	public ResponseEntity<WeddingSettlementResponse> settleWedding(@PathVariable long weddingSequence) {
+		WeddingSettlementResponse response = weddingService.settleWedding(weddingSequence);
 		return ResponseEntity.ok(response);
+	}
+
+	@ApiOperation(value = "결혼식 대금 조회", notes = "조회시점의 결혼식 축의금/식대를 조회합니다. 정산이 완료된 경우엔 정산결과에서 조회됩니다.")
+	@ApiResponses({
+			@ApiResponse(code = 200, message = "성공")
+	})
+	@GetMapping("{weddingSequence}/current-settlement")
+	public ResponseEntity<WeddingSettlementResponse> getCurrentSettleWedding(@PathVariable long weddingSequence) {
+		return ResponseEntity.ok(weddingService.getCurrentSettleWedding(weddingSequence));
 	}
 
 }
