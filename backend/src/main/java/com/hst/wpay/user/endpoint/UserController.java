@@ -81,12 +81,21 @@ public class UserController {
 		return ResponseEntity.ok(userResponses);
 	}
 
-	@ApiOperation(value = "사용자 조회", notes = "사용자를 제공합니다.")
+	@ApiOperation(value = "사용자 조회", notes = "사용자 SEQ로 사용자를 제공합니다.")
 	@ApiResponses({
 			@ApiResponse(code = 200, message = "성공")
 	})
-	@GetMapping("{userId}")
-	public ResponseEntity<UserResponse> getUser(@PathVariable String userId) {
+	@GetMapping("{userSequence}")
+	public ResponseEntity<UserResponse> getUserBySequence(@PathVariable long userSequence) {
+		return ResponseEntity.ok(UserResponse.of(userService.getUser(userSequence)));
+	}
+
+	@ApiOperation(value = "사용자 조회", notes = "사용자 ID로 사용자를 제공합니다.")
+	@ApiResponses({
+			@ApiResponse(code = 200, message = "성공")
+	})
+	@GetMapping("ids/{userId}")
+	public ResponseEntity<UserResponse> getUserByUserId(@PathVariable String userId) {
 		return ResponseEntity.ok(UserResponse.of(userService.getUser(userId)));
 	}
 

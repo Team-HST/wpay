@@ -24,7 +24,7 @@ public class BankAccountService {
 		return bankAccountRepository.findByUserSequence(userSequence).get(0);
 	}
 
-	public void createUserBankAccount(Long userSeq, OpenBankingAccountResponse response) {
-		bankAccountRepository.save(BankAccount.createUserBankAccout(userSeq, response));
+	public void createUserBankAccount(User user, OpenBankingAccountResponse response) {
+		bankAccountRepository.save(BankAccount.createUserBankAccount(user, response));
 	}
 }

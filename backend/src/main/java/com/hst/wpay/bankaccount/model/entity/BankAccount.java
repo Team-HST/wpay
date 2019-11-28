@@ -1,6 +1,7 @@
 package com.hst.wpay.bankaccount.model.entity;
 
 import com.hst.wpay.openbanking.model.response.OpenBankingAccountResponse;
+import com.hst.wpay.user.model.entity.User;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -28,19 +29,20 @@ public class BankAccount {
 	@Column(name = "fintech_use_num")
 	private String fintechUseNumber;
 
-	@Column(name = "user_seq")
-	private Long userSequence;
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "user_seq")
+	private User user;
 
 	@Column(name = "reg_dt")
 	private LocalDateTime registeredAt;
 
-	public static BankAccount createUserBankAccout(Long userSeq, OpenBankingAccountResponse response) {
+	public static BankAccount createUserBankAccount(User user, OpenBankingAccountResponse response) {
 		OpenBankingAccountResponse.Account targetAccount = response.getResList().get(0);
 		BankAccount bankAccount = new BankAccount();
 		bankAccount.setAccountNumber(targetAccount.getAccountNumMasked());
 		bankAccount.setFintechUseNumber(targetAccount.getFintechUseNum());
 		bankAccount.setBankName(targetAccount.getBankName());
-		bankAccount.setUserSequence(userSeq);
+		bankAccount.setUser(user);
 		bankAccount.setRegisteredAt(LocalDateTime.now());
 		return bankAccount;
 	}
