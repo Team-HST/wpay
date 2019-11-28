@@ -7,7 +7,7 @@ import com.hst.wpay.common.type.ResponseDescription;
  * @author dlgusrb0808@gmail.com
  */
 public class DataNotFoundException extends ReportableException {
-	DataNotFoundException(ResponseDescription description, String log) {
+	public DataNotFoundException(ResponseDescription description, String log) {
 		super(description, log);
 	}
 }

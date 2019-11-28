@@ -35,5 +35,15 @@ public class Wedding {
 	
 	@Column(name = "meal_ticket_price")
 	private Long mealTicketPrice;
+
+	@Column(name = "settle_yn")
+	private String settleYn;
+
+	@OneToOne(cascade = CascadeType.ALL, mappedBy = "wedding")
+	private WeddingSettlement weddingSettlement;
+
+	public boolean isSettled() {
+		return "Y".equals(this.settleYn);
+	}
 	
 }
