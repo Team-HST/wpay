@@ -9,7 +9,6 @@
       <material-statsCard
         color="green"
         icon="mdi-cash-multiple"
-        title="결혼 정보를 매칭합니다."
         value="매칭"
         class="menu-btn"
         @click="moveWeddingMatch"
@@ -25,7 +24,6 @@
       <material-statsCard
         color="green"
         icon="mdi-silverware"
-        title="혼주 및 정산내역을 관리합니다."
         value="혼주관리"
         class="menu-btn"
         @click="moveWeddingList"

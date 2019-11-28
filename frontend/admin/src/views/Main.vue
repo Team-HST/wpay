@@ -3,8 +3,6 @@
     <layout-header></layout-header>
     <v-content>
       <v-container
-        class="mt-8 fill-height grid-list-xl"
-        fluid
       >
         <v-row
           align="center"
@@ -19,7 +17,7 @@
             <material-card
               color="pink lighten-2"
               title="W-Pay"
-              text="원하시는 메뉴를 선택하여 주세요."
+              text="메뉴를 선택하여 주세요."
             >
               <main-menu></main-menu>
             </material-card>

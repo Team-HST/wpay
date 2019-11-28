@@ -91,7 +91,7 @@ export default {
   created() {
     this.service = {
       searchWeddingList: () => {
-        /* 수정필요 */
+        /* 전체 결혼정보 조회 */
         api.setUserToken(this.getUserData.token)
         api.auth.get('/api/weddings')
         .then(response => {
@@ -111,7 +111,7 @@ export default {
           }
             return response;
         }).catch(error => {
-          alert('error: '+error);
+          console.log('error: '+error);
         });
       }
     }
@@ -131,7 +131,8 @@ export default {
     },
     moveCalculate: function(seq) {
       /* 수정필요 */
-      this.$router.push({name:"WeddingCalculate", params:seq});
+      console.log('seq: ', seq);
+      this.$router.push({name:"WeddingCalculate", params:{"seq":seq}});
     },
     dateFunctionEvents: function(date) {
       const [,, day] = date.split('-')

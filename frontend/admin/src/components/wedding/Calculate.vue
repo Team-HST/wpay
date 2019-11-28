@@ -15,21 +15,25 @@
                   <span class="title" color="font-weight-bold"> {{calculate.totalCelebrationPrice}} 원 </span>
                 </v-flex>
                 <v-flex xs6>
-                  <span class="title">신랑 측</span>
+                  <span style="font-size: 0.9em;">신랑 측</span>
                 </v-flex>
                 <v-flex xs6 style="text-align: right;">
-                  <span class="title" color="font-weight-bold"> {{calculate.maleHostTotalCelebrationAmount}} 원 </span>
+                  <span color="font-weight-bold" style="font-size: 0.9em;"> {{calculate.maleHostTotalCelebrationAmount}} 원 </span>
                 </v-flex>
                 <v-flex xs6>
-                  <span class="title">신부 측</span>
+                  <span style="font-size: 0.9em;">신부 측</span>
                 </v-flex>
                 <v-flex xs6 style="text-align: right;">
-                  <span class="title" color="font-weight-bold"> {{calculate.femaleHostTotalCelebrationAmount}} 원 </span>
+                  <span color="font-weight-bold" style="font-size: 0.9em;"> {{calculate.femaleHostTotalCelebrationAmount}} 원 </span>
                 </v-flex>
               </v-row>
               <v-row class="ma-4 pa-5" style="border:1px solid #EC407A; border-radius: 2em;">
+                <v-flex xs4></v-flex>
+                <v-flex xs8 style="text-align: right;">
+                  <span class="font-weight-bold red--text" style="font-size: 0.9em;">* 1인 식사비 : 30,000 원</span>
+                </v-flex>
                 <v-flex xs8>
-                  <span class="title">발급된 식권 개수</span>
+                  <span class="title">발급 식권 개수</span>
                 </v-flex>
                 <v-flex xs4 style="text-align: right;">
                   <span class="title" color="font-weight-bold"> {{calculate.totalMealTicketCount}} 개 </span>
@@ -49,9 +53,9 @@
                   <span class="title" color="font-weight-bold"> {{calculate.remainingAmount}} 원 </span>
                 </v-flex>
               </v-row>
-              <v-row class="ma-12">
+              <v-row class="ma-6">
                 <v-flex xs2></v-flex>
-                <v-flex xs4>
+                <v-flex xs4 style="text-align: center;">
                   <v-btn
                     class="font-weight-bold white--text"
                     color="pink lighten-2"
@@ -60,7 +64,7 @@
                     목록
                   </v-btn>
                 </v-flex>
-                <v-flex xs4>
+                <v-flex xs4 style="text-align: center;">
                   <v-btn
                     class="font-weight-bold"
                     color="amber lighten-2"
@@ -94,8 +98,7 @@ export default {
     ...mapGetters(['getUserData'])
   },
   created() {
-    alert('thi'+this.$route.params.seq);
-    this.calculate.weddingSeq = this.$route.params;
+    this.calculate.weddingSeq = this.$route.params.seq;
     this.service = {
       /* 정산 API */
       calculate: () => {
