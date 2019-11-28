@@ -99,7 +99,7 @@ public class RemittanceService {
 	 * @param hostSequence 혼주 SEQ
 	 * @return 총 축의금
 	 */
-	public long getTotalAmountByHost(Long hostSequence) {
-		return Optional.fromNullable(remittanceRepository.findTotalAmountByHostSequence(hostSequence)).or(0L);
+	public long getTotalAmountByHost(Long hostSequence, Long weddingSequence) {
+		return Optional.fromNullable(remittanceRepository.findTotalAmountByHostSequence(hostSequence, weddingSequence)).or(0L);
 	}	
 }

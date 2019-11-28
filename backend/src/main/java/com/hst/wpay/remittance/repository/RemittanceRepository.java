@@ -21,6 +21,6 @@ public interface RemittanceRepository extends JpaRepository<Remittance, Long> {
 	Long findTotalAmountByWeddingSequence(Long weddingSequence);
 
 	@Query("select sum(R.amount) from Remittance R " +
-			"where R.host.sequence = ?1")
-	Long findTotalAmountByHostSequence(Long hostSequence);
+			"where R.host.sequence = ?1 and R.weddingSequence = ?2")
+	Long findTotalAmountByHostSequence(Long hostSequence, Long weddingSequence);
 }
