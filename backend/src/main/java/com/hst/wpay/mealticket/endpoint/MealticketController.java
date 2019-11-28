@@ -1,6 +1,8 @@
 package com.hst.wpay.mealticket.endpoint;
 
+
 import io.swagger.annotations.Api;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,7 @@ import io.swagger.annotations.ApiOperation;
 @RestController
 @RequestMapping("meal-tickets")
 @Api( tags = "4. 식권 API", description = "식궙 발급/사용 기능을 제공합니다.")
+
 public class MealticketController {
   
   private static final Logger logger = LoggerFactory.getLogger(MealticketController.class);

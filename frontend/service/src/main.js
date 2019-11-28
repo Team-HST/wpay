@@ -6,8 +6,12 @@ import lodash from 'lodash'
 import { common } from '@/utils/common'
 import { api } from '@/utils/api'
 import VueQrcodeReader from "vue-qrcode-reader";
+import VueQRCodeComponent from 'vue-qrcode-component'
 
+// QR 리더 설정
 Vue.use(VueQrcodeReader);
+// QR 컴포넌트 설정
+Vue.component('qr-code', VueQRCodeComponent);
 
 // Components
 import './components'
