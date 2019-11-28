@@ -18,10 +18,10 @@
           >
             <material-card
               color="pink lighten-2"
-              title="W-Pay"
-              text="원하시는 메뉴를 선택하여 주세요."
+              title="마이페이지"
+              text="지출과 정산내역을 확인합니다."
             >
-              <main-menu></main-menu>
+              <mypage-tab></mypage-tab>
             </material-card>
           </v-col>
         </v-row>
@@ -32,6 +32,10 @@
 
 <script>
 export default {
-    
+  data() {
+    return {
+      tab: null
+    }
+  }
 }
 </script>

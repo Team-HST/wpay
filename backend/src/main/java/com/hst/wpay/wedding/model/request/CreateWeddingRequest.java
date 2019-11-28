@@ -1,9 +1,9 @@
 package com.hst.wpay.wedding.model.request;
 
-import java.sql.Date;
-
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+
+import java.time.LocalDateTime;
 
 /**
  * @author lyoupyo@gmail.com
@@ -18,11 +18,8 @@ public class CreateWeddingRequest {
 	private Long femaleHostSeq;
 	
 	@ApiModelProperty(position = 3, example = "결혼일시")
-	private Date WeddingDt;
+	private LocalDateTime weddingDt;
 	
-	@ApiModelProperty(position = 4, example = "등록일자")
-	private Date RegDt;
-	
-	@ApiModelProperty(position = 5, example = "식권금액")
+	@ApiModelProperty(position = 4, example = "식권금액")
 	private Long mealTicketPrice;
 }

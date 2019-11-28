@@ -5,10 +5,12 @@ import router from '@/router'
 import lodash from 'lodash'
 import { common } from '@/utils/common'
 import { api } from '@/utils/api'
+import VueQrcodeReader from "vue-qrcode-reader";
+
+Vue.use(VueQrcodeReader);
 
 // Components
 import './components'
-
 import vuetify from './plugins/vuetify';
 
 Vue.config.productionTip = false

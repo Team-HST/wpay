@@ -3,7 +3,7 @@
     <layout-header></layout-header>
     <v-content>
       <v-container
-        class="mt-8 fill-height grid-list-xl"
+        class="mt-10 fill-height grid-list-xl"
         fluid
       >
         <v-row
@@ -18,20 +18,21 @@
           >
             <material-card
               color="pink lighten-2"
-              title="W-Pay"
-              text="원하시는 메뉴를 선택하여 주세요."
+              title="송금하기"
+              text="혼주의 QR코드를 읽어주세요."
             >
-              <main-menu></main-menu>
+              <remittance-qrReader></remittance-qrReader>
             </material-card>
           </v-col>
         </v-row>
-      </v-container> 
+      </v-container>
+
+      <remittance-hostAccountDialog></remittance-hostAccountDialog>
     </v-content>
   </div>
 </template>
 
 <script>
 export default {
-    
 }
 </script>

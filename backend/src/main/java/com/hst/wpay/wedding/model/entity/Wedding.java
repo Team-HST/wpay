@@ -1,16 +1,10 @@
 package com.hst.wpay.wedding.model.entity;
 
-import java.sql.Date;
-import java.util.Set;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
+import com.hst.wpay.user.model.entity.User;
 import lombok.Data;
+
+import javax.persistence.*;
+import java.time.LocalDateTime;
 
 /**
  * @author lyoupyo@gmail.com
@@ -25,19 +19,21 @@ public class Wedding {
 	@Column(name = "seq")
 	private Long sequence;
 
-	@Column(name = "male_host_seq")
-	private Long maleHostSeq;
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "male_host_seq")
+	private User maleHost;
 	
-	@Column(name = "female_host_seq")
-	private Long femaleHostSeq;
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "female_host_seq")
+	private User femaleHost;
 	
 	@Column(name = "wedding_dt")
-	private Date WeddingDt;
+	private LocalDateTime weddingDt;
 	
 	@Column(name = "reg_dt")
-	private Date RegDt;
+	private LocalDateTime regDt;
 	
 	@Column(name = "meal_ticket_price")
-	private Long MealTicketPrice;
+	private Long mealTicketPrice;
 	
 }

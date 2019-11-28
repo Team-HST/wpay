@@ -14,7 +14,7 @@ public class CreateWeddingResponse {
 
 	/***
 	 * 결혼 응답정보 생성
-	 * @param Weddnig 결혼 엔티티
+	 * @param wedding 결혼 엔티티
 	 * @return 결혼 응답정보
 	 */
 	public static CreateWeddingResponse of(Wedding wedding) {
