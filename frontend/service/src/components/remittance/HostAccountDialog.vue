@@ -1,6 +1,6 @@
 <template>
   <v-dialog
-    v-model="this.getAccountDialog"
+    v-model="this.getIsAccountDialog"
     persistent max-width="900px"
   >
     <div ref="diagram">
@@ -22,27 +22,27 @@
           </v-card-title>
         </v-card>
         <v-card-text class="pb-0">
-              <v-text-field
-                type="text"
-                label="이름"
-              />
-              <v-text-field
-                type="text"
-                label="금액"
-              />
-              <v-text-field
-                type="text"
-                label="메모"
-              />
-              <div class="text-center">
-                <v-btn
-                  class="font-weight-bold white--text"
-                  color="green"
-                  @click="this.sendHostRemittance"
-                >
-                  송금하기
-                </v-btn>
-              </div>
+          <v-text-field
+            type="text"
+            label="이름"
+          />
+          <v-text-field
+            type="text"
+            label="금액"
+          />
+          <v-text-field
+            type="text"
+            label="메모"
+          />
+          <div class="text-center">
+            <v-btn
+              class="font-weight-bold white--text"
+              color="green"
+              @click="this.sendHostRemittance"
+            >
+              송금하기
+            </v-btn>
+          </div>
         </v-card-text>
         <v-card-actions class="pa-0 pb-2">
           <div class="flex-grow-1"></div>
@@ -69,6 +69,9 @@
         service: {}
       }
     },
+    computed: {
+      ...mapGetters(['getIsAccountDialog', 'getIsMealDialog', 'getHostData'])
+    },
     created() {
       this.service = {
         /**
@@ -79,22 +82,23 @@
       }
     },
     mounted() {
-      // 팝업이 켜져있는 경우 닫음
-      if (this.getAccountDialog) {
-        this.changeAccountDialog();
+      // 송금 다이얼로그가 켜져있는 경우 닫음
+      if (this.getIsAccountDialog) {
+        this.changeIsAccountDialog();
+      }
+      // 식권 다이얼로그가 켜져있는 경우 닫음
+      if (this.getIsMealDialog) {
+        this.changeIsMealDialog();
       }
     },
-    computed: {
-      ...mapGetters(['getAccountDialog', 'getHostData'])
-    },
     methods: {
-      ...mapMutations(['changeAccountDialog']),
+      ...mapMutations(['changeIsAccountDialog', 'changeIsMealDialog']),
       /**
        * @description 계좌송금 팝업창 종료 이벤트
        */
       closeAccountDialog: function() {
         if (confirm('계좌송금을 취소하시겠습니까?')) {
-          this.changeAccountDialog();
+          this.changeIsAccountDialog();
           this.$router.push('/main');
         }
       },
@@ -104,6 +108,8 @@
       sendHostRemittance: function() {
         if (confirm('혼주에게 축의금을 송금하시겠습니까?')) {
           console.log('송금 API');
+          this.changeIsAccountDialog();
+          this.changeIsMealDialog();
         }
       }
     }

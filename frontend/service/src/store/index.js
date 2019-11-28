@@ -23,7 +23,8 @@ export default new Vuex.Store({
     },
     views: {
       remittance: {
-        isDialog: false
+        isAccountDialog: false,
+        isMealDialog: false
       }
     }
   },
@@ -43,8 +44,14 @@ export default new Vuex.Store({
     /**
      * @description 혼주 송금 계좌 다이얼로그 표출 여부 조회
      */
-    getAccountDialog: (state) => {
-      return state.views.remittance.isDialog;
+    getIsAccountDialog: (state) => {
+      return state.views.remittance.isAccountDialog;
+    },
+    /**
+     * @description 식권 발급 다이얼로그 여부 조회
+     */
+    getIsMealDialog: (state) => {
+      return state.views.remittance.isMealDialog;
     }
   },
   mutations: {
@@ -69,8 +76,14 @@ export default new Vuex.Store({
     /**
      * @description 혼주 송금 계좌 다이얼로그 표출 여부 변경
      */
-    changeAccountDialog: (state) => {
-      state.views.remittance.isDialog = !state.views.remittance.isDialog;
+    changeIsAccountDialog: (state) => {
+      state.views.remittance.isAccountDialog = !state.views.remittance.isAccountDialog;
+    },
+    /**
+     * @description 식권 발급 다이얼로그 표출 여부 변경
+     */
+    changeIsMealDialog: (state) => {
+      state.views.remittance.isMealDialog = !state.views.remittance.isMealDialog;
     }
   },
   actions: {
