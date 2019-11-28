@@ -1,5 +1,6 @@
 package com.hst.wpay.wedding.endpoint;
 
+import com.hst.wpay.wedding.model.request.WeddingSettlementResponse;
 import com.hst.wpay.wedding.model.response.WeddingResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,6 +57,16 @@ public class WeddingController {
 	@GetMapping("{seq}")
 	public ResponseEntity<WeddingResponse> getWedding(@PathVariable long seq) {
 		return ResponseEntity.ok(weddingService.getWedding(seq));
+	}
+
+	@ApiOperation(value = "결혼식 대금 정산", notes = "결혼식 축의금/식대을 정산합니다.")
+	@ApiResponses({
+			@ApiResponse(code = 200, message = "성공")
+	})
+	@GetMapping("{seq}/settle")
+	public ResponseEntity<WeddingSettlementResponse> settleWedding(@PathVariable long seq) {
+		WeddingSettlementResponse response = weddingService.settleWedding(seq);
+		return ResponseEntity.ok(response);
 	}
 
 }

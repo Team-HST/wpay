@@ -58,10 +58,10 @@ export default {
       this.$router.push('/remittance');
     },
     moveMealPage: function() {
-
+      this.$router.push('/meal');
     },
     meveMyPage: function() {
-
+      this.$router.push('/mypage');
     }
   }
 }

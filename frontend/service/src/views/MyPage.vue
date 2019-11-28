@@ -31,11 +31,11 @@
 </template>
 
 <script>
-export default {
-  data() {
-    return {
-      tab: null
+  export default {
+    data() {
+      return {
+        tab: null
+      }
     }
   }
-}
 </script>

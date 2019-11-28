@@ -1,5 +1,6 @@
 package com.hst.wpay.user.model.entity;
 
+import com.hst.wpay.bankaccount.model.entity.BankAccount;
 import com.hst.wpay.openbanking.model.response.OpenBankingOAuthTokenResponse;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
@@ -46,6 +47,12 @@ public class User implements UserDetails {
 	@Column(name = "expires_at")
 	private LocalDateTime expiresAt;
 
+	@Column(name ="bank_account_authorized_yn")
+	private String bankAccountAuthorizedYn;
+
+	@OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
+	private BankAccount bankAccount;
+
 	@ElementCollection(fetch = FetchType.EAGER)
 	@CollectionTable(name = "USER_ROLE", joinColumns = @JoinColumn(name = "role"))
 	private Set<String> roles;
@@ -80,6 +87,10 @@ public class User implements UserDetails {
 		return true;
 	}
 
+	public boolean isBankAccountAuthorized() {
+		return "Y".equals(this.bankAccountAuthorizedYn);
+	}
+
 	/***
 	 * OpenBanking 인증토큰 설정
 	 * @param openBankingOAuthTokenResponse 인증토큰
@@ -89,5 +100,6 @@ public class User implements UserDetails {
 		this.bankRefreshToken = openBankingOAuthTokenResponse.getRefreshToken();
 		this.bankUserSequenceNumber = openBankingOAuthTokenResponse.getUserSeqNo();
 		this.expiresAt = LocalDateTime.now().plus(openBankingOAuthTokenResponse.getExpiresIn(), ChronoUnit.SECONDS);
+		this.bankAccountAuthorizedYn = "Y";
 	}
 }

@@ -1,8 +1,9 @@
 package com.hst.wpay.common;
 
-import com.hst.wpay.common.type.ResponseDescription;
 import lombok.Builder;
 import lombok.Getter;
+
+import java.util.Map;
 
 /**
  * @author dlgusrb0808@gmail.com
@@ -14,5 +15,6 @@ public class DescribedResponse {
 	private String responseCode;
 	private int code;
 	private String responseMessage;
+	private Map<String, Object> extraData;
 
 }

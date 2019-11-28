@@ -38,7 +38,7 @@
             >
             </v-select>
           </v-col>
-          <v-simple-table height="400px">
+          <v-simple-table height="350px">
             <template v-slot:default>
               <thead>
                 <tr>
@@ -61,7 +61,7 @@
       >
         <v-card>
           <h4 class="font-weight-medium pa-3">하객리스트</h4>
-          <v-simple-table height="350px">
+          <v-simple-table height="300px">
             <template v-slot:default>
               <thead>
                 <tr>
@@ -82,6 +82,15 @@
         </v-card>
       </v-tab-item>
     </v-tabs-items>
+    <div class="text-center">
+      <v-btn 
+        class="font-weight-bold white--text mt-3" 
+        color="pink lighten-2"
+        @click="closeMypage"
+      >
+        나가기
+      </v-btn>
+    </div>
   </div>
 </template>
 
@@ -140,6 +149,14 @@ export default {
     this.monthSelected = this.month.filter(date => {
       return date.key === currentMonth;
     })[0];
+  },
+  methods: {
+    /**
+     * @description 마이페이지 닫기 이벤트
+     */
+    closeMypage: function() {
+      this.$router.push('/main');
+    }
   }
 }
 </script>

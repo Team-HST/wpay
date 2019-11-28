@@ -18,6 +18,15 @@ public class GlobalExceptionHandler {
 
 	@ExceptionHandler({SigninFailException.class, SignupFailException.class})
 	public ResponseEntity<DescribedResponse> handle(ReportableException e) {
+		return processReportableException(e);
+	}
+
+	@ExceptionHandler(ReportableException.class)
+	public ResponseEntity<DescribedResponse> handleReportable(ReportableException e) {
+		return processReportableException(e);
+	}
+
+	private ResponseEntity<DescribedResponse> processReportableException(ReportableException e) {
 		logger.error(e.getLog(), e);
 		return ResponseEntity.badRequest().body(createErrorDescribedResponse(e));
 	}
@@ -27,6 +36,7 @@ public class GlobalExceptionHandler {
 				.code(e.getDescription().getCode())
 				.responseMessage(e.getDescription().getMessage())
 				.responseCode(e.getDescription().toString())
+				.extraData(e.getExtraData())
 				.build();
 	}
 
