@@ -68,8 +68,8 @@ public class UserController {
 	})
 	@GetMapping("account-authentication-callback")
 	public ResponseEntity<String> accountAuthenticationCallback(OpenBankingAuthorizedInformation request) {
-		// userService.processAssignUserOpenBankingAccount(request);
-		return ResponseEntity.ok("<script type=\"text/javascript\">alert('Fuck'); window.close(); // 일반적인 현재 창 닫기\n" + "      window.open('about:blank','_self').self.close();</script>");
+		userService.processAssignUserOpenBankingAccount(request);
+		return ResponseEntity.ok("<script type=\"text/javascript\">location.href = 'http://localhost:8080/login'</script>");
 	}
 
 	@ApiOperation(value = "사용자 목록 조회", notes = "전체 사용자 목록을 제공합니다.")
