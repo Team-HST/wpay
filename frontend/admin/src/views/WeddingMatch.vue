@@ -193,7 +193,7 @@ export default {
                     userId = this.femaleId;
                 }
                 api.setUserToken(this.getUserData.token);
-                api.auth.get('/api/users/'+userId)
+                api.auth.get('/api/users/ids/'+userId)
                 .then(response => {
                     if (sFlag === "M") { // 신랑정보
                         this.weddingInfo.maleHostSeq = response.data.sequence;

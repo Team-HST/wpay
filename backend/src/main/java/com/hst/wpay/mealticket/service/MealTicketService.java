@@ -1,5 +1,6 @@
 package com.hst.wpay.mealticket.service;
 
+import com.google.common.base.Optional;
 import com.hst.wpay.common.ReportableException;
 import com.hst.wpay.common.type.ResponseDescription;
 import com.hst.wpay.mealticket.model.entity.MealTicket;
@@ -60,7 +61,7 @@ public class MealTicketService {
    * @return 발급된 식권 갯수
    */
   public int getTotalIssuedMealTicketCount(Long weddingSequence) {
-    int totalMealTicketCount = mealticketRepository.findTotalMealTicketCount(weddingSequence);
+    int totalMealTicketCount = Optional.fromNullable(mealticketRepository.findTotalMealTicketCount(weddingSequence)).or(0);
     if (totalMealTicketCount == 0) {
       logger.warn("해당 결혼에 발급된 식권이 없습니다. weddingSequence: {}", weddingSequence);
     }

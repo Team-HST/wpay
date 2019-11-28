@@ -1,10 +1,14 @@
 <template>
-    <v-content>
+    <v-content class="pa-0">
         <v-container>
               <v-row class="ma-4" >
-                <v-flex xs6></v-flex>
+                <v-flex xs6 style="text-align: left;">
+                  <span class="title font-weight-bold">신랑</span>
+                  <span class="title"> {{calculate.maleHostName}} </span>
+                </v-flex>
                 <v-flex xs6 style="text-align: right;">
-                  <span class="title">혼주: 김 부 시</span>
+                  <span class="title font-weight-bold">신부</span>
+                  <span class="title"> {{calculate.femaleHostName}}</span>
                 </v-flex>
               </v-row>
               <v-row class="ma-4 pa-5" style="border:1px solid #EC407A; border-radius: 1em;">
@@ -30,7 +34,7 @@
               <v-row class="ma-4 pa-5" style="border:1px solid #EC407A; border-radius: 2em;">
                 <v-flex xs4></v-flex>
                 <v-flex xs8 style="text-align: right;">
-                  <span class="font-weight-bold red--text" style="font-size: 0.9em;">* 1인 식사비 : 30,000 원</span>
+                  <span class="font-weight-bold red--text" style="font-size: 0.9em;">* 1인 식사비 : {{calculate.mealTicketPrice}} 원</span>
                 </v-flex>
                 <v-flex xs8>
                   <span class="title">발급 식권 개수</span>
@@ -68,6 +72,7 @@
                   <v-btn
                     class="font-weight-bold"
                     color="amber lighten-2"
+                    @click="createCalculate"
                     >
                     정산
                   </v-btn>
@@ -87,8 +92,11 @@ export default {
     calculate: {
       weddingSeq: 0,            // 결혼일련번호
       totalCelebrationPrice: 0, // 총 축의금
+      femaleHostName: '',       // 신부 이름
+      maleHostName: '',         // 신랑 이름
       femaleHostTotalCelebrationAmount: 0,  // 신부 측 축의금
       maleHostTotalCelebrationAmount: 0,    // 신랑 측 축의금
+      mealTicketPrice: 0,       // 식권 금액
       totalMealTicketCount: 0,          // 총 식권갯수
       totalMealPrice: 0,        // 총 식대비
       remainingAmount: 0              // 차액
@@ -101,19 +109,31 @@ export default {
     this.calculate.weddingSeq = this.$route.params.seq;
     this.service = {
       /* 정산 API */
-      calculate: () => {
+      getCalculate: () => {
         api.setUserToken(this.getUserData.token);
-        api.auth.get('/api/weddings/'+this.calculate.weddingSeq+'/settle')
+        api.auth.get('/api/weddings/'+this.calculate.weddingSeq+'/current-settlement')
         .then(response => {
             if (response !== "undefined") {
+              this.calculate.maleHostName = response.data.maleHostName;
+              this.calculate.femaleHostName = response.data.femaleHostName;
               this.calculate.totalCelebrationPrice = this.numberFormat(response.data.totalCelebrationAmount);
               this.calculate.femaleHostTotalCelebrationAmount = this.numberFormat(response.data.femaleHostTotalCelebrationAmount);
               this.calculate.maleHostTotalCelebrationAmount = this.numberFormat(response.data.maleHostTotalCelebrationAmount);
               this.calculate.totalMealPrice = this.numberFormat(response.data.totalMealPrice);
               this.calculate.totalMealTicketCount = this.numberFormat(response.data.totalMealTicketCount);
               this.calculate.remainingAmount = this.numberFormat(response.data.remainingAmount);
+              this.calculate.mealTicketPrice = this.numberFormat(response.data.mealTicketPrice);
             }
         });
+      },
+      createCalculate: () => {
+        api.setUserToken(this.getUserData.token);
+        api.auth.post('/api/weddings/'+this.calculate.weddingSeq+'/settle')
+        .then(response => {
+          if (response !== "undefined") {
+            alert("정산이 완료되었습니다.");
+          }
+        })
       }
     }
   },
@@ -122,7 +142,10 @@ export default {
   },
   methods: {
     initialize: function() {
-      this.service.calculate();
+      this.service.getCalculate();
+    },
+    createCalculate: function() {
+      this.service.createCalculate();
     },
     moveWeddingList: function() {
       this.$router.push({name:"WeddingList"});

@@ -1,5 +1,6 @@
 package com.hst.wpay.remittance.service;
 
+import com.google.common.base.Optional;
 import com.hst.wpay.bankaccount.model.entity.BankAccount;
 import com.hst.wpay.bankaccount.service.BankAccountService;
 import com.hst.wpay.openbanking.OpenBankingService;
@@ -90,7 +91,7 @@ public class RemittanceService {
 	 * @return 총 축의금
 	 */
 	public long getTotalAmountByWedding(Long weddingSequence) {
-		return remittanceRepository.findTotalAmountByWeddingSequence(weddingSequence);
+		return Optional.fromNullable(remittanceRepository.findTotalAmountByWeddingSequence(weddingSequence)).or(0L);
 	}
 
 	/***
@@ -99,7 +100,6 @@ public class RemittanceService {
 	 * @return 총 축의금
 	 */
 	public long getTotalAmountByHost(Long hostSequence) {
-		return remittanceRepository.findTotalAmountByHostSequence(hostSequence);
-	}
-
+		return Optional.fromNullable(remittanceRepository.findTotalAmountByHostSequence(hostSequence)).or(0L);
+	}	
 }

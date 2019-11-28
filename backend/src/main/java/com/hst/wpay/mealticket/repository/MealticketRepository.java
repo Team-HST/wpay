@@ -15,6 +15,6 @@ public interface MealticketRepository extends JpaRepository<MealTicket, Long>{
   Optional<MealTicket> findBySequence(Long sequence);
 
   @Query("select sum(m.mealCount) from MealTicket m where m.weddingSeq = ?1")
-  int findTotalMealTicketCount(Long weddingSequence);
+  Integer findTotalMealTicketCount(Long weddingSequence);
 
 }
