@@ -14,25 +14,23 @@
             primary-title
           >
             <v-flex xs12 sm12 lg12 text-xs-center text-sm-center text-lg-center>
-              <div class="title font-weight-bold">혼주 O O O</div>
+              <div class="title font-weight-bold">혼주 {{ this.getHostData.name }}</div>
             </v-flex>
             <v-flex xs12 sm12 lg12 text-xs-right text-sm-center text-lg-center>
-              <div class="subtitle-1">우리) 010 22222 ***</div>
+              <div class="subtitle-1">{{ this.getHostData.bankName }}) {{ this.getHostData.bankAccountNumber }}</div>
             </v-flex>
           </v-card-title>
         </v-card>
         <v-card-text class="pb-0">
           <v-text-field
             type="text"
-            label="이름"
-          />
-          <v-text-field
-            type="text"
             label="금액"
+            v-model="amount"
           />
           <v-text-field
             type="text"
             label="메모"
+            v-model="comment"
           />
           <div class="text-center">
             <v-btn
@@ -66,11 +64,12 @@
   export default {
     data() {
       return {
-        service: {}
+        comment: '',
+        amount: 0
       }
     },
     computed: {
-      ...mapGetters(['getIsAccountDialog', 'getIsMealDialog', 'getHostData'])
+      ...mapGetters(['getIsAccountDialog', 'getIsMealDialog', 'getHostData', 'getUserData'])
     },
     created() {
       this.service = {
@@ -78,6 +77,22 @@
          * 축의금 송금 API
          */
         sendHostRemittance: () => {
+          // 송금 데이터
+          const remittanceData = {
+            'guestSequence': this.getUserData.sequence,
+            'hostSequence': this.getHostData.sequence,
+            'weddingSequence': this.getHostData.weddingSequence,
+            'comment': this.comment,
+            "amount": this.amount
+          }
+          console.log(remittanceData);
+
+          this.$api.auth.post('/api/remittance/transfer', remittanceData)
+            .then(() => {
+              console.log('송금');
+              this.changeIsAccountDialog();
+              this.changeIsMealDialog();
+            })
         }
       }
     },
@@ -107,9 +122,7 @@
        */
       sendHostRemittance: function() {
         if (confirm('혼주에게 축의금을 송금하시겠습니까?')) {
-          console.log('송금 API');
-          this.changeIsAccountDialog();
-          this.changeIsMealDialog();
+          this.service.sendHostRemittance();
         }
       }
     }

@@ -36,7 +36,7 @@ export default {
   },
   mounted() {
     // 사용자 정보 초기화
-    this.setUserData({});
+    this.setUserData(null);
   },
   computed: {
     ...mapGetters(['getUserData'])
