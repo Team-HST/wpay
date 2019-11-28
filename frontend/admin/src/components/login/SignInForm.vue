@@ -31,6 +31,7 @@ export default {
       user: {
         id: null,
         password: null,
+        token: null
       }
     }
   },
@@ -47,8 +48,10 @@ export default {
 
     loginUser: function() {
       this.userSignIn(this.user)
-        .then(() => {
+        .then((token) => {
         if (this.common.isNotBlank(this.getUserData.token)) {
+          this.user.token = token;
+          this.setUserData(this.user);
           this.moveMain();
         }
       })

@@ -3,7 +3,7 @@
     <v-container>
       <v-row align="center" justify="center">
         <v-flex xs3 style="text-align:center;">
-          결혼일시
+          <span class="font-weight-bold">결혼일시</span>
         </v-flex>
         <v-flex xs6 style="text-align:center;">
         <v-flex xs3></v-flex>
@@ -43,7 +43,7 @@
 
           <v-divider
             v-else-if="wedding.divider"
-            :key="index"
+            :key="index+'-'"
             :inset="wedding.inset"
           ></v-divider>
 
@@ -57,7 +57,7 @@
             </v-list-item-icon>
 
             <v-list-item-content>
-              <v-list-item-title class="font-weight-bold pink lighten-2" v-html="wedding.weddingDt"></v-list-item-title>
+              <v-list-item-title class="font-weight-bold" v-html="wedding.weddingDt"></v-list-item-title>
               <v-list-item-subtitle v-html="'신 랑: ' + wedding.maleName"></v-list-item-subtitle>
               <v-list-item-subtitle v-html="'신 부: ' + wedding.femaleName"></v-list-item-subtitle>
             </v-list-item-content>
@@ -73,33 +73,13 @@
 </template>
 
 <script>
-// import { mapActions } from 'vuex';
+import { mapGetters } from 'vuex';
 import { api } from '@/utils/api';
 export default {
   data: () => ({
     weddingDt: null,
     weddingList: [
-      {
-        seq: 1,
-        maleName: '김영훈',
-        femaleName: '허현',
-        weddingDt: '2019-12-07'
-      },
-      { divider: true, inset: true},
-      {
-        seq: 2,
-        maleName: '이한울',
-        femaleName: '김다혜',
-        weddingDt: '2019-12-07'
-      },
-      { divider: true, inset: true},
-      {
-        seq: 3,
-        maleName: '이현규',
-        femaleName: '김영순',
-        weddingDt: '2019-12-08'
-      },
-      { divider: true, inset: true},
+     
     ],
     datePicker: {
       nowDate: new Date().toISOString().substr(0, 10),
@@ -110,24 +90,45 @@ export default {
   }),
   created() {
     this.service = {
-      searchWeddingList: (weddingDt) => {
+      searchWeddingList: () => {
         /* 수정필요 */
-        api.auth.post('/api/wedding/list', weddingDt)
+        api.setUserToken(this.getUserData.token)
+        api.auth.get('/api/weddings')
         .then(response => {
+          if (response !== "undefined") {
+            this.weddingList = []; // 목록 초기화
+            for (let i=0; i<response.data.length; i++) {
+              let tempObj = {
+                seq: response.data[i].sequence,
+                maleName: response.data[i].maleHost.name,
+                femaleName: response.data[i].femaleHost.name,
+                weddingDt: this.$moment(response.data[i].weddingDate).format("YYYY-MM-DD")
+              };
+              let divObj = {divider: true, inset: true};
+              this.weddingList.push(tempObj);
+              this.weddingList.push(divObj);
+            }
+          }
             return response;
+        }).catch(error => {
+          alert('error: '+error);
         });
       }
     }
   },
   mounted() {
-    //this.initialize();
+    this.initialize();
   },
   computed: {
     functionEvents () {
       return this.month ? this.monthFunctionEvents : this.dateFunctionEvents
     },
+    ...mapGetters(['getUserData'])
   },
   methods: {
+    initialize: function() {
+      this.service.searchWeddingList();
+    },
     moveCalculate: function(seq) {
       /* 수정필요 */
       this.$router.push({name:"WeddingCalculate", params:seq});

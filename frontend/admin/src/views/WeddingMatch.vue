@@ -64,7 +64,7 @@
                             <v-text-field
                             type="number"
                             label="식권가"
-                            v-model="weddingInfo.ticketPrice"
+                            v-model="weddingInfo.mealTicketPrice"
                             />
                         </v-flex>
                         <v-flex xs3></v-flex>
@@ -151,6 +151,7 @@
 <script>
 // import { mapActions } from 'vuex';
 import { api } from '@/utils/api'
+import { mapGetters } from 'vuex'
 
 export default {
     data() {
@@ -158,11 +159,10 @@ export default {
             maleId: '',
             femaleId: '',
             weddingInfo: {
-                maleSeq: 0,
-                femaleSeq: 0,
-                tickPrice: 0,   // 식권가
-                weddingDt: null,// 결혼일시
-                regDt: null     // 등록일시
+                maleHostSeq: 0,
+                femaleHostSeq: 0,
+                mealTicketPrice: 0,   // 식권가
+                weddingDt: null // 결혼일시
             },
             datePicker: {
                 nowDate: new Date().toISOString().substr(0, 10),
@@ -180,28 +180,42 @@ export default {
       functionEvents () {
         return this.month ? this.monthFunctionEvents : this.dateFunctionEvents
       },
+      ...mapGetters(['getUserData'])
     },
     created() {
         this.service = {
+            /* 사용자 정보 조회 */
             searchUser: (sFlag) => {
                 let userId = '';
-
                 if (sFlag === "M") {
                     userId = this.maleId;
                 } else if (sFlag === "W") {
                     userId = this.femaleId;
                 }
-
+                api.setUserToken(this.getUserData.token);
                 api.auth.get('/api/users/'+userId)
                 .then(response => {
-                    if (sFlag === "M") {
-                        this.weddingInfo.maleSeq = response.body.data.maleSeq;
-                    } else if (sFlag === "W") {
-                        this.weddingInfo.femaleSeq = response.body.data.femaleSeq;
+                    if (sFlag === "M") { // 신랑정보
+                        this.weddingInfo.maleHostSeq = response.data.sequence;
+                        this.maleName = response.data.name;
+                    } else if (sFlag === "W") { // 신부정보
+                        this.weddingInfo.femaleHostSeq = response.data.sequence;
+                        this.femaleName = response.data.name;
                     }   
                 })
                 .catch(e => {
                     alert('사용자 정보를 찾지 못했습니다.'+e);
+                });
+            },
+            /* 결혼 정보 생성 */
+            matchWedding: (weddingInfo) => {
+                api.setUserToken(this.getUserData.token);
+                return api.auth.post('/api/weddings/create', weddingInfo)
+                .then(response => {
+                    return response.data.sequence;
+                })
+                .catch(error => {
+                    alert('error: '+error);
                 });
             }
         }
@@ -212,14 +226,15 @@ export default {
         searchUser: function(id) {
             this.service.searchUser(id);
         },
-        /* WEDDING MATCH AND QR코드 생성 */
+        /* QR코드 생성 */
         generateQR: function() {
             this.weddingInfo.weddingDt = this.$moment(this.datePicker.nowDate + "T" + this.timePicker.time, this.$moment.ISO_8601);
-            this.weddingInfo.regDt = this.$moment(new Date(), this.$moment.ISO_8601);
-            this.matchWedding(this.weddingInfo)
+            this.service.matchWedding(this.weddingInfo)
             .then(response => {
-                this.$router.push({name:"QrGenerate", params: this.weddingInfo});
-                return response;
+                if (response !== "undefined") {
+                    this.weddingInfo.weddingSeq = response;
+                    this.$router.push({name:"QrGenerate", params: this.weddingInfo});
+                }
             });
         },
         dateFunctionEvents: function(date) {

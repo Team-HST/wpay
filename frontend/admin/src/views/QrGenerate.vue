@@ -17,34 +17,34 @@
                     <v-row style="text-align: center;">
                         <v-flex xs2></v-flex> 
                         <v-flex xs4>
-                        신랑
+                            <span class="title font-weight-bold">신랑</span>
                         </v-flex>
                         <v-flex xs4>
-                        김 영 훈
+                            <span class="title font-weight-bold">김 영 훈</span>
                         </v-flex>
                         <v-flex xs2></v-flex>
                     </v-row>
                     <v-row style="text-align: center;">
                         <v-flex xs3></v-flex>
                         <v-flex xs6>
-                            <qrcode value="this.maleQRInfo" :width="codeOptions.width" :options="codeOptions"></qrcode>
+                            <qrcode :value="this.maleQRInfo" :width="codeOptions.width" :options="codeOptions"></qrcode>
                         </v-flex>
                         <v-flex xs3></v-flex>
                     </v-row>
                     <v-row style="text-align: center;">
                         <v-flex xs2></v-flex>
                         <v-flex xs4>
-                        신부
+                            <span class="title font-weight-bold">신부</span>
                         </v-flex>
                         <v-flex xs4>
-                        이 한 울
+                            <span class="title font-weight-bold">이 한 울</span>
                         </v-flex>
                         <v-flex xs2></v-flex>
                     </v-row>
                     <v-row style="text-align: center;">
                         <v-flex xs3></v-flex>
                         <v-flex xs6>
-                            <qrcode value="this.femaleQRInfo" :width="codeOptions.width" :options="codeOptions"></qrcode>
+                            <qrcode :value="this.femaleQRInfo" :width="codeOptions.width" :options="codeOptions"></qrcode>
                         </v-flex>
                         <v-flex xs3></v-flex>
                     </v-row>
@@ -64,16 +64,8 @@ Vue.component('qrcode', vueQRCode);
 export default {
   data() {
     return {
-      maleQRInfo: [{
-        maleId: '',
-        maleSeq: 0,
-        WeddingDt: null
-      }],
-      femaleQRInfo: [{
-          femaleId: '',
-          femaleSeq: 0,
-          weddingDt: null
-      }],
+      maleQRInfo: '',
+      femaleQRInfo: '',
       codeOptions: {
         color: {
             dark: '',
@@ -84,10 +76,11 @@ export default {
     }
   },
   created() {
-    this.maleQRInfo[0].weddingDt = this.$route.params.weddingDt;
-    this.maleQRInfo[0].maleId = this.$route.params.maleId;
-    this.femaleQRInfo[0].weddingDt = this.$route.params.weddingDt;
-    this.femaleQRInfo[0].femaleId = this.$route.params.femaleId;
+    let weddingSeq = this.$route.params.weddingSeq;
+    let maleSeq = this.$route.params.maleHostSeq;
+    let femaleSeq = this.$route.params.femaleHostSeq;
+    this.maleQRInfo = '{"weddingSeq":' + weddingSeq + ',"hostSeq":' + maleSeq + '}';
+    this.femaleQRInfo = '{"weddingSeq":' + weddingSeq + ',"hostSeq":' + femaleSeq + '}';
   },
   methods: {
 

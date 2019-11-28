@@ -67,17 +67,6 @@ export default new Vuex.Store({
           alert('계정정보가 올바르지 않습니다.');
         }
       });
-    },
-    matchWedding: (params) => {
-      
-      return api.auth.post('/api/wedding/', params)
-      .then(response => {
-        return response;
-      })
-      .catch(error => {
-        alert('error: ', error);
-      });
-      
     }
   }
 });
