@@ -16,7 +16,6 @@
           >
             <template v-slot:activator="{ on }">
               <v-text-field
-
                 v-model="datePicker.nowDate"
                 readonly
                 v-on="on"
@@ -58,7 +57,7 @@
             </v-list-item-icon>
 
             <v-list-item-content>
-              <v-list-item-title class="font-weight-bold" v-html="wedding.weddingDt"></v-list-item-title>
+              <v-list-item-title class="font-weight-bold pink lighten-2" v-html="wedding.weddingDt"></v-list-item-title>
               <v-list-item-subtitle v-html="'신 랑: ' + wedding.maleName"></v-list-item-subtitle>
               <v-list-item-subtitle v-html="'신 부: ' + wedding.femaleName"></v-list-item-subtitle>
             </v-list-item-content>

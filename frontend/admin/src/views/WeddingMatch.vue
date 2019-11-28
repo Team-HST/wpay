@@ -22,14 +22,14 @@
                             <v-text-field
                             type="text"
                             label="아이디"
-                            v-model="weddingInfo.maleId"
+                            v-model="maleId"
                             />
                         </v-flex>
                         <v-flex xs3 style="text-align:center;">
                             <v-btn
                             class="font-weight-bold white--text"
                             color="pink lighten-2"
-                            @click="searchUser(weddingInfo.maleId)"
+                            @click="searchUser('M')"
                             >
                             검색
                             </v-btn>
@@ -43,14 +43,14 @@
                             <v-text-field
                             type="text"
                             label="아이디"
-                            v-model="weddingInfo.femaleId"
+                            v-model="femaleId"
                             />
                         </v-flex>
                         <v-flex xs3 style="text-align:center;">
                             <v-btn
                             class="font-weight-bold white--text"
                             color="pink lighten-2"
-                            @click="searchUser(weddingInfo.femaleId)"
+                            @click="searchUser('W')"
                             >
                             검색
                             </v-btn>
@@ -149,8 +149,8 @@
 </template>
 
 <script>
-//import { mapActions } from 'vuex';
-//import { api } from '@/utils/api'
+// import { mapActions } from 'vuex';
+import { api } from '@/utils/api'
 
 export default {
     data() {
@@ -183,13 +183,26 @@ export default {
     },
     created() {
         this.service = {
-            searchUser: () => {
-//                console.log('searchUser();');
-//                api.auth.post('/api/', id)
-//                .then(response => {
-                //console.log('id: ' + id);
-//                 })
-                // .catch(e => {});
+            searchUser: (sFlag) => {
+                let userId = '';
+
+                if (sFlag === "M") {
+                    userId = this.maleId;
+                } else if (sFlag === "W") {
+                    userId = this.femaleId;
+                }
+
+                api.auth.get('/api/users/'+userId)
+                .then(response => {
+                    if (sFlag === "M") {
+                        this.weddingInfo.maleSeq = response.body.data.maleSeq;
+                    } else if (sFlag === "W") {
+                        this.weddingInfo.femaleSeq = response.body.data.femaleSeq;
+                    }   
+                })
+                .catch(e => {
+                    alert('사용자 정보를 찾지 못했습니다.'+e);
+                });
             }
         }
     },
