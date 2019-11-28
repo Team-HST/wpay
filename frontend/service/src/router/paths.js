@@ -39,7 +39,14 @@
     path: '/remittance',
     name: 'Remittance',
     view: 'Remittance',
-    viewName: '송금 QR페이지',
+    viewName: '송금페이지',
+    props: true
+  },
+  {
+    path: '/meal',
+    name: 'Meal',
+    view: 'Meal',
+    viewName: '식권QR페이지',
     props: true
   }
 ]
