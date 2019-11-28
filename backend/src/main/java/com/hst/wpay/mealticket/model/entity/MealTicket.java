@@ -30,5 +30,8 @@ public class MealTicket {
   
   @Column(name="WEDDING_SEQ")
   private long weddingSeq;
-  
+
+  public boolean isExpired() {
+    return "Y".equals(this.useCheck) || this.dateTime.isAfter(LocalDateTime.now().plusDays(1));
+  }
 }
