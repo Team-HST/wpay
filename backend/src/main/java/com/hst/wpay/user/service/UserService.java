@@ -122,7 +122,7 @@ public class UserService implements UserDetailsService {
 		user.setPassword(passwordEncoder.encode(request.getPassword()));
 		user.setName(request.getName());
 		user.setRoles(Collections.singleton(Role.USER.getAuthority()));
-
+		user.setBankAccountAuthorizedYn("N");
 		userRepository.save(user);
 
 		return SignupResponse.builder()
