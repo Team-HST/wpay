@@ -95,6 +95,12 @@ export default new Vuex.Store({
             alert('계정정보가 올바르지 않습니다.');
           }
         });
+    },
+    /**
+     * 혼주 정보 조회
+     */
+    findHostData: () => {
+      
     }
   }
 });

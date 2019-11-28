@@ -38,6 +38,7 @@
                 <v-btn
                   class="font-weight-bold white--text"
                   color="green"
+                  @click="this.sendHostRemittance"
                 >
                   송금하기
                 </v-btn>
@@ -63,6 +64,20 @@
   import { mapGetters, mapMutations } from 'vuex';
 
   export default {
+    data() {
+      return {
+        service: {}
+      }
+    },
+    created() {
+      this.service = {
+        /**
+         * 축의금 송금 API
+         */
+        sendHostRemittance: () => {
+        }
+      }
+    },
     mounted() {
       // 팝업이 켜져있는 경우 닫음
       if (this.getAccountDialog) {
@@ -70,11 +85,10 @@
       }
     },
     computed: {
-      ...mapGetters(['getAccountDialog'])
+      ...mapGetters(['getAccountDialog', 'getHostData'])
     },
     methods: {
       ...mapMutations(['changeAccountDialog']),
-
       /**
        * @description 계좌송금 팝업창 종료 이벤트
        */
@@ -82,6 +96,14 @@
         if (confirm('계좌송금을 취소하시겠습니까?')) {
           this.changeAccountDialog();
           this.$router.push('/main');
+        }
+      },
+      /**
+       * @description 혼주 계좌 송금
+       */
+      sendHostRemittance: function() {
+        if (confirm('혼주에게 축의금을 송금하시겠습니까?')) {
+          console.log('송금 API');
         }
       }
     }

@@ -4,13 +4,13 @@
     <div class="text-center">
       <v-btn
         class="font-weight-bold white--text ml-2"
-        color="green"
+        color="pink lighten-2"
         @click="testDialogEvent"
       > 테스트
       </v-btn>
       <v-btn
         class="font-weight-bold white--text ml-2"
-        color="green"
+        color="pink lighten-2"
         @click="moveMainPage"
       > 취소
       </v-btn>
@@ -19,11 +19,12 @@
 </template>
 
 <script>
-  import { mapMutations } from 'vuex';
+  import { mapMutations, mapActions } from 'vuex';
 
   export default {
     methods: {
-      ...mapMutations(['setHostData', 'changeAccountDialog']),
+      ...mapMutations(['changeAccountDialog']),
+      ...mapActions(['findHostData']),
       testDialogEvent: function() {
         this.changeAccountDialog();
       },
@@ -40,7 +41,7 @@
       onDecode: function (decodedString) {
         console.log(decodedString);
         // 혼주 정보 입력 (계좌, 기본정보)
-        // this.setHostData();
+        // this.findHostData();
         this.changeAccountDialog();
       },
       /**
