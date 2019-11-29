@@ -99,7 +99,7 @@ public class UserService implements UserDetailsService {
 			throw new SigninFailException(ResponseDescription.SIGNIN_FAIL_INVALID_PASSWORD, "비밀번호가 다릅니다.");
 		}
 		User user = optionalUser.get();
-		if (!user.isBankAccountAuthorized()) {
+		if (user.isNotAdmin() && !user.isBankAccountAuthorized()) {
 			SigninFailException e = new SigninFailException(ResponseDescription.SIGNIN_FAIL_BANK_ACCOUNT_UNAUTHRIZED, "비밀번호가 다릅니다.");
 			e.addExtraData("userSequence", user.getSequence());
 			throw e;

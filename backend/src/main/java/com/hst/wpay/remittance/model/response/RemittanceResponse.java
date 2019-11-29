@@ -1,5 +1,6 @@
 package com.hst.wpay.remittance.model.response;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.hst.wpay.remittance.model.entity.Remittance;
 import com.hst.wpay.user.model.response.UserResponse;
 import lombok.Getter;
@@ -16,6 +17,7 @@ public class RemittanceResponse {
 	private UserResponse host;
 	private String comment;
 	private long amount;
+	@JsonFormat(pattern = "yyyy-MM-dd kk:mm:ss")
 	private LocalDateTime remittanceAt;
 
 	public static RemittanceResponse of(Remittance remittance) {
