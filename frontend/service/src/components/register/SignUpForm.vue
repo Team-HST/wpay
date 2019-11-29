@@ -32,12 +32,12 @@
     created() {
       this.service = {
         userSingUp: () => {
-          this.$api.basic.post("/api/users/signup", this.user)
+          this.$http.post("/api/users/signup", this.user)
             .then(response => {
               alert("회원가입이 정상적으로 처리되었습니다.\n계좌인증페이지로 이동합니다.");
               
               // 계좌 인증 페이지 이동
-              this.$api.basic.get(`/api/users/${response.data.userResponse.sequence}/account-authentication`)
+              this.$http.get(`/api/users/${response.data.userResponse.sequence}/account-authentication`)
                 .then(response => {
                   location.href = response.data;
                   // window.open(response.data, "_blank");

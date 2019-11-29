@@ -87,7 +87,7 @@
           }
           console.log(remittanceData);
 
-          this.$api.auth.post('/api/remittance/transfer', remittanceData)
+          this.$http.post('/api/remittance/transfer', remittanceData)
             .then(() => {
               console.log('송금');
               this.changeIsAccountDialog();

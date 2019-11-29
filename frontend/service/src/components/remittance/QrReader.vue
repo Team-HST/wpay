@@ -32,6 +32,7 @@
       ...mapMutations(['changeIsAccountDialog']),
       ...mapActions(['findHostData']),
       testDialogEvent: function() {
+        this.findHostData({hostSeq: 2});
         this.changeIsAccountDialog();
       },
       /**
