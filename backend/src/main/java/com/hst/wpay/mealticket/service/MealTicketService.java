@@ -5,6 +5,7 @@ import com.hst.wpay.common.ReportableException;
 import com.hst.wpay.common.type.ResponseDescription;
 import com.hst.wpay.mealticket.model.entity.MealTicket;
 import com.hst.wpay.mealticket.model.request.MealTicketIssueRequest;
+import com.hst.wpay.mealticket.model.request.MealTicketUseRequest;
 import com.hst.wpay.mealticket.repository.MealticketRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,14 +37,20 @@ public class MealTicketService {
     return mealticketRepository.save(mealticket);
   }
   
-  public void useMealTicket(Long mealTicketSequence) {
-    MealTicket mealTicket = mealticketRepository.findById(mealTicketSequence)
+  public void useMealTicket(MealTicketUseRequest request) {
+    MealTicket mealTicket = mealticketRepository.findById(request.getMealTicketSequence())
             .orElseThrow(() ->  new ReportableException(ResponseDescription.MEALTICKET_EXPIRATION, String.format(
-            "존재하지 않는 식권입니다. 식권 SEQ: %d", mealTicketSequence)));
+            "존재하지 않는 식권입니다. 식권 SEQ: %d", request.getMealTicketSequence())));
+
+    if (mealTicket.getWeddingSeq() != request.getWeddingSequence()) {
+      throw new ReportableException(ResponseDescription.MEALTICKET_INVALID_USE, String.format(
+              "다른 결혼에서 발급된 식권입니다.. 식권 SEQ: %d, 결혼 SEQ: %d, 요청 결혼 SEQ: %d",
+              request.getMealTicketSequence(), mealTicket.getWeddingSeq(), request.getWeddingSequence()));
+    }
 
     if (mealTicket.isExpired()) {
       throw new ReportableException(ResponseDescription.MEALTICKET_EXPIRATION, String.format(
-              "기간이 만료된 식권입니다. 식권 SEQ: %d", mealTicketSequence));
+              "기간이 만료된 식권입니다. 식권 SEQ: %d", request.getMealTicketSequence()));
     }
 
     mealTicket.setUseCheck("Y");
