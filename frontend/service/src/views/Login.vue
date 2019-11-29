@@ -1,12 +1,13 @@
 <template>
   <v-content>
     <v-container
-      class="fill-height"
+      class="fill-height" 
       fluid
-    >
+    > 
       <v-row
         align="center"
         justify="center"
+        no-gutters
       >
         <v-col
           cols="12"
@@ -28,8 +29,6 @@
   </v-content>
 </template>
 <script>
-export default {
-}
+  export default {
+  }
 </script>
-<style>
-</style>

@@ -1,12 +1,15 @@
 <template>
   <div>
     <layout-header></layout-header>
-    <v-content class="pa-0">
+    <v-content>
       <v-container
+        class="mt-8 fill-height grid-list-xl"
+        fluid
       >
         <v-row
           align="center"
           justify="center"
+          no-gutters
         >
           <v-col
             cols="12"
@@ -16,10 +19,10 @@
           >
             <material-card
               color="pink lighten-2"
-              title="W-Pay"
-              text="메뉴를 선택하여 주세요."
+              title="식권 QR코드"
+              text="식사시 직원에게 보여주세요."
             >
-              <main-menu></main-menu>
+              <meal-qrCode></meal-qrCode>
             </material-card>
           </v-col>
         </v-row>
@@ -29,7 +32,6 @@
 </template>
 
 <script>
-export default {
-    
-}
+  export default {
+  }
 </script>

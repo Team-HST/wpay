@@ -9,6 +9,7 @@
         <v-row
           align="center"
           justify="center"
+          no-gutters
         >
           <v-col
             cols="12"
@@ -28,11 +29,12 @@
       </v-container>
 
       <remittance-hostAccountDialog></remittance-hostAccountDialog>
+      <remittance-mealIssueDialog></remittance-mealIssueDialog>
     </v-content>
   </div>
 </template>
 
 <script>
-export default {
-}
+  export default {
+  }
 </script>

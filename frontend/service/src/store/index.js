@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { api } from '@/utils/api'
-import { common } from '@/utils/common'
+import $http from 'axios'
 import createPersistedState from 'vuex-persistedstate'
 
 Vue.use(Vuex);
@@ -11,19 +10,12 @@ export default new Vuex.Store({
     createPersistedState()
   ],
   state: {
-    user: {
-      id: '',
-      name: '',
-      token: ''
-    },
-    host: {
-      name: '',
-      accountNum: '',
-      bankCode: ''
-    },
+    user: {},
+    host: {},
     views: {
       remittance: {
-        isDialog: false
+        isAccountDialog: false,
+        isMealDialog: false
       }
     }
   },
@@ -43,8 +35,14 @@ export default new Vuex.Store({
     /**
      * @description 혼주 송금 계좌 다이얼로그 표출 여부 조회
      */
-    getAccountDialog: (state) => {
-      return state.views.remittance.isDialog;
+    getIsAccountDialog: (state) => {
+      return state.views.remittance.isAccountDialog;
+    },
+    /**
+     * @description 식권 발급 다이얼로그 여부 조회
+     */
+    getIsMealDialog: (state) => {
+      return state.views.remittance.isMealDialog;
     }
   },
   mutations: {
@@ -53,12 +51,6 @@ export default new Vuex.Store({
      */
     setUserData: (state, data) => {
       state.user = data;
-      if (common.isNotBlank(data)) {
-        // api token 전달
-        api.setUserToken(data.token);
-      } else {
-        api.setUserToken(null);
-      }
     },
     /**
      * @description 혼주 정보 삽입
@@ -69,8 +61,14 @@ export default new Vuex.Store({
     /**
      * @description 혼주 송금 계좌 다이얼로그 표출 여부 변경
      */
-    changeAccountDialog: (state) => {
-      state.views.remittance.isDialog = !state.views.remittance.isDialog;
+    changeIsAccountDialog: (state) => {
+      state.views.remittance.isAccountDialog = !state.views.remittance.isAccountDialog;
+    },
+    /**
+     * @description 식권 발급 다이얼로그 표출 여부 변경
+     */
+    changeIsMealDialog: (state) => {
+      state.views.remittance.isMealDialog = !state.views.remittance.isMealDialog;
     }
   },
   actions: {
@@ -78,19 +76,29 @@ export default new Vuex.Store({
      * @description 유저 로그인 API
      */
     userSignIn: (context, user) => {
-      return api.basic.post('/api/users/signin', user)
+      return $http.post('/api/users/signin', user)
         .then(response => {
           let user = {};
           user.id = response.data.user.id;
           user.name = response.data.user.name;
+          user.sequence = response.data.user.sequence;
           user.token = response.data.token;
           context.commit('setUserData', user);
         })
         .catch(error => {
-          if (error.response.data.code === 101) {
+          const errorData = error.response.data;
+          if (errorData.code === 1011) {
             alert('존재하지 않는 사용자입니다.');
-          } else if (error.response.data.code === 102) {
+          } else if (errorData.code === 1012) {
             alert('비밀번호가 올바르지 않습니다.');
+          } else if (errorData.code === 1013) {
+            alert('계좌등록이 되어있지 않습니다. \n인증 페이지로 이동합니다.');
+            // 계좌 인증 페이지 이동
+            $http.get(`/api/users/${errorData.extraData.userSequence}/account-authentication`)
+            .then(response => {
+              location.href = response.data;
+              // window.open(response.data);
+            });
           } else {
             alert('계정정보가 올바르지 않습니다.');
           }
@@ -99,8 +107,16 @@ export default new Vuex.Store({
     /**
      * 혼주 정보 조회
      */
-    findHostData: () => {
-      
+    findHostData: (context, data) => {
+      $http.get(`/api/users/${data.hostSeq}`)
+        .then(response => {
+          response.data.weddingSequence = data.weddingSeq;
+          context.commit('setHostData', response.data);
+        })
+        .catch(error => {
+          alert('일시적인 오류입니다.\n관리자에게 문의하여 주세요.');
+          console.log(error);
+        });
     }
   }
 });

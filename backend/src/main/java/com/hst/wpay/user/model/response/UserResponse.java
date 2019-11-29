@@ -3,8 +3,6 @@ package com.hst.wpay.user.model.response;
 import com.hst.wpay.user.model.entity.User;
 import lombok.Getter;
 
-import java.util.Set;
-
 /**
  * @author dlgusrb0808@gmail.com
  */
@@ -14,6 +12,9 @@ public class UserResponse {
 	private long sequence;
 	private String id;
 	private String name;
+	private boolean bankAccountAuthorized;
+	private String bankName;
+	private String bankAccountNumber;
 
 	/***
 	 * 사용자 응답정보 생성
@@ -25,6 +26,11 @@ public class UserResponse {
 		response.sequence = user.getSequence();
 		response.id = user.getId();
 		response.name = user.getName();
+		response.bankAccountAuthorized = user.isBankAccountAuthorized();
+		if (user.isBankAccountAuthorized()) {
+			response.bankName = user.getBankAccount().getBankName();
+			response.bankAccountNumber = user.getBankAccount().getAccountNumber();
+		}
 		return response;
 	}
 }

@@ -4,10 +4,15 @@ import store from '@/store/index'
 import router from '@/router'
 import lodash from 'lodash'
 import { common } from '@/utils/common'
-import { api } from '@/utils/api'
+import oauth from '@/utils/oauth'
+import axios from 'axios'
 import VueQrcodeReader from "vue-qrcode-reader";
+import VueQRCodeComponent from 'vue-qrcode-component'
 
+// QR 리더 설정
 Vue.use(VueQrcodeReader);
+// QR 컴포넌트 설정
+Vue.component('qr-code', VueQRCodeComponent);
 
 // Components
 import './components'
@@ -15,7 +20,7 @@ import vuetify from './plugins/vuetify';
 
 Vue.config.productionTip = false
 // axios 설정
-Vue.prototype.$api = api;
+Vue.prototype.$http = axios;
 // lodash 설정
 Vue.prototype._ = lodash;
 // 공통 util 설정
@@ -25,5 +30,6 @@ new Vue({
   store,
   router,
   vuetify,
+  oauth,
   render: h => h(App)
 }).$mount('#app')

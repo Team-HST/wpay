@@ -10,9 +10,9 @@ import {common} from '@/utils/common'
 
 // Components
 import './components'
-
 import vuetify from './plugins/vuetify';
 
+Vue.config.productionTip = false
 // axios 설정
 Vue.prototype.$http = axios;
 Vue.prototype._ = lodash;

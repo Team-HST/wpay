@@ -36,6 +36,7 @@ public class GlobalExceptionHandler {
 				.code(e.getDescription().getCode())
 				.responseMessage(e.getDescription().getMessage())
 				.responseCode(e.getDescription().toString())
+				.extraData(e.getExtraData())
 				.build();
 	}
 

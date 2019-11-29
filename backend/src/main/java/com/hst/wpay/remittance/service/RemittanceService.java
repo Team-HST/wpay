@@ -1,5 +1,6 @@
 package com.hst.wpay.remittance.service;
 
+import com.google.common.base.Optional;
 import com.hst.wpay.bankaccount.model.entity.BankAccount;
 import com.hst.wpay.bankaccount.service.BankAccountService;
 import com.hst.wpay.openbanking.OpenBankingService;
@@ -66,11 +67,39 @@ public class RemittanceService {
 
 	/***
 	 * 사용자 축의금 지출내역
-	 * @param userSeq 사용자 SEQ
+	 * @param userSequence 사용자 SEQ
 	 * @return 사용자 축의금 지출내역
 	 */
-	public List<RemittanceResponse> getUserRemittanceHistories(Long userSeq) {
-		return remittanceRepository.findByGuest_Sequence(userSeq).stream()
+	public List<RemittanceResponse> getUserRemittanceHistories(Long userSequence) {
+		return remittanceRepository.findByGuest_Sequence(userSequence).stream()
 				.map(RemittanceResponse::of).collect(Collectors.toList());
 	}
+
+	/***
+	 * 결혼 축의금 송금내역
+	 * @param weddingSequence 결혼 SEQ
+	 * @return 결혼 축의금 송금내역
+	 */
+	public List<RemittanceResponse> getWeddingRemittanceHistories(Long weddingSequence) {
+		return remittanceRepository.findByWeddingSequence(weddingSequence).stream()
+				.map(RemittanceResponse::of).collect(Collectors.toList());
+	}
+
+	/***
+	 * 결혼 총 축의금 계산
+	 * @param weddingSequence 결혼 SEQ
+	 * @return 총 축의금
+	 */
+	public long getTotalAmountByWedding(Long weddingSequence) {
+		return Optional.fromNullable(remittanceRepository.findTotalAmountByWeddingSequence(weddingSequence)).or(0L);
+	}
+
+	/***
+	 * 혼주의 총 축의금 계산
+	 * @param hostSequence 혼주 SEQ
+	 * @return 총 축의금
+	 */
+	public long getTotalAmountByHost(Long hostSequence, Long weddingSequence) {
+		return Optional.fromNullable(remittanceRepository.findTotalAmountByHostSequence(hostSequence, weddingSequence)).or(0L);
+	}	
 }

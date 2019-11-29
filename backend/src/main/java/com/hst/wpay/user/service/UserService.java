@@ -85,18 +85,23 @@ public class UserService implements UserDetailsService {
 	 * @return 로그인 결과
 	 */
 	public SigninResponse signin(SigninRequest request) {
-		Optional<User> user = userRepository.findById(request.getId());
-		if (!user.isPresent()) {
+		Optional<User> optionalUser = userRepository.findById(request.getId());
+		if (!optionalUser.isPresent()) {
 			throw new SigninFailException(ResponseDescription.SIGNIN_FAIL_USER_NOT_FOUND,
 					String.format("사용자를 찾을 수 없습니다. id: %s", request.getId()));
 		}
-
-		if (!passwordEncoder.matches(request.getPassword(), user.get().getPassword())) {
+		if (!passwordEncoder.matches(request.getPassword(), optionalUser.get().getPassword())) {
 			throw new SigninFailException(ResponseDescription.SIGNIN_FAIL_INVALID_PASSWORD, "비밀번호가 다릅니다.");
 		}
+		User user = optionalUser.get();
+		if (!user.isBankAccountAuthorized()) {
+			SigninFailException e = new SigninFailException(ResponseDescription.SIGNIN_FAIL_BANK_ACCOUNT_UNAUTHRIZED, "비밀번호가 다릅니다.");
+			e.addExtraData("userSequence", user.getSequence());
+			throw e;
+		}
 
-		UserResponse userResponse = UserResponse.of(user.get());
-		String token = jwtService.createToken(user.get().getSequence(), userResponse);
+		UserResponse userResponse = UserResponse.of(optionalUser.get());
+		String token = jwtService.createToken(optionalUser.get().getSequence(), userResponse);
 		return SigninResponse.builder().token(token).user(userResponse).build();
 	}
 
@@ -117,7 +122,7 @@ public class UserService implements UserDetailsService {
 		user.setPassword(passwordEncoder.encode(request.getPassword()));
 		user.setName(request.getName());
 		user.setRoles(Collections.singleton(Role.USER.getAuthority()));
-
+		user.setBankAccountAuthorizedYn("N");
 		userRepository.save(user);
 
 		return SignupResponse.builder()
@@ -171,7 +176,7 @@ public class UserService implements UserDetailsService {
 		logger.info("계좌인증 3단계 - 인증된 계좌정보 등록");
 
 		OpenBankingAccountResponse response = openBankingService.getBankAccount(user.getBankAccessToken(), user.getBankUserSequenceNumber());
-		bankAccountService.createUserBankAccount(user.getSequence(), response);
+		bankAccountService.createUserBankAccount(user, response);
 	}
 
 	/***

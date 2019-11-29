@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.List;
 
@@ -68,7 +69,7 @@ public class UserController {
 	@GetMapping("account-authentication-callback")
 	public ResponseEntity<String> accountAuthenticationCallback(OpenBankingAuthorizedInformation request) {
 		userService.processAssignUserOpenBankingAccount(request);
-		return null;
+		return ResponseEntity.ok("<script type=\"text/javascript\">alert('계좌 인증처리가 완료되었습니다. /n로그인 페이지로 이동합니다.');location.href = 'http://localhost:8080/login'</script>");
 	}
 
 	@ApiOperation(value = "사용자 목록 조회", notes = "전체 사용자 목록을 제공합니다.")
@@ -81,12 +82,21 @@ public class UserController {
 		return ResponseEntity.ok(userResponses);
 	}
 
-	@ApiOperation(value = "사용자 조회", notes = "사용자를 제공합니다.")
+	@ApiOperation(value = "사용자 조회", notes = "사용자 SEQ로 사용자를 제공합니다.")
 	@ApiResponses({
 			@ApiResponse(code = 200, message = "성공")
 	})
-	@GetMapping("{userId}")
-	public ResponseEntity<UserResponse> getUser(@PathVariable String userId) {
+	@GetMapping("{userSequence}")
+	public ResponseEntity<UserResponse> getUserBySequence(@PathVariable long userSequence) {
+		return ResponseEntity.ok(UserResponse.of(userService.getUser(userSequence)));
+	}
+
+	@ApiOperation(value = "사용자 조회", notes = "사용자 ID로 사용자를 제공합니다.")
+	@ApiResponses({
+			@ApiResponse(code = 200, message = "성공")
+	})
+	@GetMapping("ids/{userId}")
+	public ResponseEntity<UserResponse> getUserByUserId(@PathVariable String userId) {
 		return ResponseEntity.ok(UserResponse.of(userService.getUser(userId)));
 	}
 

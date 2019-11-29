@@ -9,6 +9,7 @@
         <v-row
           align="center"
           justify="center"
+          no-gutters
         >
           <v-col
             cols="12"
@@ -31,11 +32,11 @@
 </template>
 
 <script>
-export default {
-  data() {
-    return {
-      tab: null
+  export default {
+    data() {
+      return {
+        tab: null
+      }
     }
   }
-}
 </script>

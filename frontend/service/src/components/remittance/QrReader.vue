@@ -1,6 +1,6 @@
 <template>
   <div>
-    <qrcode-stream class="pa-10" :track="repaint" @decode="onDecode"></qrcode-stream>
+    <qrcode-stream class="pa-10" :camera="camera" :track="repaint" @decode="onDecode"></qrcode-stream>
     <div class="text-center">
       <v-btn
         class="font-weight-bold white--text ml-2"
@@ -22,11 +22,18 @@
   import { mapMutations, mapActions } from 'vuex';
 
   export default {
+    data() {
+      return {
+        camera: 'auto',
+        service: {}
+      }
+    },
     methods: {
-      ...mapMutations(['changeAccountDialog']),
+      ...mapMutations(['changeIsAccountDialog']),
       ...mapActions(['findHostData']),
       testDialogEvent: function() {
-        this.changeAccountDialog();
+        this.findHostData({hostSeq: 2, weddingSeq: 16});
+        this.changeIsAccountDialog();
       },
       /**
        * @description 메인 페이지 이동
@@ -38,11 +45,18 @@
        * @description QR코드 디코딩 문자열
        *
        */
-      onDecode: function (decodedString) {
-        console.log(decodedString);
+      onDecode: function (content) {
+        const hostData = JSON.parse(content);
         // 혼주 정보 입력 (계좌, 기본정보)
-        // this.findHostData();
-        this.changeAccountDialog();
+        this.findHostData(hostData)
+          .then(() => {
+            // 송금 다이얼로그 표출
+            this.changeIsAccountDialog();
+          });
+        this.turnCameraOff();
+      },
+      turnCameraOff () {
+        this.camera = 'off'
       },
       /**
        * @description 리더기 색상 변경
