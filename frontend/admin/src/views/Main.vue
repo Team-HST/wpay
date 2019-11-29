@@ -1,7 +1,31 @@
 <template>
-    <div>
-        <layout-header></layout-header>
-    </div>
+  <div>
+    <layout-header></layout-header>
+    <v-content class="pa-0">
+      <v-container
+      >
+        <v-row
+          align="center"
+          justify="center"
+        >
+          <v-col
+            cols="12"
+            lg="6"
+            sm="8"
+            md="8"
+          >
+            <material-card
+              color="pink lighten-2"
+              title="W-Pay"
+              text="메뉴를 선택하여 주세요."
+            >
+              <main-menu></main-menu>
+            </material-card>
+          </v-col>
+        </v-row>
+      </v-container> 
+    </v-content>
+  </div>
 </template>
 
 <script>

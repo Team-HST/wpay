@@ -115,8 +115,8 @@ public class WeddingService {
 		long totalAmount = remittanceService.getTotalAmountByWedding(wedding.getSequence());
 		int totalMealTicketCount = mealTicketService.getTotalIssuedMealTicketCount(wedding.getSequence());
 		long totalMealPrice = totalMealTicketCount * wedding.getMealTicketPrice();
-		long maleHostTotalAmount = remittanceService.getTotalAmountByHost(wedding.getMaleHost().getSequence());
-		long femaleHostTotalAmount = remittanceService.getTotalAmountByHost(wedding.getFemaleHost().getSequence());
+		long maleHostTotalAmount = remittanceService.getTotalAmountByHost(wedding.getMaleHost().getSequence(), wedding.getSequence());
+		long femaleHostTotalAmount = remittanceService.getTotalAmountByHost(wedding.getFemaleHost().getSequence(), wedding.getSequence());
 
 		logger.info("{}", createReceiptString(wedding, totalAmount, totalMealTicketCount, totalMealPrice,
 				maleHostTotalAmount, femaleHostTotalAmount));

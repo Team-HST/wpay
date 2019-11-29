@@ -23,27 +23,41 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters, mapMutations } from 'vuex';
+
 export default {
   data() {
     return {
       user: {
         id: null,
         password: null,
+        token: null
       }
     }
   },
+  mounted() {
+    // 사용자 정보 초기화
+    this.setUserData({});
+  },
+  computed: {
+    ...mapGetters(['getUserData'])
+  },
   methods: {
     ...mapActions(['userSignIn']),
+    ...mapMutations(['setUserData']),
+
     loginUser: function() {
-      this.userSignIn(this.user).then(response => {
-        if (response !== undefined) {
-            this.fnGoMain();
-        }  
-      });
+      this.userSignIn(this.user)
+        .then((token) => {
+        if (this.common.isNotBlank(this.getUserData.token)) {
+          this.user.token = token;
+          this.setUserData(this.user);
+          this.moveMain();
+        }
+      })
       // this.fnGoMain();
     },
-    fnGoMain() {
+    moveMain: function() {
         this.$router.push({name:"Main"});
     }
   }

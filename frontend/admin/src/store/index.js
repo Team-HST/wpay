@@ -1,10 +1,14 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import { api } from '@/utils/api'
+import createPersistedState from 'vuex-persistedstate'
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
+  plugins: [
+    createPersistedState()
+  ],
   state: {
     user: {
       id: '',
@@ -63,17 +67,6 @@ export default new Vuex.Store({
           alert('계정정보가 올바르지 않습니다.');
         }
       });
-    },
-    matchWedding: (params) => {
-      
-      return api.auth.post('/api/wedding/', params)
-      .then(response => {
-        return response;
-      })
-      .catch(error => {
-        alert('error: ', error);
-      });
-      
     }
   }
 });

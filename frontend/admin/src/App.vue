@@ -23,7 +23,4 @@ export default {
 .v-datatable thead th.column.sortable i {
   vertical-align: unset;
 }
-.v-application {
-  font-family: "KoPub Dotum" !important;
-}
 </style>
