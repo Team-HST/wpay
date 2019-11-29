@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { api } from '@/utils/api'
-import axios from 'axios'
+import $http from 'axios'
 import createPersistedState from 'vuex-persistedstate'
 
 Vue.use(Vuex);
@@ -77,14 +76,13 @@ export default new Vuex.Store({
      * @description 유저 로그인 API
      */
     userSignIn: (context, user) => {
-      return api.basic.post('/api/users/signin', user)
+      return $http.post('/api/users/signin', user)
         .then(response => {
           let user = {};
           user.id = response.data.user.id;
           user.name = response.data.user.name;
           user.sequence = response.data.user.sequence;
           user.token = response.data.token;
-          axios.defaults.headers.common['Authorization'] = 'Bearer ' + user.token;
           context.commit('setUserData', user);
         })
         .catch(error => {
@@ -96,7 +94,7 @@ export default new Vuex.Store({
           } else if (errorData.code === 1013) {
             alert('계좌등록이 되어있지 않습니다. \n인증 페이지로 이동합니다.');
             // 계좌 인증 페이지 이동
-            api.basic.get(`/api/users/${errorData.extraData.userSequence}/account-authentication`)
+            $http.get(`/api/users/${errorData.extraData.userSequence}/account-authentication`)
             .then(response => {
               location.href = response.data;
               // window.open(response.data);
@@ -110,14 +108,14 @@ export default new Vuex.Store({
      * 혼주 정보 조회
      */
     findHostData: (context, data) => {
-      api.auth.get(`/api/users/${data.hostSeq}`)
+      $http.get(`/api/users/${data.hostSeq}`)
         .then(response => {
           response.data.weddingSequence = data.weddingSeq;
           context.commit('setHostData', response.data);
         })
         .catch(error => {
-          console.log(error);
           alert('일시적인 오류입니다.\n관리자에게 문의하여 주세요.');
+          console.log(error);
         });
     }
   }

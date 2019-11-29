@@ -32,12 +32,12 @@
     created() {
       this.service = {
         userSingUp: () => {
-          this.$api.basic.post("/api/users/signup", this.user)
+          this.$http.post("/api/users/signup", this.user)
             .then(response => {
               alert("회원가입이 정상적으로 처리되었습니다.\n계좌인증페이지로 이동합니다.");
               
               // 계좌 인증 페이지 이동
-              this.$api.basic.get(`/api/users/${response.data.userResponse.sequence}/account-authentication`)
+              this.$http.get(`/api/users/${response.data.userResponse.sequence}/account-authentication`)
                 .then(response => {
                   location.href = response.data;
                   // window.open(response.data, "_blank");
@@ -48,7 +48,7 @@
               if (error.response.data.code === 1021) {
                 alert("이미 존재하는 아이디입니다.\n다른 아이디를 사용하여주세요.");
               } else {
-                alert("일시적인 오류입니다.\n다시 시도하여 주세요.");
+                alert("일시적인 오류입니다.\n관리자에게 문의하여 주세요.");
               }
             });
         }
