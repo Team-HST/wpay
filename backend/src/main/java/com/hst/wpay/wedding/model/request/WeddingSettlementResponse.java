@@ -18,4 +18,5 @@ public class WeddingSettlementResponse {
 	private long totalMealPrice;
 	private long remainingAmount;
 	private long mealTicketPrice;
+	private boolean isSettled;
 }

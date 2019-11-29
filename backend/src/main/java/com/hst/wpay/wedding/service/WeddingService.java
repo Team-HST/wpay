@@ -131,6 +131,7 @@ public class WeddingService {
 				.totalMealPrice(totalMealPrice)
 				.mealTicketPrice(wedding.getMealTicketPrice())
 				.remainingAmount(totalAmount - totalMealPrice)
+				.isSettled(wedding.isSettled())
 				.build();
 	}
 	/***
