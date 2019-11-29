@@ -1,5 +1,6 @@
 package com.hst.wpay.remittance.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.hst.wpay.remittance.model.request.TransferMoneyRequest;
 import com.hst.wpay.user.model.entity.User;
 import lombok.Data;
@@ -38,6 +39,7 @@ public class Remittance {
 	private Long amount;
 
 	@Column(name = "remittance_dt")
+	@JsonFormat(pattern = "yyyy-MM-dd kk:mm:ss")
 	private LocalDateTime remittanceAt;
 
 	public void setTransferInfo(User guest, User host) {
