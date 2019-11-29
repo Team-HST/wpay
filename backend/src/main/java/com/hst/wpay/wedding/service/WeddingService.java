@@ -198,6 +198,14 @@ public class WeddingService {
 					.append(String.format("| 차액 (총 축의금 - 총 식다)              %d", totalMealPrice)).append("\r\n")
 					.append("===================================").toString();
 	}
+	
+	/***
+	 * 사용자 결혼정보 조회
+	 * @return 결혼정보
+	 */
+	public Long getHostWedding(long hostSeq) {
+		return weddingRepository.findByHostSeq(hostSeq);
+	}
 
 
 }
