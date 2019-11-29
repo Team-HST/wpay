@@ -42,13 +42,27 @@
             <template v-slot:default>
               <thead>
                 <tr>
-                  <th class="text-center" v-for="header in expenditure.header" :key="header" >
-                    {{ header }}
-                  </th>
+                  <th class="text-center">내용</th>
+                  <th class="text-center">날짜</th>
+                  <th class="text-center">금액</th>
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="item in expenditure.data" :key="item.no">
+                <tr v-if="table.expenditure.length === 0">
+                  <th
+                    class="text-center"
+                    colspan="3"
+                  >
+                    지출내역이 존재하지 않습니다.
+                  </th>
+                </tr>
+                <tr 
+                  v-for="item in table.expenditure" 
+                  :key="item.sequence"
+                >
+                  <th class="text-center">{{ item.host.name }}</th>
+                  <th class="text-center">{{ item.remittanceAt }}</th>
+                  <th class="text-center">{{ item.amount }}</th>
                 </tr>
               </tbody>
             </template>
@@ -59,26 +73,116 @@
         :value="'tab-2'"
         :key="2"
       >
-        <v-card>
-          <h4 class="font-weight-medium pa-3">하객리스트</h4>
-          <v-simple-table height="300px">
+        <v-card v-if="!isSettlement">
+          <h4 class="font-weight-bold pa-3">하객리스트</h4>
+          <v-simple-table height="290px">
             <template v-slot:default>
               <thead>
                 <tr>
-                  <th class="text-center" v-for="header in calculate.header" :key="header" >
-                    {{ header }}
-                  </th>
+                  <th class="text-center" style="width: 17%">하객이름</th>
+                  <th class="text-center" style="width: 17%">금액</th>
+                  <th class="text-center" style="width: 25%">날짜</th>
+                  <th class="text-center" style="width: 41%">메모</th>
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="item in calculate.data" :key="item.no">
+                <tr v-if="table.calculate.length === 0">
+                  <th
+                    class="text-center"
+                    colspan="4"
+                  >
+                    정산내역이 존재하지 않습니다.
+                  </th>
+                </tr>
+                <tr 
+                  v-else
+                  v-for="item in table.calculate" 
+                  :key="item.no"
+                >
                 </tr>
               </tbody>
             </template>
           </v-simple-table>
             <div class="text-right">
-              <v-btn class="font-weight-bold white--text ma-5" color="blue-grey">정산표 보기</v-btn>
+              <v-btn 
+                class="font-weight-bold white--text ma-5" 
+                color="blue-grey"
+                @click="showSettlement"
+              >
+                정산표 보기
+              </v-btn>
             </div>
+        </v-card>
+        <v-card 
+          v-else
+          class="pt-10 pb-10 pl-3 pr-3"
+        >
+          <v-row class="ma-4">
+            <v-flex xs6 style="text-align: left;">
+              <span class="title font-weight-bold">신랑</span>
+              <span class="title"> {{calculate.maleHostName}} </span>
+            </v-flex>
+            <v-flex xs6 style="text-align: right;">
+              <span class="title font-weight-bold">신부</span>
+              <span class="title"> {{calculate.femaleHostName}}</span>
+            </v-flex>
+          </v-row>
+          <v-row class="ma-4 pa-5" style="border:1px solid #EC407A; border-radius: 1em;">
+            <v-flex xs6>
+              <span class="subtitle-1 font-weight-bold">축의금 총액</span>
+            </v-flex>
+            <v-flex xs6 style="text-align: right;">
+              <span class="subtitle-1 font-weight-bold" color="font-weight-bold"> 10000000 원 </span>
+            </v-flex>
+            <v-flex xs6>
+              <span style="font-size: 0.9em;">신랑 측</span>
+            </v-flex>
+            <v-flex xs6 style="text-align: right;">
+              <span color="font-weight-bold" style="font-size: 0.9em;"> {{calculate.maleHostTotalCelebrationAmount}} 원 </span>
+            </v-flex>
+            <v-flex xs6>
+              <span style="font-size: 0.9em;">신부 측</span>
+            </v-flex>
+            <v-flex xs6 style="text-align: right;">
+              <span color="font-weight-bold" style="font-size: 0.9em;"> {{calculate.femaleHostTotalCelebrationAmount}} 원 </span>
+            </v-flex>
+          </v-row>
+          <v-row class="ma-4 pa-5" style="border:1px solid #EC407A; border-radius: 2em;">
+            <v-flex xs4></v-flex>
+            <v-flex xs8 style="text-align: right;">
+              <span class="font-weight-bold red--text" style="font-size: 0.9em;">* 1인 식사비 : {{calculate.mealTicketPrice}} 원</span>
+            </v-flex>
+            <v-flex xs8>
+              <span class="subtitle-1 font-weight-bold">발급 식권 개수</span>
+            </v-flex>
+            <v-flex xs4 style="text-align: right;">
+              <span class="subtitle-1 font-weight-bold" color="font-weight-bold"> {{calculate.totalMealTicketCount}} 개 </span>
+            </v-flex>
+            <v-flex class="mt-2" xs6>
+              <span class="subtitle-1 font-weight-bold">총 식대비</span>
+            </v-flex>
+            <v-flex class="mt-2" xs6 style="text-align: right;">
+              <span class="subtitle-1 font-weight-bold" color="font-weight-bold"> {{calculate.totalMealPrice}} 원 </span>
+            </v-flex>
+          </v-row>
+          <v-row class="ma-4 pa-5" style="border:1px solid #EC407A; border-radius: 1em;">
+            <v-flex xs6>
+              <span class="subtitle-1 font-weight-bold">차 액</span>
+            </v-flex>
+            <v-flex xs6 style="text-align: right;">
+              <span class="subtitle-1 font-weight-bold" color="font-weight-bold"> {{calculate.remainingAmount}} 원 </span>
+            </v-flex>
+          </v-row>
+          <v-card-actions class="pa-0 pb-2">
+            <div class="flex-grow-1"></div>
+            <v-btn
+              class="font-weight-bold white--text"
+              color="green"
+              @click="this.closeSettlement"
+            > 
+              닫기
+            </v-btn>
+          </v-card-actions>
         </v-card>
       </v-tab-item>
     </v-tabs-items>
@@ -95,26 +199,16 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   data() {
     return {
       tab: null,
-      expenditure: {
-        header: [
-          '내용',
-          '날짜',
-          '금액'
-        ],
-        data: []
-      },
-      calculate: {
-        header: [
-          '하객이름',
-          '금액',
-          '날짜',
-          '메모'
-        ],
-        data: []
+      isSettlement: false,
+      table: {
+        expenditure: [],
+        calculate: []
       },
       monthSelected: {},
       month: [
@@ -134,14 +228,24 @@ export default {
       service: {}
     }
   },
+  computed: {
+    ...mapGetters(['getUserData'])
+  },
   created() {
     this.service = {
       // 지출, 정산 api 조회
+      findExpenditureHistory: () => {
+        this.$http.get(`/api/remittance/user/${this.getUserData.sequence}/histories`)
+          .then(response => {
+            this.table.expenditure = response.data;
+          })
+      }
     }
   },
   mounted() {
     // @TODO 해당 달 지출 내역과 예식비 정산 여부에 따른 목록 표출
     // {api 호출 부분}
+    this.service.findExpenditureHistory();
 
     // 현재 월 지정
     const date = new Date();
@@ -156,6 +260,15 @@ export default {
      */
     closeMypage: function() {
       this.$router.push('/main');
+    },
+
+    showSettlement: function() {
+      // @TODO 정산 되어있는지 확인
+      this.isSettlement = true;
+    },
+    
+    closeSettlement: function() {
+      this.isSettlement = false;
     }
   }
 }
