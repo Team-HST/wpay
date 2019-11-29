@@ -12,16 +12,17 @@ export const api = {
   },
   auth: {
     get: (url, data) => {
+      console.log('api get');
       return $http.get(url, data, {
         headers: {
-          'Authorization': `Bearer ${api.userToken}`
+          'Authorization': 'Bearer' + api.userToken
         }
       });
     },
     post: (url, data) => {
       return $http.post(url, data, {
         headers: {
-          'Authorization': `Bearer ${api.userToken}`
+          'Authorization': 'Bearer' + api.userToken
         }
       });
     }

@@ -120,11 +120,11 @@
           <v-row class="ma-4">
             <v-flex xs6 style="text-align: left;">
               <span class="title font-weight-bold">신랑</span>
-              <span class="title"> {{calculate.maleHostName}} </span>
+              <span class="title"> {{ settlement.maleHostName }} </span>
             </v-flex>
             <v-flex xs6 style="text-align: right;">
               <span class="title font-weight-bold">신부</span>
-              <span class="title"> {{calculate.femaleHostName}}</span>
+              <span class="title"> {{ settlement.femaleHostName }}</span>
             </v-flex>
           </v-row>
           <v-row class="ma-4 pa-5" style="border:1px solid #EC407A; border-radius: 1em;">
@@ -132,37 +132,37 @@
               <span class="subtitle-1 font-weight-bold">축의금 총액</span>
             </v-flex>
             <v-flex xs6 style="text-align: right;">
-              <span class="subtitle-1 font-weight-bold" color="font-weight-bold"> {{settlement.totalCelebrationPrice}} </span>
+              <span class="subtitle-1 font-weight-bold" color="font-weight-bold"> {{ settlement.totalCelebrationAmount }} </span>
             </v-flex>
             <v-flex xs6>
               <span style="font-size: 0.9em;">신랑 측</span>
             </v-flex>
             <v-flex xs6 style="text-align: right;">
-              <span color="font-weight-bold" style="font-size: 0.9em;"> {{settlement.maleHostTotalCelebrationAmount}} 원 </span>
+              <span color="font-weight-bold" style="font-size: 0.9em;"> {{ settlement.maleHostTotalCelebrationAmount }} 원 </span>
             </v-flex>
             <v-flex xs6>
               <span style="font-size: 0.9em;">신부 측</span>
             </v-flex>
             <v-flex xs6 style="text-align: right;">
-              <span color="font-weight-bold" style="font-size: 0.9em;"> {{settlement.femaleHostTotalCelebrationAmount}} 원 </span>
+              <span color="font-weight-bold" style="font-size: 0.9em;"> {{ ettlement.femaleHostTotalCelebrationAmount }} 원 </span>
             </v-flex>
           </v-row>
           <v-row class="ma-4 pa-5" style="border:1px solid #EC407A; border-radius: 2em;">
             <v-flex xs4></v-flex>
             <v-flex xs8 style="text-align: right;">
-              <span class="font-weight-bold red--text" style="font-size: 0.9em;">* 1인 식사비 : {{settlement.mealTicketPrice}} 원</span>
+              <span class="font-weight-bold red--text" style="font-size: 0.9em;">* 1인 식사비 : {{ settlement.mealTicketPrice }} 원</span>
             </v-flex>
             <v-flex xs8>
               <span class="subtitle-1 font-weight-bold">발급 식권 개수</span>
             </v-flex>
             <v-flex xs4 style="text-align: right;">
-              <span class="subtitle-1 font-weight-bold" color="font-weight-bold"> {{settlement.totalMealTicketCount}} 개 </span>
+              <span class="subtitle-1 font-weight-bold" color="font-weight-bold"> {{ settlement.totalMealTicketCount }} 개 </span>
             </v-flex>
             <v-flex class="mt-2" xs6>
               <span class="subtitle-1 font-weight-bold">총 식대비</span>
             </v-flex>
             <v-flex class="mt-2" xs6 style="text-align: right;">
-              <span class="subtitle-1 font-weight-bold" color="font-weight-bold"> {{settlement.totalMealPrice}} 원 </span>
+              <span class="subtitle-1 font-weight-bold" color="font-weight-bold"> {{ settlement.totalMealPrice }} 원 </span>
             </v-flex>
           </v-row>
           <v-row class="ma-4 pa-5" style="border:1px solid #EC407A; border-radius: 1em;">
@@ -170,7 +170,7 @@
               <span class="subtitle-1 font-weight-bold">차 액</span>
             </v-flex>
             <v-flex xs6 style="text-align: right;">
-              <span class="subtitle-1 font-weight-bold" color="font-weight-bold"> {{settlement.remainingAmount}} 원 </span>
+              <span class="subtitle-1 font-weight-bold" color="font-weight-bold"> {{ settlement.remainingAmount }} 원 </span>
             </v-flex>
           </v-row>
           <v-card-actions class="pa-0 pb-2">
@@ -262,12 +262,31 @@ export default {
     closeMypage: function() {
       this.$router.push('/main');
     },
-
+    /**
+     * @description 정산표 표출
+     */
     showSettlement: function() {
-      // @TODO 정산 되어있는지 확인
-      this.isSettlement = true;
+      const weddingSequence = this.getUserData.weddingSequence;
+      if (weddingSequence === 0) {
+        alert('정산표는 혼주만 확인이 가능합니다.');
+      } else {
+        // @TODO 정산 되어있는지 확인
+        this.$http.get(`/api/weddings/${weddingSequence}/current-settlement`)
+          .then(response => {
+            if (response.data.settled) {
+              this.settlement = response.data;
+              this.isSettlement = true;
+            }
+          }).
+          catch(error => {
+            alert("일시적인 오류입니다.\n관리자에게 문의하여 주세요.");
+            console.log(error);
+          });
+      }
     },
-    
+    /**
+     * @description 정산표 종료
+     */
     closeSettlement: function() {
       this.isSettlement = false;
     }

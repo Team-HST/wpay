@@ -11,9 +11,6 @@ export default new Vuex.Store({
   ],
   state: {
     user: {
-      'bankAccountAuthorized': false,
-      'bankAccountNumber': '',
-      'bankName': '',
       'id': '',
       'name': '',
       'sequence': 0
@@ -90,6 +87,7 @@ export default new Vuex.Store({
           user.name = response.data.user.name;
           user.sequence = response.data.user.sequence;
           user.token = response.data.token;
+          user.weddingSequence = response.data.weddingSequence;
           context.commit('setUserData', user);
         })
         .catch(error => {
