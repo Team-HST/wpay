@@ -79,18 +79,9 @@ public class RemittanceService {
 	 * @return 사용자 축의금 지출내역
 	 */
 	public List<RemittanceResponse> getUserRemittanceHistories(Long userSequence, Integer month) {
-		// 날짜 포맷 세팅
-		GregorianCalendar today = new GregorianCalendar();
-		String year = Integer.toString(today.get(today.YEAR));
-		GregorianCalendar cld = new GregorianCalendar(today.get(today.YEAR), month-1, 1);
-		String maxday = Integer.toString(cld.getActualMaximum((Calendar.DAY_OF_MONTH)));
-
-		String compareDtStr = year+month+maxday;
+		String searchMonth = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy")) + month;
 		
-		DateTimeFormatter dateFormatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
-		LocalDateTime compareDt = LocalDateTime.parse(compareDtStr, dateFormatter);
-		
-		return remittanceRepository.findByGuest_Sequence(userSequence, compareDt).stream()
+		return remittanceRepository.findByGuest_Sequence(userSequence, searchMonth).stream()
 				.map(RemittanceResponse::of).collect(Collectors.toList());
 	}
 
