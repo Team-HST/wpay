@@ -1,5 +1,6 @@
 package com.hst.wpay.wedding.service;
 
+import com.google.common.base.Optional;
 import com.hst.wpay.common.ReportableException;
 import com.hst.wpay.common.exception.DataNotFoundException;
 import com.hst.wpay.common.type.ResponseDescription;
@@ -197,6 +198,17 @@ public class WeddingService {
 					.append("# 차액").append("\r\n")
 					.append(String.format("| 차액 (총 축의금 - 총 식다)              %d", totalMealPrice)).append("\r\n")
 					.append("===================================").toString();
+	}
+	
+	/***
+	 * 사용자 결혼정보 조회
+<<<<<<< HEAD
+	 * @param hostSeq
+	 * @return weddingSequence
+	 */
+	public long getHostWedding(Long seq) {
+		Long weddingSequence = Optional.fromNullable(weddingRepository.findByHostSeq(seq)).or(0L);
+		return weddingSequence;
 	}
 
 

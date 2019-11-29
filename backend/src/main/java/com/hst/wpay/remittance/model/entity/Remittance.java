@@ -1,6 +1,7 @@
 package com.hst.wpay.remittance.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.hst.wpay.bankaccount.model.entity.BankAccount;
 import com.hst.wpay.remittance.model.request.TransferMoneyRequest;
 import com.hst.wpay.user.model.entity.User;
 import lombok.Data;
@@ -28,7 +29,7 @@ public class Remittance {
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "host_seq")
 	private User host;
-
+	
 	@Column(name = "wedding_seq")
 	private Long weddingSequence;
 

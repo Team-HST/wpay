@@ -132,37 +132,37 @@
               <span class="subtitle-1 font-weight-bold">축의금 총액</span>
             </v-flex>
             <v-flex xs6 style="text-align: right;">
-              <span class="subtitle-1 font-weight-bold" color="font-weight-bold"> 10000000 원 </span>
+              <span class="subtitle-1 font-weight-bold" color="font-weight-bold"> {{settlement.totalCelebrationPrice}} </span>
             </v-flex>
             <v-flex xs6>
               <span style="font-size: 0.9em;">신랑 측</span>
             </v-flex>
             <v-flex xs6 style="text-align: right;">
-              <span color="font-weight-bold" style="font-size: 0.9em;"> {{calculate.maleHostTotalCelebrationAmount}} 원 </span>
+              <span color="font-weight-bold" style="font-size: 0.9em;"> {{settlement.maleHostTotalCelebrationAmount}} 원 </span>
             </v-flex>
             <v-flex xs6>
               <span style="font-size: 0.9em;">신부 측</span>
             </v-flex>
             <v-flex xs6 style="text-align: right;">
-              <span color="font-weight-bold" style="font-size: 0.9em;"> {{calculate.femaleHostTotalCelebrationAmount}} 원 </span>
+              <span color="font-weight-bold" style="font-size: 0.9em;"> {{settlement.femaleHostTotalCelebrationAmount}} 원 </span>
             </v-flex>
           </v-row>
           <v-row class="ma-4 pa-5" style="border:1px solid #EC407A; border-radius: 2em;">
             <v-flex xs4></v-flex>
             <v-flex xs8 style="text-align: right;">
-              <span class="font-weight-bold red--text" style="font-size: 0.9em;">* 1인 식사비 : {{calculate.mealTicketPrice}} 원</span>
+              <span class="font-weight-bold red--text" style="font-size: 0.9em;">* 1인 식사비 : {{settlement.mealTicketPrice}} 원</span>
             </v-flex>
             <v-flex xs8>
               <span class="subtitle-1 font-weight-bold">발급 식권 개수</span>
             </v-flex>
             <v-flex xs4 style="text-align: right;">
-              <span class="subtitle-1 font-weight-bold" color="font-weight-bold"> {{calculate.totalMealTicketCount}} 개 </span>
+              <span class="subtitle-1 font-weight-bold" color="font-weight-bold"> {{settlement.totalMealTicketCount}} 개 </span>
             </v-flex>
             <v-flex class="mt-2" xs6>
               <span class="subtitle-1 font-weight-bold">총 식대비</span>
             </v-flex>
             <v-flex class="mt-2" xs6 style="text-align: right;">
-              <span class="subtitle-1 font-weight-bold" color="font-weight-bold"> {{calculate.totalMealPrice}} 원 </span>
+              <span class="subtitle-1 font-weight-bold" color="font-weight-bold"> {{settlement.totalMealPrice}} 원 </span>
             </v-flex>
           </v-row>
           <v-row class="ma-4 pa-5" style="border:1px solid #EC407A; border-radius: 1em;">
@@ -170,7 +170,7 @@
               <span class="subtitle-1 font-weight-bold">차 액</span>
             </v-flex>
             <v-flex xs6 style="text-align: right;">
-              <span class="subtitle-1 font-weight-bold" color="font-weight-bold"> {{calculate.remainingAmount}} 원 </span>
+              <span class="subtitle-1 font-weight-bold" color="font-weight-bold"> {{settlement.remainingAmount}} 원 </span>
             </v-flex>
           </v-row>
           <v-card-actions class="pa-0 pb-2">
@@ -210,6 +210,7 @@ export default {
         expenditure: [],
         calculate: []
       },
+      settlement: {},
       monthSelected: {},
       month: [
         {name: '1월', key: 1},

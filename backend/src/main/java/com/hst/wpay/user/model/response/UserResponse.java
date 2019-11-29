@@ -1,6 +1,8 @@
 package com.hst.wpay.user.model.response;
 
 import com.hst.wpay.user.model.entity.User;
+import com.hst.wpay.wedding.model.response.WeddingResponse;
+
 import lombok.Getter;
 
 /**
@@ -15,7 +17,7 @@ public class UserResponse {
 	private boolean bankAccountAuthorized;
 	private String bankName;
 	private String bankAccountNumber;
-
+	
 	/***
 	 * 사용자 응답정보 생성
 	 * @param user 사용자 엔티티
