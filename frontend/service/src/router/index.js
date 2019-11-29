@@ -7,17 +7,17 @@ import { common } from '@/utils/common'
 import paths from './paths'
 
 const requireAuth = (to, from, next) => {
-  if (to.name === 'Login' || to.name === 'Register') {
+  if (to.name === 'Login' || to.name === 'Register' || to.name.indexOf('users') > 0) {
     return next();
   } else if (to.name === '') {
     // 로그인이 되어있는 경우 main 이동 아닐 경우 login 이동
-    if (common.isNotBlank(store.state.user.token)) {
+    if (common.isNotBlank(store.state.user)) {
       next('/main');
     } else {
       next('/login');
     }
   } else {
-    if (common.isNotBlank(store.state.user.token)) {
+    if (common.isNotBlank(store.state.user)) {
       return next();
     } else {
       alert('로그인 후 사용하여 주세요.');

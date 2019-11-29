@@ -24,13 +24,15 @@
   export default {
     data() {
       return {
-        camera: 'auto'
+        camera: 'auto',
+        service: {}
       }
     },
     methods: {
       ...mapMutations(['changeIsAccountDialog']),
       ...mapActions(['findHostData']),
       testDialogEvent: function() {
+        this.findHostData({hostSeq: 2, weddingSeq: 16});
         this.changeIsAccountDialog();
       },
       /**
@@ -43,11 +45,14 @@
        * @description QR코드 디코딩 문자열
        *
        */
-      onDecode: function (decodedString) {
-        console.log(decodedString);
+      onDecode: function (content) {
+        const hostData = JSON.parse(content);
         // 혼주 정보 입력 (계좌, 기본정보)
-        // this.findHostData();
-        this.changeIsAccountDialog();
+        this.findHostData(hostData)
+          .then(() => {
+            // 송금 다이얼로그 표출
+            this.changeIsAccountDialog();
+          });
         this.turnCameraOff();
       },
       turnCameraOff () {

@@ -62,6 +62,7 @@ public class WeddingSettlement {
 				.totalMealPrice(weddingSettlement.getTotalMealPrice())
 				.mealTicketPrice(weddingSettlement.getWedding().getMealTicketPrice())
 				.remainingAmount(weddingSettlement.getRemainingAmount())
+				.isSettled(true)
 				.build();
 	}
 

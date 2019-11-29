@@ -3,10 +3,13 @@ package com.hst.wpay.openbanking;
 import com.hst.wpay.bankaccount.model.entity.BankAccount;
 import com.hst.wpay.configuration.OpenBankingAPIProperties;
 import com.hst.wpay.openbanking.model.response.OpenBankingAccountResponse;
+import com.hst.wpay.openbanking.model.response.OpenBankingDepositResponse;
 import com.hst.wpay.openbanking.model.OpenBankingConstants;
 import com.hst.wpay.openbanking.model.response.OpenBankingOAuthTokenResponse;
 import com.hst.wpay.openbanking.model.response.OpenBankingTransferWithdrawResponse;
 import com.hst.wpay.user.model.entity.User;
+import com.hst.wpay.wedding.model.entity.Wedding;
+
 import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +24,9 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -142,8 +147,44 @@ public class OpenBankingService {
 
 		return accounts;
 	}
+	
+	public OpenBankingDepositResponse deposit(User user, BankAccount bankAccount, long amount) {
+	  Map<String, String> params = new HashMap<>();
+	  List<Map<String, String>> reqList = new ArrayList<>();
+	  Map<String, String> map = new HashMap<>();
+	  map.put("--tran_no", "1");
+	  map.put("--bank_tran_id", generateBankTransferId());
+	  map.put("--fintech_use_num", bankAccount.getFintechUseNumber());
+	  map.put("--print_content", "예식비 정산 금액");
+	  map.put("--tran_amt", String.valueOf(amount));
+	  map.put("--req_client_name", user.getName());
+    //params.put("--req_client_bank_code", bankAccount.getFintechUseNumber());
+	  map.put("--req_client_account_num", String.valueOf(user.getSequence()));
+	  map.put("--transfer_purpose", "TR");
+	  reqList.add(map);
+	  
+    params.put("cntr_account_type", "C");
+    params.put("cntr_account_num", "0049082529");
+    params.put("wd_pass_phrase", "123456789");
+    params.put("wd_print_content", "혼주 정산 금액");
+    params.put("name_check_option", "on");
+    params.put("tran_dtime", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")));
+    params.put("req_cnt", "1");
+    params.put("req_list", reqList.toString());
+    
+    HttpHeaders headers = new HttpHeaders();
+    headers.setContentType(MediaType.APPLICATION_JSON);
+    headers.setBearerAuth(user.getBankAccessToken());
+    HttpEntity entity = new HttpEntity(params, headers);
+    
+    OpenBankingDepositResponse accounts = openBankingAPI.exchange(properties.getUri() + "/v2.0/transfer/deposit/fin_num", HttpMethod.POST, entity,
+        OpenBankingDepositResponse.class).getBody();
+    
+    return accounts;
+	}
+	
 
-	private String generateBankTransferId() {
+  private String generateBankTransferId() {
 		return "T991600680U" + RandomStringUtils.randomNumeric(9);
 	}
 
