@@ -104,7 +104,7 @@ public class UserService implements UserDetailsService {
 			throw e;
 		}
 		/** 결혼 정보 조회 */
-		long weddingSequence = weddingService.getHostWedding(optionalUser.get().getSequence());
+		Long weddingSequence = Optional.ofNullable(weddingService.getHostWedding(optionalUser.get().getSequence())).orElse(0L);
 		UserResponse userResponse = UserResponse.of(optionalUser.get());
 		String token = jwtService.createToken(optionalUser.get().getSequence(), userResponse);
 		
