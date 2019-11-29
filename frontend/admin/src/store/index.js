@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { api } from '@/utils/api'
+import $http from 'axios' 
 import createPersistedState from 'vuex-persistedstate'
 
 Vue.use(Vuex);
@@ -12,8 +12,7 @@ export default new Vuex.Store({
   state: {
     user: {
       id: '',
-      name: '',
-      token: ''
+      name: ''
     },
     wedding: {
       maleSeq: 0,
@@ -37,8 +36,6 @@ export default new Vuex.Store({
      */
     setUserData: (state, data) => {
       state.user = data;
-      // api token 전달
-      api.setUserToken(data.token);
     },
     setWeddingData: (state, data) => {
       state.wedding = data;
@@ -49,14 +46,14 @@ export default new Vuex.Store({
      * @description 유저 로그인 API
      */
     userSignIn: (context, user) => {
-      return api.basic.post('/api/users/signin', user)
+      return $http.post('/api/users/signin', user)
       .then(response => {
         let user = {};
         user.id = response.data.user.id;
         user.name = response.data.user.name;
+        user.sequence = response.data.user.sequence;
         user.token = response.data.token;
         context.commit('setUserData', user);
-        return user.token;
       })
       .catch(error => {
         if (error.response.data.code === 101) {

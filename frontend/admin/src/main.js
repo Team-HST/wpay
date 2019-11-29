@@ -8,6 +8,7 @@ import lodash from 'lodash'
 import moment from 'moment'
 import VueMomentJS from 'vue-momentjs'
 import {common} from '@/utils/common'
+import oauth from '@/utils/oauth'
 
 // Components
 import './components'
@@ -25,5 +26,6 @@ new Vue({
   store,
   router,
   vuetify,
+  oauth,
   render: h => h(App)
 }).$mount('#app')

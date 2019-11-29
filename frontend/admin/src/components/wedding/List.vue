@@ -53,7 +53,7 @@
             @click="moveCalculate(wedding.seq)"
           >
             <v-list-item-icon>
-              <v-icon text="mdi-account-multiple"></v-icon>
+              <v-icon large color="pink lighten-2">mdi-account-heart</v-icon>
             </v-list-item-icon>
 
             <v-list-item-content>
@@ -74,7 +74,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { api } from '@/utils/api';
+import $http from 'axios';
 export default {
   data: () => ({
     weddingDt: null,
@@ -92,9 +92,7 @@ export default {
     this.service = {
       searchWeddingList: () => {
         /* 전체 결혼정보 조회 */
-        console.log(this.getUserData.token);
-        api.setUserToken(this.getUserData.token);
-        api.auth.get('/api/weddings')
+        $http.get('/api/weddings')
         .then(response => {
           if (response !== "undefined") {
             this.weddingList = []; // 목록 초기화
@@ -132,7 +130,6 @@ export default {
     },
     moveCalculate: function(seq) {
       /* 수정필요 */
-      console.log('seq: ', seq);
       this.$router.push({name:"WeddingCalculate", params:{"seq":seq}});
     },
     dateFunctionEvents: function(date) {
