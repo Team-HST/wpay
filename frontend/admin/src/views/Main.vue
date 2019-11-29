@@ -1,11 +1,7 @@
 <template>
   <div>
     <layout-header></layout-header>
-<<<<<<< HEAD
-    <v-content class="pt-10">
-=======
     <v-content class="pa-8">
->>>>>>> a7476dc9e34537ac237ae46e354045e47b218125
       <v-container
       >
         <v-row
