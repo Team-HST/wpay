@@ -92,7 +92,8 @@ export default {
     this.service = {
       searchWeddingList: () => {
         /* 전체 결혼정보 조회 */
-        api.setUserToken(this.getUserData.token)
+        console.log(this.getUserData.token);
+        api.setUserToken(this.getUserData.token);
         api.auth.get('/api/weddings')
         .then(response => {
           if (response !== "undefined") {
