@@ -33,8 +33,10 @@
               v-model="monthSelected"
               :items="month"
               item-text="name"
+              item-value="key"
               dense
               solo
+              @change="changeMonth"
             >
             </v-select>
           </v-col>
@@ -60,9 +62,9 @@
                   v-for="item in table.expenditure" 
                   :key="item.sequence"
                 >
-                  <th class="text-center">{{ item.host.name }}</th>
-                  <th class="text-center">{{ item.remittanceAt }}</th>
-                  <th class="text-center">{{ item.amount }}</th>
+                  <td class="text-center">{{ item.host.name }}</td>
+                  <td class="text-center">{{ item.remittanceAt }}</td>
+                  <td class="text-center">{{ item.amount }}</td>
                 </tr>
               </tbody>
             </template>
@@ -97,8 +99,12 @@
                 <tr 
                   v-else
                   v-for="item in table.calculate" 
-                  :key="item.no"
+                  :key="item.sequence"
                 >
+                  <td class="text-center">{{ item.guest.name }}</td>
+                  <td class="text-center">{{ item.amount }}</td>
+                  <td class="text-center">{{ item.remittanceAt }}</td>
+                  <td class="text-center">{{ item.comment }}</td>
                 </tr>
               </tbody>
             </template>
@@ -144,7 +150,7 @@
               <span style="font-size: 0.9em;">신부 측</span>
             </v-flex>
             <v-flex xs6 style="text-align: right;">
-              <span color="font-weight-bold" style="font-size: 0.9em;"> {{ ettlement.femaleHostTotalCelebrationAmount }} 원 </span>
+              <span color="font-weight-bold" style="font-size: 0.9em;"> {{ settlement.femaleHostTotalCelebrationAmount }} 원 </span>
             </v-flex>
           </v-row>
           <v-row class="ma-4 pa-5" style="border:1px solid #EC407A; border-radius: 2em;">
@@ -235,10 +241,25 @@ export default {
   created() {
     this.service = {
       // 지출, 정산 api 조회
-      findExpenditureHistory: () => {
-        this.$http.get(`/api/remittance/user/${this.getUserData.sequence}/histories`)
+      findExpenditureHistory: (month) => {
+        this.$http.get('/api/remittance/user/'+ this.getUserData.sequence + '/histories/' + month)
           .then(response => {
             this.table.expenditure = response.data;
+          })
+      },
+      // 혼주 축의금 정산 내역 조회
+      findWeddingData: () => {
+        this.$http.get('/api/weddings/'+ this.getUserData.weddingSequence)
+          .then(response => {
+            if (response.data.settled) {
+              return this.$http.post('/api/remittance/receive', {"weddingSequence": this.getUserData.weddingSequence,
+                      "hostSequence": this.getUserData.sequence})
+            }
+          })
+          .then(response => {
+            if (response) {
+              this.table.calculate = response.data;
+            }
           })
       }
     }
@@ -246,14 +267,16 @@ export default {
   mounted() {
     // @TODO 해당 달 지출 내역과 예식비 정산 여부에 따른 목록 표출
     // {api 호출 부분}
-    this.service.findExpenditureHistory();
-
     // 현재 월 지정
     const date = new Date();
     const currentMonth = date.getMonth()+1
     this.monthSelected = this.month.filter(date => {
       return date.key === currentMonth;
     })[0];
+    this.service.findExpenditureHistory(this.monthSelected.key);
+    if (this.getUserData.weddingSequence) {
+      this.service.findWeddingData();
+    }
   },
   methods: {
     /**
@@ -276,6 +299,8 @@ export default {
             if (response.data.settled) {
               this.settlement = response.data;
               this.isSettlement = true;
+            } else {
+              alert('관리자와 정산 후 확인하여 주세요.');
             }
           }).
           catch(error => {
@@ -289,6 +314,12 @@ export default {
      */
     closeSettlement: function() {
       this.isSettlement = false;
+    },
+    /**
+     * @description 지출 내역 월 변경 이벤트
+     */
+    changeMonth: function() {
+      this.service.findExpenditureHistory(this.monthSelected);
     }
   }
 }

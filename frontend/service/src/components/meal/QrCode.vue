@@ -20,15 +20,37 @@
 </template>
 
 <script>
+  import { mapGetters } from 'vuex'
+
   export default {
     data() {
       return {
-        qrText: ''
+        qrText: '',
+        service: {}
       }
     },
+    computed: {
+      ...mapGetters(['getUserData'])
+    },
     created() {
-      // QR코드 셋팅
-      this.qrText = '{"weddingSeq": 1, "hostSeq": 2}';
+      this.service = {
+        getUserQrCode: () => {
+          this.$http.get(`/api/meal-tickets/users/${this.getUserData.sequence}/today-active-users`)
+            .then(response => {
+              this.qrText = JSON.stringify(response.data);
+              console.log(this.qrText);
+            })
+            .catch(error => {
+              if (error.response.data.code === 4030) {
+                alert('발급 된 식권이 존재하지 않습니다.');
+                this.$router.push('/main');
+              }
+            });
+        }
+      }
+    },
+    mounted() {
+      this.service.getUserQrCode();
     },
     methods: {
       /**

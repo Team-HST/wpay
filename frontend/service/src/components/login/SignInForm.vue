@@ -51,7 +51,7 @@ export default {
     loginUser: function() {
       this.userSignIn(this.user)
       .then(() => {
-        if (this.common.isNotBlank(this.getUserData.token)) {
+        if (this.common.isNotBlank(this.getUserData)) {
           this.$router.push('main');
         }
       })
