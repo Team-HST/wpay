@@ -18,6 +18,7 @@ public class WeddingResponse {
 	private LocalDateTime weddingDate;
 	private LocalDateTime registeredAt;
 	private long mealTicketPrice;
+	private boolean isSettled;
 
 	public static WeddingResponse of(Wedding wedding) {
 		WeddingResponse response = new WeddingResponse();
@@ -27,6 +28,7 @@ public class WeddingResponse {
 		response.weddingDate = wedding.getWeddingDt();
 		response.registeredAt = wedding.getRegDt();
 		response.mealTicketPrice = wedding.getMealTicketPrice();
+		response.isSettled = wedding.isSettled();
 		return response;
 	}
 
