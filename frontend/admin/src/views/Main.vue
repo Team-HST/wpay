@@ -1,7 +1,7 @@
 <template>
   <div>
     <layout-header></layout-header>
-    <v-content class="pa-0">
+    <v-content class="pa-8">
       <v-container
       >
         <v-row

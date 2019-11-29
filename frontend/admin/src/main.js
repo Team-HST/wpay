@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import App from './App.vue'
+import 'vue-material-design-icons/styles.css';
 import store from './store/index'
 import router from '@/router'
 import axios from 'axios'
