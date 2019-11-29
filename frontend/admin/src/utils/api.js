@@ -14,14 +14,14 @@ export const api = {
     get: (url, data) => {
       return $http.get(url, data, {
         headers: {
-          'Authorization': `Bearer ${api.userToken}}`
+          'Authorization': `Bearer ${api.userToken}`
         }
       });
     },
     post: (url, data) => {
       return $http.post(url, data, {
         headers: {
-          'Authorization': `Bearer ${api.userToken}}`
+          'Authorization': `Bearer ${api.userToken}`
         }
       });
     }

@@ -15,6 +15,4 @@ public class SigninResponse {
 	private UserResponse user;
 	
 	private Long weddingSequence;
-
-	private Long weddingSequence;
 }

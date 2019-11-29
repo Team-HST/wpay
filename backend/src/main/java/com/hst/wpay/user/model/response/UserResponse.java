@@ -1,7 +1,6 @@
 package com.hst.wpay.user.model.response;
 
 import com.hst.wpay.user.model.entity.User;
-import com.hst.wpay.wedding.model.response.WeddingResponse;
 
 import lombok.Getter;
 
@@ -29,7 +28,7 @@ public class UserResponse {
 		response.id = user.getId();
 		response.name = user.getName();
 		response.bankAccountAuthorized = user.isBankAccountAuthorized();
-		if (user.isBankAccountAuthorized()) {
+		if (user.isNotAdmin() && user.isBankAccountAuthorized()) {
 			response.bankName = user.getBankAccount().getBankName();
 			response.bankAccountNumber = user.getBankAccount().getAccountNumber();
 		}
