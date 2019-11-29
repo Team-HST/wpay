@@ -131,7 +131,7 @@ public class OpenBankingService {
 		params.put("dps_print_content", "웨딩페이 출금");
 		params.put("fintech_use_num", bankAccount.getFintechUseNumber());
 		params.put("tran_amt", String.valueOf(amount));
-		params.put("tran_dtime", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")));
+		params.put("tran_dtime", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
 		params.put("req_client_name", user.getName());
 		params.put("req_client_num", String.valueOf(user.getSequence()));
 		params.put("req_client_fintech_use_num", bankAccount.getFintechUseNumber());
