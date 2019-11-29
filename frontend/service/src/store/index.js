@@ -10,7 +10,14 @@ export default new Vuex.Store({
     createPersistedState()
   ],
   state: {
-    user: {},
+    user: {
+      'bankAccountAuthorized': false,
+      'bankAccountNumber': '',
+      'bankName': '',
+      'id': '',
+      'name': '',
+      'sequence': 0
+    },
     host: {},
     views: {
       remittance: {

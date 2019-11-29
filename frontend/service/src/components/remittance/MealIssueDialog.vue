@@ -132,6 +132,8 @@ export default {
       const numberReg = /^[0-9]*$/
       if (!numberReg.test(this.mealCount)) {
         alert('숫자만 입력하세요.');
+      } else if (this.mealCount > 50) {
+        alert('식권 50개 이상은 관리자에게 문의하여주세요.');
       }
     }
   }
