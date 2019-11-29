@@ -23,8 +23,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	private static final String[] PUBLIC_API = {
-			"/users/signin",
-			"/users/signup",
+			"/users/**",
 			"/error"
 //			"/**"
 	};
