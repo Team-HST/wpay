@@ -18,7 +18,7 @@ public class OpenBankingResponse {
 	private String rspMessage;
 	
 	@JsonProperty("bank_tran_date")
-	@JsonFormat(pattern = "yyyy-MM-dd kk:mm:ss")
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private String bank_tran_date;
 	
 	public boolean isSuccess() {
