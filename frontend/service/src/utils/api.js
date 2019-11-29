@@ -1,7 +1,6 @@
 import $http from 'axios'
 
 export const api = {
-  userToken: null,
   basic: {
     get: (url, data) => {
       return $http.get(url, data);
@@ -11,22 +10,15 @@ export const api = {
     } 
   },
   auth: {
-    get: (url, data) => {
-      return $http.get(url, data, {
-        headers: {
-          'Authorization': `Bearer ${this.userToken}`
-        }
-      });
+    get: (url) => {
+      return $http.get(url);
     },
     post: (url, data) => {
       return $http.post(url, data, {
         headers: {
-          'Authorization': `Bearer ${this.userToken}`
+          'Authorization': `Bearer ${api.userToken}`
         }
       });
     }
-  },
-  setUserToken: function(token) {
-    this.userToken = token;
   }
 }

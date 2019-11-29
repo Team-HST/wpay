@@ -28,7 +28,7 @@
     },
     created() {
       // QR코드 셋팅
-      this.qrText = '{meal: 2, hostData: {hostNo: 2, name: 이한울}}';
+      this.qrText = '{"weddingSeq": 1, "hostSeq": 2}';
     },
     methods: {
       /**
