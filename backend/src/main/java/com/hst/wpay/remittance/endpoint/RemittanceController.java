@@ -1,5 +1,6 @@
 package com.hst.wpay.remittance.endpoint;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,9 +47,9 @@ public class RemittanceController {
 	@ApiResponses({
 			@ApiResponse(code = 200, message = "성공")
 	})
-	@GetMapping("user/{userSeq}/histories")
-	public ResponseEntity<List<RemittanceResponse>> getUserRemittanceHistories(@PathVariable Long userSeq) {
-		return ResponseEntity.ok(remittanceService.getUserRemittanceHistories(userSeq));
+	@GetMapping("user/{userSeq}/histories/{month}")
+	public ResponseEntity<List<RemittanceResponse>> getUserRemittanceHistories(@PathVariable Long userSeq, @PathVariable Integer month) {
+		return ResponseEntity.ok(remittanceService.getUserRemittanceHistories(userSeq, month));
 	}
 	
 	@ApiOperation(value = "축의금 내역 조회", notes = "정산이 완료된 시점의 혼주 축의금 내역을 제공합니다.")

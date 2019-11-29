@@ -25,7 +25,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	private static final String[] PUBLIC_API = {
 			"/users/**",
 			"/error"
-//			"/**"
+			//"/**"
 	};
 	private static final String ADMIN_API_PATTERN = "/admin/**";
 
