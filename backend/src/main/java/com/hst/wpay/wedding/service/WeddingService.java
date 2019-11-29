@@ -202,6 +202,7 @@ public class WeddingService {
 	
 	/***
 	 * 사용자 결혼정보 조회
+<<<<<<< HEAD
 	 * @param hostSeq
 	 * @return weddingSequence
 	 */
