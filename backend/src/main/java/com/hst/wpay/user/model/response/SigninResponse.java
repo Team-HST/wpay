@@ -13,5 +13,8 @@ public class SigninResponse {
 	private String token;
 
 	private UserResponse user;
+	
+	private Long weddingSequence;
 
+	private Long weddingSequence;
 }

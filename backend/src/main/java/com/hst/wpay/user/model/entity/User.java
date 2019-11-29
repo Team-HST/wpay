@@ -1,18 +1,33 @@
 package com.hst.wpay.user.model.entity;
 
-import com.hst.wpay.bankaccount.model.entity.BankAccount;
-import com.hst.wpay.openbanking.model.response.OpenBankingOAuthTokenResponse;
-import lombok.Data;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
-import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Collection;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import com.hst.wpay.bankaccount.model.entity.BankAccount;
+import com.hst.wpay.openbanking.model.response.OpenBankingOAuthTokenResponse;
+import com.hst.wpay.wedding.model.entity.Wedding;
+
+import lombok.Data;
 
 /**
  * @author dlgusrb0808@gmail.com

@@ -1,26 +1,12 @@
 package com.hst.wpay.user.service;
 
-import com.hst.wpay.bankaccount.model.entity.BankAccount;
-import com.hst.wpay.bankaccount.service.BankAccountService;
-import com.hst.wpay.common.type.ResponseDescription;
-import com.hst.wpay.jwt.service.JwtService;
-import com.hst.wpay.openbanking.OpenBankingService;
-import com.hst.wpay.openbanking.model.response.OpenBankingAccountResponse;
-import com.hst.wpay.openbanking.model.response.OpenBankingOAuthTokenResponse;
-import com.hst.wpay.openbanking.model.request.OpenBankingAuthorizedInformation;
-import com.hst.wpay.user.exception.SigninFailException;
-import com.hst.wpay.user.exception.SignupFailException;
-import com.hst.wpay.user.exception.UserNotFoundException;
-import com.hst.wpay.user.model.entity.User;
-import com.hst.wpay.user.model.request.SigninRequest;
-import com.hst.wpay.user.model.request.SignupRequest;
-import com.hst.wpay.user.model.response.SigninResponse;
-import com.hst.wpay.user.model.response.SignupResponse;
-import com.hst.wpay.user.model.response.UserResponse;
-import com.hst.wpay.user.model.type.Role;
-import com.hst.wpay.user.repository.UserRepository;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import javax.transaction.Transactional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,11 +18,28 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
+import com.hst.wpay.bankaccount.service.BankAccountService;
+import com.hst.wpay.common.type.ResponseDescription;
+import com.hst.wpay.jwt.service.JwtService;
+import com.hst.wpay.openbanking.OpenBankingService;
+import com.hst.wpay.openbanking.model.request.OpenBankingAuthorizedInformation;
+import com.hst.wpay.openbanking.model.response.OpenBankingAccountResponse;
+import com.hst.wpay.openbanking.model.response.OpenBankingOAuthTokenResponse;
+import com.hst.wpay.user.exception.SigninFailException;
+import com.hst.wpay.user.exception.SignupFailException;
+import com.hst.wpay.user.exception.UserNotFoundException;
+import com.hst.wpay.user.model.entity.User;
+import com.hst.wpay.user.model.request.SigninRequest;
+import com.hst.wpay.user.model.request.SignupRequest;
+import com.hst.wpay.user.model.response.SigninResponse;
+import com.hst.wpay.user.model.response.SignupResponse;
+import com.hst.wpay.user.model.response.UserResponse;
+import com.hst.wpay.user.model.type.Role;
+import com.hst.wpay.user.repository.UserRepository;
+import com.hst.wpay.wedding.service.WeddingService;
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 
 /**
  * @author dlgusrb0808@gmail.com
@@ -51,6 +54,8 @@ public class UserService implements UserDetailsService {
 	private final BankAccountService bankAccountService;
 	private final UserRepository userRepository;
 	private final PasswordEncoder passwordEncoder;
+	@Autowired
+	private WeddingService weddingService;
 
 	@Autowired
 	public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtService jwtService,
@@ -100,9 +105,10 @@ public class UserService implements UserDetailsService {
 			throw e;
 		}
 
+		long weddingSequence = weddingService.getHostWedding(optionalUser.get().getSequence());
 		UserResponse userResponse = UserResponse.of(optionalUser.get());
 		String token = jwtService.createToken(optionalUser.get().getSequence(), userResponse);
-		return SigninResponse.builder().token(token).user(userResponse).build();
+		return SigninResponse.builder().token(token).user(userResponse).weddingSequence(weddingSequence).build();
 	}
 
 	/***

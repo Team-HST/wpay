@@ -1,5 +1,12 @@
 package com.hst.wpay.remittance.service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+
 import com.google.common.base.Optional;
 import com.hst.wpay.bankaccount.model.entity.BankAccount;
 import com.hst.wpay.bankaccount.service.BankAccountService;
@@ -7,16 +14,11 @@ import com.hst.wpay.openbanking.OpenBankingService;
 import com.hst.wpay.openbanking.model.response.OpenBankingTransferWithdrawResponse;
 import com.hst.wpay.remittance.model.entity.Remittance;
 import com.hst.wpay.remittance.model.request.TransferMoneyRequest;
+import com.hst.wpay.remittance.model.request.WeddingRemittanceRequest;
 import com.hst.wpay.remittance.model.response.RemittanceResponse;
 import com.hst.wpay.remittance.repository.RemittanceRepository;
 import com.hst.wpay.user.model.entity.User;
 import com.hst.wpay.user.service.UserService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author dlgusrb0808@gmail.com
@@ -80,8 +82,10 @@ public class RemittanceService {
 	 * @param weddingSequence 결혼 SEQ
 	 * @return 결혼 축의금 송금내역
 	 */
-	public List<RemittanceResponse> getWeddingRemittanceHistories(Long weddingSequence) {
-		return remittanceRepository.findByWeddingSequence(weddingSequence).stream()
+	public List<RemittanceResponse> getWeddingRemittanceHistories(WeddingRemittanceRequest weddingRemittanceRequest) {
+		return remittanceRepository.findByWeddingSequence
+									(weddingRemittanceRequest.getWeddingSequence()
+									,weddingRemittanceRequest.getHostSequence()).stream()
 				.map(RemittanceResponse::of).collect(Collectors.toList());
 	}
 
