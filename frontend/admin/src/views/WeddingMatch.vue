@@ -150,7 +150,7 @@
 
 <script>
 // import { mapActions } from 'vuex';
-import { api } from '@/utils/api'
+import $http from 'axios'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -192,30 +192,30 @@ export default {
                 } else if (sFlag === "W") {
                     userId = this.femaleId;
                 }
-                api.setUserToken(this.getUserData.token);
-                api.auth.get('/api/users/ids/'+userId)
+                $http.get('/api/users/ids/'+userId)
                 .then(response => {
-                    if (sFlag === "M") { // 신랑정보
-                        this.weddingInfo.maleHostSeq = response.data.sequence;
-                        this.maleName = response.data.name;
-                    } else if (sFlag === "W") { // 신부정보
-                        this.weddingInfo.femaleHostSeq = response.data.sequence;
-                        this.femaleName = response.data.name;
-                    }   
+                    if (confirm("혼주명: "+response.data.name+" 님")) {
+                        if (sFlag === "M") { // 신랑정보
+                           this.weddingInfo.maleHostSeq = response.data.sequence;
+                            this.maleName = response.data.name;
+                        } else if (sFlag === "W") { // 신부정보
+                            this.weddingInfo.femaleHostSeq = response.data.sequence;
+                            this.femaleName = response.data.name;
+                        }
+                    }
                 })
-                .catch(e => {
-                    alert('사용자 정보를 찾지 못했습니다.'+e);
+                .catch(() => {
+                    alert('사용자 정보를 찾지 못했습니다.');
                 });
             },
             /* 결혼 정보 생성 */
             matchWedding: (weddingInfo) => {
-                api.setUserToken(this.getUserData.token);
-                return api.auth.post('/api/weddings/create', weddingInfo)
+                return $http.post('/api/weddings/create', weddingInfo)
                 .then(response => {
                     return response.data.sequence;
                 })
-                .catch(error => {
-                    alert('error: '+error);
+                .catch(() => {
+                    alert('결혼 정보를 생성하지 못하였습니다.');
                 });
             }
         }
@@ -231,7 +231,8 @@ export default {
             this.weddingInfo.weddingDt = this.$moment(this.datePicker.nowDate + "T" + this.timePicker.time, this.$moment.ISO_8601);
             this.service.matchWedding(this.weddingInfo)
             .then(response => {
-                if (response !== "undefined") {
+                console.log('response: ', response);
+                if (response != "undefined") {
                     this.weddingInfo.weddingSeq = response;
                     this.$router.push({name:"QrGenerate", params: this.weddingInfo});
                 }

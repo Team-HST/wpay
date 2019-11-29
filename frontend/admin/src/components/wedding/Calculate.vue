@@ -85,7 +85,8 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { api } from '@/utils/api';
+import $http from 'axios';
+
 export default {
   data: () => ({
     calculate: {
@@ -109,8 +110,7 @@ export default {
     this.service = {
       /* 정산 API */
       getCalculate: () => {
-        api.setUserToken(this.getUserData.token);
-        api.auth.get('/api/weddings/'+this.calculate.weddingSeq+'/current-settlement')
+        $http.get('/api/weddings/'+this.calculate.weddingSeq+'/current-settlement')
         .then(response => {
             if (response !== "undefined") {
               this.calculate.maleHostName = response.data.maleHostName;
@@ -126,8 +126,7 @@ export default {
         });
       },
       createCalculate: () => {
-        api.setUserToken(this.getUserData.token);
-        api.auth.post('/api/weddings/'+this.calculate.weddingSeq+'/settle')
+        $http.post('/api/weddings/'+this.calculate.weddingSeq+'/settle')
         .then(response => {
           if (response !== "undefined") {
             alert("정산이 완료되었습니다.");

@@ -30,14 +30,13 @@ export default {
     return {
       user: {
         id: null,
-        password: null,
-        token: null
+        password: null
       }
     }
   },
   mounted() {
     // 사용자 정보 초기화
-    this.setUserData({});
+    this.setUserData(null);
   },
   computed: {
     ...mapGetters(['getUserData'])
@@ -48,10 +47,8 @@ export default {
 
     loginUser: function() {
       this.userSignIn(this.user)
-        .then((token) => {
+        .then(() => {
         if (this.common.isNotBlank(this.getUserData.token)) {
-          this.user.token = token;
-          this.setUserData(this.user);
           this.moveMain();
         }
       })
