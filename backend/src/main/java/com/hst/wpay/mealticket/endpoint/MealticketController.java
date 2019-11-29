@@ -3,6 +3,7 @@ package com.hst.wpay.mealticket.endpoint;
 
 import com.hst.wpay.mealticket.model.entity.MealTicket;
 import com.hst.wpay.mealticket.model.request.MealTicketIssueRequest;
+import com.hst.wpay.mealticket.model.request.MealTicketUseRequest;
 import com.hst.wpay.mealticket.service.MealTicketService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -32,9 +33,9 @@ public class MealticketController {
   
   @ApiOperation(value = "식권 사용", notes = "식권을 만료처리합니다.")
   @PutMapping("{mealTicketSequence}/use")
-  public ResponseEntity<String> useMealTicket(@PathVariable Long mealTicketSequence) {
+  public ResponseEntity<String> useMealTicket(@RequestBody MealTicketUseRequest request) {
     logger.info("식권 사용여부 확인");
-    mealticketService.useMealTicket(mealTicketSequence);
+    mealticketService.useMealTicket(request);
     return ResponseEntity.ok("식권 사용 처리 완료");
   }
   
