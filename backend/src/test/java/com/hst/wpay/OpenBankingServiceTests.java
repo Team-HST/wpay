@@ -4,7 +4,6 @@ import com.hst.wpay.bankaccount.service.BankAccountService;
 import com.hst.wpay.openbanking.OpenBankingService;
 import com.hst.wpay.openbanking.model.response.OpenBankingAccountResponse;
 import com.hst.wpay.user.service.UserService;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,6 +54,11 @@ public class OpenBankingServiceTests {
 	void releaseAccount() {
 
 		openBankingService.transfer(userService.getUser(13L), bankAccountService.getBankAccount(13L), 50000);
+	}
+	
+	@Test 
+	void depositTest(){
+	  openBankingService.deposit(userService.getUser(13L), bankAccountService.getBankAccount(13L), 50000);
 	}
 
 }
