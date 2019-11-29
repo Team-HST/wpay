@@ -23,7 +23,18 @@ public class MealticketController {
   
   @Autowired
   private MealTicketService mealticketService;
-  
+
+  @ApiOperation(value = "당일 활성 식권 조회", notes = "오늘날짜의 가장 나중에 발급된 식권 조회")
+  @GetMapping("users/{guestSeq}/today-active-users")
+  public ResponseEntity<MealTicket> getActiveMealTicket(@PathVariable long guestSeq) {
+    return ResponseEntity.ok(mealticketService.getGuestActiveMealTicket(guestSeq));
+  }
+
+  @GetMapping("{seq}")
+  public ResponseEntity<MealTicket> getMealTicket(@PathVariable long seq) {
+    return ResponseEntity.ok(mealticketService.getMealTicket(seq));
+  }
+
   @ApiOperation(value = "식권 발급", notes = "n개의 식권을 발급받습니다.")
   @PostMapping("issue")
   public ResponseEntity<MealTicket> issueMealTicket(@RequestBody MealTicketIssueRequest request) {

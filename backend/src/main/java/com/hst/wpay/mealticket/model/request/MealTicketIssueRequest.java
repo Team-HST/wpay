@@ -9,8 +9,10 @@ import lombok.Data;
 @Data
 public class MealTicketIssueRequest {
 	@ApiModelProperty(position = 1, example = "발급할 식권 갯수")
-	Integer mealTicketCount;
-	@ApiModelProperty(position = 2, example = "결혼 SEQ")
-	Integer weddingSeq;
+	int mealTicketCount;
+	@ApiModelProperty(position = 2, example = "손님 SEQ")
+	long guestSeq;
+	@ApiModelProperty(position = 3, example = "결혼 SEQ")
+	long weddingSeq;
 
 }

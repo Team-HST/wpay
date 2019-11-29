@@ -1,6 +1,5 @@
 package com.hst.wpay.mealticket.service;
 
-import com.google.common.base.Optional;
 import com.hst.wpay.common.ReportableException;
 import com.hst.wpay.common.type.ResponseDescription;
 import com.hst.wpay.mealticket.model.entity.MealTicket;
@@ -13,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Optional;
 
 
 @Service
@@ -27,14 +28,23 @@ public class MealTicketService {
     this.mealticketRepository = mealticketRepository;
   }
 
+  public MealTicket getGuestActiveMealTicket(long guestSeq) {
+    DateTimeFormatter yyyyMMdd = DateTimeFormatter.ofPattern("yyyyMMdd");
+    Optional<MealTicket> mealTicket = mealticketRepository.findByGuestSequenceOrderByDateTimeDesc(guestSeq)
+            .stream().filter(e -> LocalDateTime.now().format(yyyyMMdd).equals(e.getDateTime().format(yyyyMMdd)))
+            .findFirst();
+    return mealTicket.orElseThrow(() -> new ReportableException(ResponseDescription.MEALTICKET_NOT_ISSUED));
+  }
+
   public MealTicket issueMealTicket(MealTicketIssueRequest request) {
-    MealTicket mealticket = new MealTicket();
-    mealticket.setMealCount(request.getMealTicketCount());
-    mealticket.setUseCheck("N");
-    mealticket.setDateTime(LocalDateTime.now());
-    mealticket.setWeddingSeq(request.getWeddingSeq());
+    MealTicket mealTicket = new MealTicket();
+    mealTicket.setMealCount(request.getMealTicketCount());
+    mealTicket.setUseCheck("N");
+    mealTicket.setDateTime(LocalDateTime.now());
+    mealTicket.setGuestSequence(request.getGuestSeq());
+    mealTicket.setWeddingSeq(request.getWeddingSeq());
     
-    return mealticketRepository.save(mealticket);
+    return mealticketRepository.save(mealTicket);
   }
   
   public void useMealTicket(MealTicketUseRequest request) {
@@ -63,12 +73,15 @@ public class MealTicketService {
    * @return 발급된 식권 갯수
    */
   public int getTotalIssuedMealTicketCount(Long weddingSequence) {
-    int totalMealTicketCount = Optional.fromNullable(mealticketRepository.findTotalMealTicketCount(weddingSequence)).or(0);
+    int totalMealTicketCount = Optional.ofNullable(mealticketRepository.findTotalMealTicketCount(weddingSequence)).orElse(0);
     if (totalMealTicketCount == 0) {
       logger.warn("해당 결혼에 발급된 식권이 없습니다. weddingSequence: {}", weddingSequence);
     }
     return totalMealTicketCount;
   }
 
-
+  public MealTicket getMealTicket(long seq) {
+    return mealticketRepository.findById(seq)
+            .orElseThrow(() -> new ReportableException(ResponseDescription.MEALTICKET_NOT_ISSUED));
+  }
 }

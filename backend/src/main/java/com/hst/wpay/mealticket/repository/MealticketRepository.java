@@ -17,4 +17,6 @@ public interface MealticketRepository extends JpaRepository<MealTicket, Long>{
   @Query("select sum(m.mealCount) from MealTicket m where m.weddingSeq = ?1")
   Integer findTotalMealTicketCount(Long weddingSequence);
 
+  List<MealTicket> findByGuestSequenceOrderByDateTimeDesc(Long guestSeq);
+
 }

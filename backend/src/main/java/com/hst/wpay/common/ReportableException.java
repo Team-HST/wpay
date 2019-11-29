@@ -15,6 +15,12 @@ public class ReportableException extends RuntimeException {
 	private final String log;
 	private Map<String, Object> extraData;
 
+	public ReportableException(ResponseDescription description) {
+		super(description.getMessage());
+		this.description = description;
+		this.log = description.getMessage();
+	}
+
 	public ReportableException(ResponseDescription description, String log) {
 		super(description.getMessage());
 		this.description = description;

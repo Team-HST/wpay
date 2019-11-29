@@ -6,6 +6,7 @@ import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import com.hst.wpay.user.model.entity.User;
 import lombok.Data;
 
 @Entity
@@ -22,7 +23,9 @@ public class MealTicket {
   
   @Column(name="USE_YN")
   private String useCheck;
-  
+
+  @Column(name = "GUEST_SEQ")
+  private Long guestSequence;
   
   @Column(name="REG_DT")
   @JsonFormat(pattern = "yyyy-MM-dd kk:mm:ss")
