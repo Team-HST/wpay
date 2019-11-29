@@ -150,7 +150,7 @@ public class OpenBankingService {
 	
 	public OpenBankingDepositResponse deposit(User user, BankAccount bankAccount, long amount) {
 	  Map<String, String> params = new HashMap<>();
-	  List<Map<String, String>> reqList = null;
+	  List<Map<String, String>> reqList = new ArrayList<>();
 	  Map<String, String> map = new HashMap<>();
 	  map.put("--tran_no", "1");
 	  map.put("--bank_tran_id", generateBankTransferId());
