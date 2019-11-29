@@ -19,6 +19,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.hst.wpay.user.model.type.Role;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -100,6 +101,10 @@ public class User implements UserDetails {
 	@Override
 	public boolean isEnabled() {
 		return true;
+	}
+
+	public boolean isNotAdmin() {
+		return !this.roles.contains(Role.ADMIN.getAuthority());
 	}
 
 	public boolean isBankAccountAuthorized() {
