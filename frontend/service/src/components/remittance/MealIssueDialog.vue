@@ -104,11 +104,24 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getIsMealDialog'])
+    ...mapGetters(['getIsMealDialog', 'getHostData', 'getUserData'])
   },
   created() {
     this.service = {
-
+      getMealTicket: () => {
+        this.$http.post("/api/meal-tickets/issue", {
+          'mealTicketCount': this.mealCount,
+          'guestSeq': this.getUserData.sequence,
+          'weddingSeq': this.getHostData.weddingSequence
+        })
+          .then(() => {
+            alert('식권이 발급 되었습니다.');
+            this.$router.push('/main');
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      }
     }
   },
   methods: {
@@ -134,6 +147,10 @@ export default {
         alert('숫자만 입력하세요.');
       } else if (this.mealCount > 50) {
         alert('식권 50개 이상은 관리자에게 문의하여주세요.');
+      } else if (this.mealCount == 0) {
+        alert('식권은 1개 이상으로 설정하여 주세요.');
+      } else {
+        this.service.getMealTicket();
       }
     }
   }

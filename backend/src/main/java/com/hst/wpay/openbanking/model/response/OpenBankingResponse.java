@@ -18,10 +18,7 @@ public class OpenBankingResponse {
 	private String rspCode;
 	@JsonProperty("rsp_message")
 	private String rspMessage;
-	
-	@JsonFormat(pattern = "yyyy-MM-dd kk:mm:ss")
-	private LocalDateTime bank_tran_date;
-	
+
 	public boolean isSuccess() {
 		return OpenBankingConstants.RSP_CODE_SUCCESS.equals(this.rspCode);
 	}

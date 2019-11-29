@@ -20,7 +20,7 @@
                             <span class="title font-weight-bold">신랑</span>
                         </v-flex>
                         <v-flex xs4>
-                            <span class="title font-weight-bold">김 영 훈</span>
+                            <span class="title font-weight-bold">{{ maleName }}</span>
                         </v-flex>
                         <v-flex xs2></v-flex>
                     </v-row>
@@ -37,7 +37,7 @@
                             <span class="title font-weight-bold">신부</span>
                         </v-flex>
                         <v-flex xs4>
-                            <span class="title font-weight-bold">이 한 울</span>
+                            <span class="title font-weight-bold">{{ femaleName }}</span>
                         </v-flex>
                         <v-flex xs2></v-flex>
                     </v-row>
@@ -71,14 +71,19 @@ export default {
             dark: '',
             light: ''
         },
-        width: 200
-      }
+        width: 200,
+      },
+      femaleName: '',
+      maleName: ''
     }
   },
   created() {
     let weddingSeq = this.$route.params.weddingSeq;
     let maleSeq = this.$route.params.maleHostSeq;
     let femaleSeq = this.$route.params.femaleHostSeq;
+    this.femaleName = this.$route.params.femaleName;
+    this.maleName = this.$route.params.maleName;
+
     this.maleQRInfo = '{"weddingSeq":' + weddingSeq + ',"hostSeq":' + maleSeq + '}';
     this.femaleQRInfo = '{"weddingSeq":' + weddingSeq + ',"hostSeq":' + femaleSeq + '}';
   },

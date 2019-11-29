@@ -1,8 +1,10 @@
 <template>
   <div>
     <layout-header></layout-header>
-    <v-content class="pt-10">
+    <v-content>
       <v-container
+        class="mt-8 fill-height grid-list-xl"
+        fluid
       >
         <v-row
           align="center"

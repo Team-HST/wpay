@@ -13,7 +13,7 @@ import com.hst.wpay.remittance.model.entity.Remittance;
  */
 public interface RemittanceRepository extends JpaRepository<Remittance, Long> {
 	@Query("select R from Remittance R " + 
-			"where R.host.sequence = ?1 and function('date_format', R.remittanceAt, '%Y%m') = ?2")
+			"where R.guest.sequence = ?1 and function('date_format', R.remittanceAt, '%Y%m') = ?2")
 	List<Remittance> findByGuest_Sequence(Long guestSequence, String searchMonth);
 
 	@Query("select R from Remittance R " + 

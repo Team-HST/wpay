@@ -14,134 +14,140 @@
                 sm="8"
                 md="8"
                 >
-                    <v-row align="center" justify="center">
-                        <v-flex xs3 style="text-align:center;">
-                            신랑
-                        </v-flex>
-                        <v-flex xs6 style="text-align:center;">
-                            <v-text-field
-                            type="text"
-                            label="아이디"
-                            v-model="maleId"
-                            />
-                        </v-flex>
-                        <v-flex xs3 style="text-align:center;">
-                            <v-btn
-                            class="font-weight-bold white--text"
-                            color="pink lighten-2"
-                            @click="searchUser('M')"
-                            >
-                            검색
-                            </v-btn>
-                        </v-flex>
-                    </v-row>
-                    <v-row align="center" justify="center">
-                        <v-flex xs3 style="text-align:center;">
-                            신부
-                        </v-flex>
-                        <v-flex xs6 style="text-align:center;">
-                            <v-text-field
-                            type="text"
-                            label="아이디"
-                            v-model="femaleId"
-                            />
-                        </v-flex>
-                        <v-flex xs3 style="text-align:center;">
-                            <v-btn
-                            class="font-weight-bold white--text"
-                            color="pink lighten-2"
-                            @click="searchUser('W')"
-                            >
-                            검색
-                            </v-btn>
-                        </v-flex>
-                    </v-row>
-                    <v-row align="center" justify="center">
-                        <v-flex xs3 style="text-align:center;">
-                            식권
-                        </v-flex>
-                        <v-flex xs6 style="text-align:center;">
-                            <v-text-field
-                            type="number"
-                            label="식권가"
-                            v-model="weddingInfo.mealTicketPrice"
-                            />
-                        </v-flex>
-                        <v-flex xs3></v-flex>
-                    </v-row> 
-                    <v-row align="center" justify="center">
-                        <v-flex xs3 style="text-align:center;">
-                            일시
-                        </v-flex>
-                        <v-flex xs3 style="text-align:center;">
-                            <v-dialog
-                                ref="dialog1"
-                                v-model="datePicker.modal"
-                                :return-value.sync="datePicker.nowDate"
-                                persistent
-                                width="290px"
-                            >
-                                <template v-slot:activator="{ on }">
-                                    <v-text-field
+                    <material-card
+                        color="pink lighten-2"
+                        title="매칭"
+                        text="사용자를 매칭하여 주세요."
+                    >
+                        <v-row align="center" justify="center">
+                            <v-flex xs3 style="text-align:center;">
+                                신랑
+                            </v-flex>
+                            <v-flex xs6 style="text-align:center;">
+                                <v-text-field
+                                type="text"
+                                label="아이디"
+                                v-model="maleId"
+                                />
+                            </v-flex>
+                            <v-flex xs3 style="text-align:center;">
+                                <v-btn
+                                class="font-weight-bold white--text"
+                                color="pink lighten-2"
+                                @click="searchUser('M')"
+                                >
+                                검색
+                                </v-btn>
+                            </v-flex>
+                        </v-row>
+                        <v-row align="center" justify="center">
+                            <v-flex xs3 style="text-align:center;">
+                                신부
+                            </v-flex>
+                            <v-flex xs6 style="text-align:center;">
+                                <v-text-field
+                                type="text"
+                                label="아이디"
+                                v-model="femaleId"
+                                />
+                            </v-flex>
+                            <v-flex xs3 style="text-align:center;">
+                                <v-btn
+                                class="font-weight-bold white--text"
+                                color="pink lighten-2"
+                                @click="searchUser('W')"
+                                >
+                                검색
+                                </v-btn>
+                            </v-flex>
+                        </v-row>
+                        <v-row align="center" justify="center">
+                            <v-flex xs3 style="text-align:center;">
+                                식권
+                            </v-flex>
+                            <v-flex xs6 style="text-align:center;">
+                                <v-text-field
+                                type="number"
+                                label="식권가"
+                                v-model="weddingInfo.mealTicketPrice"
+                                />
+                            </v-flex>
+                            <v-flex xs3></v-flex>
+                        </v-row> 
+                        <v-row align="center" justify="center">
+                            <v-flex xs3 style="text-align:center;">
+                                일시
+                            </v-flex>
+                            <v-flex xs3 style="text-align:center;">
+                                <v-dialog
+                                    ref="dialog1"
+                                    v-model="datePicker.modal"
+                                    :return-value.sync="datePicker.nowDate"
+                                    persistent
+                                    width="290px"
+                                >
+                                    <template v-slot:activator="{ on }">
+                                        <v-text-field
+                                            v-model="datePicker.nowDate"
+                                            readonly
+                                            v-on="on"
+                                        ></v-text-field>
+                                    </template>
+                                    <v-date-picker 
                                         v-model="datePicker.nowDate"
+                                        :show-current="datePicker.showCurrent"
+                                        :type="datePicker.month ? 'month' : 'date'"
+                                        color="pink lighten-2" scrollable>
+                                        <v-spacer></v-spacer>
+                                        <v-btn text color="primary" @click="datePicker.modal = false">취소</v-btn>
+                                        <v-btn text color="primary" @click="$refs.dialog1.save(datePicker.nowDate)">확인</v-btn>
+                                    </v-date-picker>
+                                </v-dialog>
+                            </v-flex>
+                            <v-flex xs1></v-flex>
+                            <v-flex xs3 style="text-align: center;">
+                                <v-dialog
+                                    ref="dialog2"
+                                    v-model="timePicker.modal"
+                                    :return-value.sync="timePicker.time"
+                                    persistent
+                                    width="290px"
+                                >
+                                    <template v-slot:activator="{ on }">
+                                    <v-text-field
+                                        v-model="timePicker.time"
                                         readonly
                                         v-on="on"
                                     ></v-text-field>
-                                </template>
-                                <v-date-picker 
-                                    v-model="datePicker.nowDate"
-                                    :show-current="datePicker.showCurrent"
-                                    :type="datePicker.month ? 'month' : 'date'"
-                                    color="pink lighten-2" scrollable>
-                                    <v-spacer></v-spacer>
-                                    <v-btn text color="primary" @click="datePicker.modal = false">취소</v-btn>
-                                    <v-btn text color="primary" @click="$refs.dialog1.save(datePicker.nowDate)">확인</v-btn>
-                                </v-date-picker>
-                            </v-dialog>
-                        </v-flex>
-                        <v-flex xs1></v-flex>
-                        <v-flex xs3 style="text-align: center;">
-                            <v-dialog
-                                ref="dialog2"
-                                v-model="timePicker.modal"
-                                :return-value.sync="timePicker.time"
-                                persistent
-                                width="290px"
-                            >
-                                <template v-slot:activator="{ on }">
-                                <v-text-field
+                                    </template>
+                                    <v-time-picker
+                                    v-if="timePicker.modal"
                                     v-model="timePicker.time"
-                                    readonly
-                                    v-on="on"
-                                ></v-text-field>
-                                </template>
-                                <v-time-picker
-                                v-if="timePicker.modal"
-                                v-model="timePicker.time"
-                                full-width
+                                    full-width
+                                    color="pink lighten-2"
+                                    >
+                                    <v-spacer></v-spacer>
+                                    <v-btn text color="primary" @click="timePicker.modal = false">취소</v-btn>
+                                    <v-btn text color="primary" @click="$refs.dialog2.save(timePicker.time)">확인</v-btn>
+                                    </v-time-picker>
+                                </v-dialog>
+                            </v-flex>
+                            <v-flex xs2></v-flex>
+                        </v-row>
+                        <v-row align="center" justify="center">
+                            <v-flex xs4></v-flex>
+                            <v-flex xs4 style="text-align:center; margin-top:10px;">
+                                <v-btn
+                                class="font-weight-bold white--text"
                                 color="pink lighten-2"
+                                @click="generateQR"
                                 >
-                                <v-spacer></v-spacer>
-                                <v-btn text color="primary" @click="timePicker.modal = false">취소</v-btn>
-                                <v-btn text color="primary" @click="$refs.dialog2.save(timePicker.time)">확인</v-btn>
-                                </v-time-picker>
-                            </v-dialog>
-                        </v-flex>
-                        <v-flex xs2></v-flex>
-                    </v-row>
-                    <v-row align="center" justify="center">
-                        <v-flex xs4></v-flex>
-                        <v-flex xs4 style="text-align:center; margin-top:10px;">
-                            <v-btn
-                            class="font-weight-bold white--text"
-                            color="pink lighten-2"
-                            @click="generateQR"
-                            >
-                            QR 생성
-                            </v-btn>
-                        </v-flex>
-                        <v-flex xs4></v-flex>
-                    </v-row>
+                                QR 생성
+                                </v-btn>
+                            </v-flex>
+                            <v-flex xs4></v-flex>
+                        </v-row>
+                    </material-card>
                 </v-col>
             </v-row>
         </v-container>
@@ -196,16 +202,20 @@ export default {
                 .then(response => {
                     if (confirm("혼주명: "+response.data.name+" 님")) {
                         if (sFlag === "M") { // 신랑정보
-                           this.weddingInfo.maleHostSeq = response.data.sequence;
+                            this.weddingInfo.maleHostSeq = response.data.sequence;
+                            this.weddingInfo.maleName = response.data.name;
                             this.maleName = response.data.name;
                         } else if (sFlag === "W") { // 신부정보
                             this.weddingInfo.femaleHostSeq = response.data.sequence;
+                            this.weddingInfo.femaleName = response.data.name;
                             this.femaleName = response.data.name;
                         }
                     }
                 })
                 .catch(() => {
                     alert('사용자 정보를 찾지 못했습니다.');
+                    this.maleId = '';
+                    this.femaleId = '';
                 });
             },
             /* 결혼 정보 생성 */
@@ -216,6 +226,7 @@ export default {
                 })
                 .catch(() => {
                     alert('결혼 정보를 생성하지 못하였습니다.');
+                    this.$router.push('/main');
                 });
             }
         }

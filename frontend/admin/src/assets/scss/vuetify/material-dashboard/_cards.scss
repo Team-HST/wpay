@@ -91,12 +91,10 @@
     .v-card {
       max-width: $card-stats-offset;
       max-height: $card-stats-offset;
-      line-height: $card-stats-offset;
       padding: $padding-general !important;
 
       i {
         font-size: $font-size-big !important;
-        line-height: $line-height-high;
         width: $card-stats-icons-dim;
         height: $card-stats-icons-dim;
       }
