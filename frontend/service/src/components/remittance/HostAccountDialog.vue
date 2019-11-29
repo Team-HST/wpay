@@ -85,13 +85,15 @@
             'comment': this.comment,
             "amount": this.amount
           }
-          console.log(remittanceData);
 
           this.$http.post('/api/remittance/transfer', remittanceData)
             .then(() => {
-              console.log('송금');
               this.changeIsAccountDialog();
               this.changeIsMealDialog();
+            })
+            .catch(error => {
+              console.log(error);
+              alert('일시적인 오류입니다./n관리자에게 문의하여 주세요.');
             })
         }
       }

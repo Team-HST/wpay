@@ -1,10 +1,11 @@
 import axios from 'axios'
 import store from '@/store/index'
+import { common } from '@/utils/common'
 
 axios.interceptors.request.use(function(config) {
   const user = store.getters.getUserData;
 
-  if (user) {
+  if (common.isNotBlank(user)) {
     config.headers.Authorization = `Bearer ${user.token}`;
   }
 

@@ -114,8 +114,8 @@ export default new Vuex.Store({
           context.commit('setHostData', response.data);
         })
         .catch(error => {
-          console.log(error);
           alert('일시적인 오류입니다.\n관리자에게 문의하여 주세요.');
+          console.log(error);
         });
     }
   }
