@@ -1,5 +1,11 @@
 package com.hst.wpay.remittance.service;
 
+import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -72,8 +78,19 @@ public class RemittanceService {
 	 * @param userSequence 사용자 SEQ
 	 * @return 사용자 축의금 지출내역
 	 */
-	public List<RemittanceResponse> getUserRemittanceHistories(Long userSequence) {
-		return remittanceRepository.findByGuest_Sequence(userSequence).stream()
+	public List<RemittanceResponse> getUserRemittanceHistories(Long userSequence, Integer month) {
+		// 날짜 포맷 세팅
+		GregorianCalendar today = new GregorianCalendar();
+		String year = Integer.toString(today.get(today.YEAR));
+		GregorianCalendar cld = new GregorianCalendar(today.get(today.YEAR), month-1, 1);
+		String maxday = Integer.toString(cld.getActualMaximum((Calendar.DAY_OF_MONTH)));
+
+		String compareDtStr = year+month+maxday;
+		
+		DateTimeFormatter dateFormatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
+		LocalDateTime compareDt = LocalDateTime.parse(compareDtStr, dateFormatter);
+		
+		return remittanceRepository.findByGuest_Sequence(userSequence, compareDt).stream()
 				.map(RemittanceResponse::of).collect(Collectors.toList());
 	}
 
