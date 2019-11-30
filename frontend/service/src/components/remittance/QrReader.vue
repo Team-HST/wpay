@@ -2,12 +2,12 @@
   <div>
     <qrcode-stream class="pa-10" :camera="camera" :track="repaint" @decode="onDecode"></qrcode-stream>
     <div class="text-center">
-      <v-btn
+      <!-- <v-btn
         class="font-weight-bold white--text ml-2"
         color="pink lighten-2"
         @click="testDialogEvent"
       > 테스트
-      </v-btn>
+      </v-btn> -->
       <v-btn
         class="font-weight-bold white--text ml-2"
         color="pink lighten-2"
@@ -31,10 +31,10 @@
     methods: {
       ...mapMutations(['changeIsAccountDialog']),
       ...mapActions(['findHostData']),
-      testDialogEvent: function() {
-        this.findHostData({hostSeq: 2, weddingSeq: 16});
-        this.changeIsAccountDialog();
-      },
+      // testDialogEvent: function() {
+      //   this.findHostData({hostSeq: 2, weddingSeq: 16});
+      //   this.changeIsAccountDialog();
+      // },
       /**
        * @description 메인 페이지 이동
        */
