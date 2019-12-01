@@ -50,14 +50,6 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-if="table.expenditure.length === 0">
-                  <th
-                    class="text-center"
-                    colspan="3"
-                  >
-                    지출내역이 존재하지 않습니다.
-                  </th>
-                </tr>
                 <tr 
                   v-for="item in table.expenditure" 
                   :key="item.sequence"
@@ -88,16 +80,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-if="table.calculate.length === 0">
-                  <th
-                    class="text-center"
-                    colspan="4"
-                  >
-                    정산내역이 존재하지 않습니다.
-                  </th>
-                </tr>
                 <tr 
-                  v-else
                   v-for="item in table.calculate" 
                   :key="item.sequence"
                 >
